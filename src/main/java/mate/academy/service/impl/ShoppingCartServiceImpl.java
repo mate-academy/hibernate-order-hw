@@ -1,6 +1,5 @@
 package mate.academy.service.impl;
 
-
 import java.util.ArrayList;
 import mate.academy.dao.ShoppingCartDao;
 import mate.academy.dao.TicketDao;
@@ -15,7 +14,7 @@ import mate.academy.service.ShoppingCartService;
 @Service
 public class ShoppingCartServiceImpl implements ShoppingCartService {
     @Inject
-    private  ShoppingCartDao shoppingCartDao;
+    private ShoppingCartDao shoppingCartDao;
     @Inject
     private TicketDao ticketDao;
 
