@@ -1,6 +1,5 @@
 package mate.academy.dao;
 
-
 import mate.academy.model.ShoppingCart;
 import mate.academy.model.User;
 
