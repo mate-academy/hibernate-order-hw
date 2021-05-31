@@ -14,18 +14,20 @@ import mate.academy.lib.Dao;
 import mate.academy.model.MovieSession;
 import mate.academy.util.HibernateUtil;
 import org.hibernate.Session;
+import org.hibernate.SessionFactory;
 import org.hibernate.Transaction;
 
 @Dao
 public class MovieSessionDaoImpl implements MovieSessionDao {
     private static final LocalTime END_OF_DAY = LocalTime.of(23, 59, 59);
+    private final SessionFactory sessionFactory = HibernateUtil.getSessionFactory();
 
     @Override
     public MovieSession add(MovieSession movieSession) {
         Transaction transaction = null;
         Session session = null;
         try {
-            session = HibernateUtil.getSessionFactory().openSession();
+            session = sessionFactory.openSession();
             transaction = session.beginTransaction();
             session.save(movieSession);
             transaction.commit();
@@ -44,7 +46,7 @@ public class MovieSessionDaoImpl implements MovieSessionDao {
 
     @Override
     public List<MovieSession> findAvailableSessions(Long movieId, LocalDate date) {
-        try (Session session = HibernateUtil.getSessionFactory().openSession()) {
+        try (Session session = sessionFactory.openSession()) {
             CriteriaBuilder criteriaBuilder = session.getCriteriaBuilder();
             CriteriaQuery<MovieSession> criteriaQuery =
                     criteriaBuilder.createQuery(MovieSession.class);
@@ -65,8 +67,13 @@ public class MovieSessionDaoImpl implements MovieSessionDao {
 
     @Override
     public Optional<MovieSession> get(Long id) {
-        try (Session session = HibernateUtil.getSessionFactory().openSession()) {
-            return Optional.ofNullable(session.get(MovieSession.class, id));
+        try (Session session = sessionFactory.openSession()) {
+            return session.createQuery("from MovieSession ms "
+                    + "left join fetch ms.movie "
+                    + "left join fetch ms.cinemaHall "
+                    + "where ms.id = :id", MovieSession.class)
+                    .setParameter("id", id)
+                    .uniqueResultOptional();
         } catch (Exception e) {
             throw new DataProcessingException("Can't get a movie session by id: " + id, e);
         }
