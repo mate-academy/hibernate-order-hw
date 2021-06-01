@@ -38,10 +38,11 @@ public class OrderDaoImpl implements OrderDao {
     }
 
     @Override
-    public List<Order> getOrdersBy(User user) {
+    public List<Order> getOrdersByUser(User user) {
         try (Session session = sessionFactory.openSession()) {
             return session.createQuery("select distinct o from Order o "
                     + "left join fetch o.tickets "
+                    + "left join fetch o.user "
                     + "where o.user.id = :userId", Order.class)
                     .setParameter("userId", user.getId())
                     .getResultList();
