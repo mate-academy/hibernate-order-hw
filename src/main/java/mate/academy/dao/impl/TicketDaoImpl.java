@@ -13,8 +13,10 @@ public class TicketDaoImpl implements TicketDao {
 
     @Override
     public Ticket add(Ticket ticket) {
+        Session session = null;
         Transaction transaction = null;
-        try (Session session = HibernateUtil.getSessionFactory().openSession()) {
+        try {
+            session = HibernateUtil.getSessionFactory().openSession();
             transaction = session.beginTransaction();
             Long ticketId = (Long) session.save(ticket);
             transaction.commit();
@@ -25,6 +27,10 @@ public class TicketDaoImpl implements TicketDao {
                 transaction.rollback();
             }
             throw new DataProcessingException("Cannot create ticket ", e);
+        } finally {
+            if (session != null) {
+                session.close();
+            }
         }
     }
 }
