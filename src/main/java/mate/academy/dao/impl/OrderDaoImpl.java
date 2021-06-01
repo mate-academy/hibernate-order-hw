@@ -1,9 +1,10 @@
 package mate.academy.dao.impl;
 
-import java.util.Optional;
-import mate.academy.dao.UserDao;
+import java.util.List;
+import mate.academy.dao.OrderDao;
 import mate.academy.exception.DataProcessingException;
 import mate.academy.lib.Dao;
+import mate.academy.model.Order;
 import mate.academy.model.User;
 import mate.academy.util.HibernateUtil;
 import org.hibernate.Session;
@@ -11,23 +12,22 @@ import org.hibernate.Transaction;
 import org.hibernate.query.Query;
 
 @Dao
-public class UserDaoImpl implements UserDao {
+public class OrderDaoImpl implements OrderDao {
     @Override
-    public User add(User user) {
-        Session session = null;
+    public Order add(Order order) {
         Transaction transaction = null;
+        Session session = null;
         try {
             session = HibernateUtil.getSessionFactory().openSession();
             transaction = session.beginTransaction();
-            session.save(user);
+            session.save(order);
             transaction.commit();
-            return user;
+            return order;
         } catch (Exception e) {
             if (transaction != null) {
                 transaction.rollback();
             }
-            throw new DataProcessingException("Can't insert to DB user: "
-                    + user, e);
+            throw new DataProcessingException("Can't insert order " + order, e);
         } finally {
             if (session != null) {
                 session.close();
@@ -36,12 +36,15 @@ public class UserDaoImpl implements UserDao {
     }
 
     @Override
-    public Optional<User> findByEmail(String email) {
+    public List<Order> getOrdersHistory(User user) {
         try (Session session = HibernateUtil.getSessionFactory().openSession()) {
-            Query<User> query = session.createQuery("FROM User u "
-                    + "WHERE u.email = :email", User.class);
-            query.setParameter("email", email);
-            return query.uniqueResultOptional();
+            Query<Order> query = session.createQuery("FROM Order o "
+                    + "left join fetch o.tickets "
+                    + "WHERE o.user = :user", Order.class);
+            query.setParameter("user", user);
+            return query.getResultList();
+        } catch (Exception e) {
+            throw new DataProcessingException("Cannot find orders of user by user: " + "user", e);
         }
     }
 }
