@@ -15,8 +15,10 @@ public class ShoppingCartDaoImpl implements ShoppingCartDao {
 
     @Override
     public ShoppingCart add(ShoppingCart shoppingCart) {
+        Session session = null;
         Transaction transaction = null;
-        try (Session session = HibernateUtil.getSessionFactory().openSession()) {
+        try {
+            session = HibernateUtil.getSessionFactory().openSession();
             transaction = session.beginTransaction();
             Long shoppingCartId = (Long) session.save(shoppingCart);
             transaction.commit();
@@ -27,6 +29,10 @@ public class ShoppingCartDaoImpl implements ShoppingCartDao {
                 transaction.rollback();
             }
             throw new DataProcessingException("Cannot create Shopping cart ", e);
+        } finally {
+            if (session != null) {
+                session.close();
+            }
         }
     }
 
@@ -44,8 +50,10 @@ public class ShoppingCartDaoImpl implements ShoppingCartDao {
 
     @Override
     public void update(ShoppingCart shoppingCart) {
+        Session session = null;
         Transaction transaction = null;
-        try (Session session = HibernateUtil.getSessionFactory().openSession()) {
+        try {
+            session = HibernateUtil.getSessionFactory().openSession();
             transaction = session.beginTransaction();
             session.update(shoppingCart);
             transaction.commit();
@@ -54,6 +62,10 @@ public class ShoppingCartDaoImpl implements ShoppingCartDao {
                 transaction.rollback();
             }
             throw new DataProcessingException("Cannot create shopping cart ", e);
+        } finally {
+            if (session != null) {
+                session.close();
+            }
         }
     }
 }
