@@ -5,13 +5,17 @@ import mate.academy.exception.AuthenticationException;
 import mate.academy.lib.Inject;
 import mate.academy.lib.Service;
 import mate.academy.model.User;
+import mate.academy.service.ShoppingCartService;
 import mate.academy.service.UserService;
 import mate.academy.util.HashUtil;
+import org.hibernate.exception.ConstraintViolationException;
 
 @Service
 public class AuthenticationServiceImpl implements AuthenticationService {
     @Inject
     private UserService userService;
+    @Inject
+    private ShoppingCartService shoppingCartService;
 
     @Override
     public User login(String email, String password) throws AuthenticationException {
@@ -23,12 +27,17 @@ public class AuthenticationServiceImpl implements AuthenticationService {
     }
 
     @Override
-    public User register(String email, String password) {
-        User user = new User();
-        user.setEmail(email);
-        user.setPassword(password);
-        userService.add(user);
-        return user;
+    public User register(String email, String password) throws AuthenticationException {
+        try {
+            User user = new User();
+            user.setEmail(email);
+            user.setPassword(password);
+            userService.add(user);
+            shoppingCartService.registerNewShoppingCart(user);
+            return user;
+        } catch (ConstraintViolationException e) {
+            throw new AuthenticationException("Username is already taken");
+        }
     }
 
     private boolean matchPasswords(String rawPassword, User userFromDb) {

@@ -13,20 +13,19 @@ public class TicketDaoImpl implements TicketDao {
 
     @Override
     public Ticket add(Ticket ticket) {
-        Session session = null;
         Transaction transaction = null;
+        Session session = null;
         try {
             session = HibernateUtil.getSessionFactory().openSession();
             transaction = session.beginTransaction();
-            Long ticketId = (Long) session.save(ticket);
+            session.save(ticket);
             transaction.commit();
-            ticket.setId(ticketId);
             return ticket;
         } catch (Exception e) {
             if (transaction != null) {
                 transaction.rollback();
             }
-            throw new DataProcessingException("Cannot create ticket ", e);
+            throw new DataProcessingException("Can't save ticket " + ticket + " to DD.", e);
         } finally {
             if (session != null) {
                 session.close();
