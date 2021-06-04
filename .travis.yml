@@ -1,3 +1,5 @@
+services:
+  - mysql
 language: java
 jdk:
   - openjdk11
@@ -6,7 +8,3 @@ script:
 cache:
   directories:
     - $HOME/.m2
-services:
-  - mysql
-before_install:
-  - mysql -e 'CREATE DATABASE IF NOT EXISTS ticket_app; use ticket_app'
