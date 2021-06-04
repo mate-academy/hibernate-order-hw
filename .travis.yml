@@ -1,5 +1,4 @@
-services:
-  - mysql
+
 language: java
 jdk:
   - openjdk11
@@ -8,3 +7,7 @@ script:
 cache:
   directories:
     - $HOME/.m2
+services:
+  - mysql
+before_install:
+  - mysql -u root --password="" < src/main/test/tavis.sql
