@@ -9,4 +9,4 @@ cache:
 services:
   - mysql
 before_install:
-  - mysql -e 'CREATE DATABASE IF NOT EXISTS ticket_app;'
+  - mysql -e 'CREATE DATABASE IF NOT EXISTS ticket_app; use ticket_app'
