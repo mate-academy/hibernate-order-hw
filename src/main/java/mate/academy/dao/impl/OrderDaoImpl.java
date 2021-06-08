@@ -45,6 +45,7 @@ public class OrderDaoImpl implements OrderDao {
     public List<Order> getOrdersHistory(User user) {
         try (Session session = sessionFactory.openSession()) {
             return session.createQuery("from Order o join fetch o.tickets t "
+                    + "left join fetch t.user "
                     + "left join fetch t.movieSession ms "
                     + "left join fetch ms.movie left join fetch ms.cinemaHall "
                     + "where o.user = :user", Order.class)

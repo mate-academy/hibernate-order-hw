@@ -2,6 +2,7 @@ package mate.academy.security;
 
 import java.util.Optional;
 import mate.academy.exception.AuthenticationException;
+import mate.academy.exception.RegistrationException;
 import mate.academy.lib.Inject;
 import mate.academy.lib.Service;
 import mate.academy.model.User;
@@ -36,7 +37,7 @@ public class AuthenticationServiceImpl implements AuthenticationService {
             shoppingCartService.registerNewShoppingCart(user);
             return user;
         } catch (ConstraintViolationException e) {
-            throw new AuthenticationException("Username is already taken");
+            throw new RegistrationException("Username is already taken");
         }
     }
 
