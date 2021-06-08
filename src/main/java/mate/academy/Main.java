@@ -2,13 +2,12 @@ package mate.academy;
 
 import java.time.LocalDate;
 import java.time.LocalDateTime;
+import java.util.List;
+
 import mate.academy.lib.Injector;
-import mate.academy.model.CinemaHall;
-import mate.academy.model.Movie;
-import mate.academy.model.MovieSession;
-import mate.academy.service.CinemaHallService;
-import mate.academy.service.MovieService;
-import mate.academy.service.MovieSessionService;
+import mate.academy.model.*;
+import mate.academy.security.AuthenticationService;
+import mate.academy.service.*;
 
 public class Main {
     private static final Injector injector = Injector.getInstance("mate.academy");
@@ -18,6 +17,12 @@ public class Main {
             = (MovieService) injector.getInstance(MovieService.class);
     private static final CinemaHallService cinemaHallService
             = (CinemaHallService) injector.getInstance(CinemaHallService.class);
+    private static final OrderService orderService
+            = (OrderService) injector.getInstance(OrderService.class);
+    private static final ShoppingCartService shoppingCartService
+            = (ShoppingCartService) injector.getInstance(ShoppingCartService.class);
+    private static final AuthenticationService authenticationService
+            = (AuthenticationService) injector.getInstance(AuthenticationService.class);
 
     public static void main(String[] args) {
         Movie fastAndFurious = new Movie("Fast and Furious");
@@ -56,5 +61,33 @@ public class Main {
         System.out.println(movieSessionService.get(yesterdayMovieSession.getId()));
         System.out.println(movieSessionService.findAvailableSessions(
                         fastAndFurious.getId(), LocalDate.now()));
+
+        User bohdan = new User();
+        bohdan.setEmail("bohdan123@gmail.com");
+        bohdan.setPassword("123");
+
+        User registeredBohdan = authenticationService.register(bohdan.getEmail(),
+                bohdan.getPassword());
+        System.out.println(registeredBohdan);
+
+        shoppingCartService.addSession(tomorrowMovieSession, registeredBohdan);
+        ShoppingCart bohdanCart = shoppingCartService.getByUser(registeredBohdan);
+        bohdanCart.setUser(registeredBohdan);
+        for (Ticket ticket : bohdanCart.getTickets()) {
+            ticket.setUser(registeredBohdan);
+        }
+        System.out.println(bohdanCart);
+        System.out.println(orderService.completeOrder(bohdanCart));
+
+        List<Order> ordersHistory = orderService.getOrdersHistory(registeredBohdan);
+        for (Order order : ordersHistory) {
+            order.setUser(registeredBohdan);
+            for (Ticket ticket : order.getTickets()) {
+                ticket.setMovieSession(tomorrowMovieSession);
+                ticket.setUser(registeredBohdan);
+            }
+        }
+        System.out.println(ordersHistory);
+
     }
 }
