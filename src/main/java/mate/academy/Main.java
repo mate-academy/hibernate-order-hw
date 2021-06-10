@@ -14,6 +14,7 @@ import mate.academy.security.AuthenticationService;
 import mate.academy.service.CinemaHallService;
 import mate.academy.service.MovieService;
 import mate.academy.service.MovieSessionService;
+import mate.academy.service.OrderService;
 import mate.academy.service.ShoppingCartService;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
@@ -70,9 +71,9 @@ public class Main {
 
         AuthenticationService authenticationService =
                 (AuthenticationService) injector.getInstance(AuthenticationService.class);
-        User user = null;
+        User bob = null;
         try {
-            user = authenticationService.register("uncle_bob@gmail.com", "qwerty");
+            bob = authenticationService.register("uncle_bob@gmail.com", "qwerty");
         } catch (RegistrationException e) {
             logger.error(e.getMessage());
         }
@@ -85,8 +86,12 @@ public class Main {
         ShoppingCartService shoppingCartService =
                 (ShoppingCartService) injector.getInstance(ShoppingCartService.class);
 
-        shoppingCartService.addSession(tomorrowMovieSession, user);
-        ShoppingCart shoppingCart = shoppingCartService.getByUser(user);
-        shoppingCartService.clearShoppingCart(shoppingCart);
+        shoppingCartService.addSession(tomorrowMovieSession, bob);
+        ShoppingCart bobShoppingCart = shoppingCartService.getByUser(bob);
+        System.out.println(bobShoppingCart);
+
+        OrderService orderService =
+                (OrderService) injector.getInstance(OrderService.class);
+
     }
 }
