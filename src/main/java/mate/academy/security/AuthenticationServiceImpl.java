@@ -33,7 +33,8 @@ public class AuthenticationServiceImpl implements AuthenticationService {
             shoppingCartService.registerNewShoppingCart(user);
             return user;
         }
-        throw new RegistrationException("User already exists in the DB");
+        throw new RegistrationException("User with email:" + email
+                + " already exists in the DB");
     }
 
     private boolean matchPasswords(String rawPassword, User userFromDb) {

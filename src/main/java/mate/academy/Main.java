@@ -137,9 +137,9 @@ public class Main {
         shoppingCartService.addSession(movieSession1, bobRoss);
         shoppingCartService.addSession(movieSession3, bobRoss);
         ShoppingCart bobRossShoppingCart = shoppingCartService.getByUser(bobRoss);
+        System.out.println(bobRossShoppingCart);
         orderService.completeOrder(bobRossShoppingCart);
         System.out.println(bobRossShoppingCart);
-        shoppingCartService.clearShoppingCart(bobRossShoppingCart);
 
         shoppingCartService.addSession(movieSession4, nancySmith);
         shoppingCartService.addSession(movieSession5, nancySmith);
