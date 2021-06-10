@@ -1,25 +1,29 @@
 package mate.academy.model;
 
 import java.time.LocalDateTime;
+import java.util.List;
 import javax.persistence.Entity;
-import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.ManyToOne;
+import javax.persistence.OneToMany;
 import javax.persistence.Table;
 
 @Entity
-@Table(name = "tickets")
-public class Ticket {
+@Table(name = "orders")
+public class Order {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
-    @ManyToOne(fetch = FetchType.LAZY)
-    private MovieSession movieSession;
-    @ManyToOne(fetch = FetchType.LAZY)
+    @OneToMany
+    private List<Ticket> ticketList;
+    private LocalDateTime orderDate;
+    @ManyToOne
     private User user;
-    private LocalDateTime showTime;
+
+    public Order() {
+    }
 
     public Long getId() {
         return id;
@@ -29,20 +33,20 @@ public class Ticket {
         this.id = id;
     }
 
-    public MovieSession getMovieSession() {
-        return movieSession;
+    public List<Ticket> getTicketList() {
+        return ticketList;
     }
 
-    public void setMovieSession(MovieSession movieSession) {
-        this.movieSession = movieSession;
+    public void setTicketList(List<Ticket> ticketList) {
+        this.ticketList = ticketList;
     }
 
-    public LocalDateTime getShowTime() {
-        return showTime;
+    public LocalDateTime getOrderDate() {
+        return orderDate;
     }
 
-    public void setShowTime(LocalDateTime showTime) {
-        this.showTime = showTime;
+    public void setOrderDate(LocalDateTime orderDate) {
+        this.orderDate = orderDate;
     }
 
     public User getUser() {
@@ -55,10 +59,10 @@ public class Ticket {
 
     @Override
     public String toString() {
-        return "Ticket{id=" + id
-                + ", movieSession=" + movieSession
+        return "Order{id=" + id
+                + ", ticketList=" + ticketList
+                + ", orderDate=" + orderDate
                 + ", user=" + user
-                + ", showTime=" + showTime
                 + '}';
     }
 }
