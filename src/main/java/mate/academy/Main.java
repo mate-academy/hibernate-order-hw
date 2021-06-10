@@ -85,17 +85,9 @@ public class Main {
         ShoppingCart shoppingCartBob = shoppingCartService.getByUser(bob);
         System.out.println(shoppingCartBob);
 
-        Order order = null;
-        try {
-            order = orderService.completeOrder(shoppingCartBob);
-            System.out.println(order);
-        } catch (DataProcessingException e) {
-            System.out.println(e.getMessage());
-        } finally {
-            if (order != null) {
-                shoppingCartService.clearShoppingCart(shoppingCartBob);
-            }
-        }
+        Order order = orderService.completeOrder(shoppingCartBob);
+        System.out.println(order);
+
         System.out.println(orderService.getOrdersHistory(bob));
     }
 }
