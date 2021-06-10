@@ -10,7 +10,6 @@ import org.hibernate.Transaction;
 
 @Dao
 public class TicketDaoImpl implements TicketDao {
-
     @Override
     public Ticket add(Ticket ticket) {
         Session session = null;
@@ -25,7 +24,7 @@ public class TicketDaoImpl implements TicketDao {
             if (transaction != null) {
                 transaction.rollback();
             }
-            throw new DataProcessingException("Cannot create ticket ", e);
+            throw new DataProcessingException("Cannot create ticket " + ticket, e);
         } finally {
             if (session != null) {
                 session.close();
