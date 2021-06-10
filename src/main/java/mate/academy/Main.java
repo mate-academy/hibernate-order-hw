@@ -8,6 +8,7 @@ import mate.academy.lib.Injector;
 import mate.academy.model.CinemaHall;
 import mate.academy.model.Movie;
 import mate.academy.model.MovieSession;
+import mate.academy.model.Order;
 import mate.academy.model.ShoppingCart;
 import mate.academy.model.User;
 import mate.academy.security.AuthenticationService;
@@ -93,5 +94,7 @@ public class Main {
         OrderService orderService =
                 (OrderService) injector.getInstance(OrderService.class);
 
+        orderService.completeOrder(shoppingCartService.getByUser(bob));
+        orderService.getOrdersHistory(bob).forEach(System.out::println);
     }
 }
