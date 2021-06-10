@@ -1,5 +1,7 @@
 package mate.academy.service.impl;
 
+import java.time.LocalDateTime;
+import java.util.ArrayList;
 import java.util.List;
 import mate.academy.dao.OrderDao;
 import mate.academy.lib.Inject;
@@ -24,10 +26,10 @@ public class OrderServiceImpl implements OrderService {
             throw new RuntimeException("Your cart is empty, no orders to complete");
         }
         Order order = new Order();
-        List<Ticket> ticketsCopy = shoppingCart.getTickets();
+        List<Ticket> ticketsCopy = new ArrayList<>(shoppingCart.getTickets());
         order.setTickets(ticketsCopy);
         order.setUser(shoppingCart.getUser());
-        order.setOrderDate(shoppingCart.getTickets().get(0).getShowTime());
+        order.setOrderDate(LocalDateTime.now());
         shoppingCartService.clearShoppingCart(shoppingCart);
         return orderDao.add(order);
     }
