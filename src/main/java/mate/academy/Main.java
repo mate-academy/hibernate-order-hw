@@ -2,7 +2,6 @@ package mate.academy;
 
 import java.time.LocalDate;
 import java.time.LocalDateTime;
-
 import mate.academy.exception.AuthenticationException;
 import mate.academy.exception.RegistrationException;
 import mate.academy.lib.Injector;
@@ -16,10 +15,13 @@ import mate.academy.service.CinemaHallService;
 import mate.academy.service.MovieService;
 import mate.academy.service.MovieSessionService;
 import mate.academy.service.ShoppingCartService;
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 
 public class Main {
     private static final Injector injector =
             Injector.getInstance("mate.academy");
+    private static final Logger logger = LogManager.getLogger();
 
     public static void main(String[] args) {
         MovieService movieService =
@@ -72,12 +74,12 @@ public class Main {
         try {
             user = authenticationService.register("uncle_bob@gmail.com", "qwerty");
         } catch (RegistrationException e) {
-            System.out.println(e.getMessage());
+            logger.error(e.getMessage());
         }
         try {
             authenticationService.login("uncle_bob@gmail.com", "qwerty");
         } catch (AuthenticationException e) {
-            System.out.println(e.getMessage());
+            logger.error(e.getMessage());
         }
 
         ShoppingCartService shoppingCartService =
