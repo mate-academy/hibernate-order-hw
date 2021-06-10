@@ -25,7 +25,6 @@ public class ShoppingCartServiceImpl implements ShoppingCartService {
         newTicket.setCinemaHall(movieSession.getCinemaHall());
         newTicket.setShowTime(movieSession.getShowTime());
         newTicket.setMovie(movieSession.getMovie());
-
         ShoppingCart shoppingCart = shoppingCartDao.getByUser(user);
         shoppingCart.getTickets().add(ticketDao.add(newTicket));
         shoppingCartDao.update(shoppingCart);
