@@ -41,7 +41,7 @@ public class OrderDaoImpl implements OrderDao {
                     + "left join fetch o.tickets t "
                     + "left join fetch t.movie "
                     + "left join fetch t.cinemaHall "
-                    + "left join fetch t.user "
+                    + "left join fetch o.user "
                     + "where o.user = :user", Order.class)
                     .setParameter("user", user)
                     .getResultList();
