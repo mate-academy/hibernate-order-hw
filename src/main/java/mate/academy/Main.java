@@ -69,6 +69,7 @@ public class Main {
 
         User john = authenticationService.register("john@gmail.com", "12345");
         shoppingCartService.addSession(tomorrowMovieSession, john);
+        orderService.completeOrder(shoppingCartService.getByUser(john));
         shoppingCartService.addSession(yesterdayMovieSession, john);
         orderService.completeOrder(shoppingCartService.getByUser(john));
         orderService.getOrdersHistory(john).forEach(System.out::println);
