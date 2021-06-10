@@ -45,7 +45,7 @@ public class ShoppingCartDaoImpl implements ShoppingCartDao {
                     .setParameter("user", user)
                     .uniqueResult();
         } catch (Exception e) {
-            throw new DataProcessingException("Cannot find shopping cart using user ", e);
+            throw new DataProcessingException("Cannot find shopping cart by user ", e);
         }
     }
 

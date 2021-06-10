@@ -13,7 +13,7 @@ import org.hibernate.Transaction;
 @Dao
 public class OrderDaoImpl implements OrderDao {
     @Override
-    public Order create(Order order) {
+    public Order add(Order order) {
         Session session = null;
         Transaction transaction = null;
         try {
@@ -45,7 +45,7 @@ public class OrderDaoImpl implements OrderDao {
                     .setParameter("user", user)
                     .getResultList();
         } catch (Exception e) {
-            throw new DataProcessingException("Can`t find Orders by User " + user, e);
+            throw new DataProcessingException("Can`t find orders history by user " + user, e);
         }
     }
 }
