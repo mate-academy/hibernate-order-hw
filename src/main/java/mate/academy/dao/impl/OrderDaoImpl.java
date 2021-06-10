@@ -1,9 +1,10 @@
 package mate.academy.dao.impl;
 
-import java.util.Optional;
-import mate.academy.dao.UserDao;
+import java.util.List;
+import mate.academy.dao.OrderDao;
 import mate.academy.exception.DataProcessingException;
 import mate.academy.lib.Dao;
+import mate.academy.model.Order;
 import mate.academy.model.User;
 import mate.academy.util.HibernateUtil;
 import org.hibernate.Session;
@@ -11,29 +12,29 @@ import org.hibernate.SessionFactory;
 import org.hibernate.Transaction;
 
 @Dao
-public class UserDaoImpl implements UserDao {
+public class OrderDaoImpl implements OrderDao {
     private final SessionFactory sessionFactory;
 
-    public UserDaoImpl() {
+    public OrderDaoImpl() {
         sessionFactory = HibernateUtil.getSessionFactory();
     }
 
     @Override
-    public User add(User user) {
+    public Order add(Order order) {
         Session session = null;
         Transaction transaction = null;
         try {
             session = sessionFactory.openSession();
             transaction = session.beginTransaction();
-            session.save(user);
+            session.save(order);
             transaction.commit();
-            return user;
+            return order;
         } catch (Exception e) {
             if (transaction != null) {
                 transaction.rollback();
             }
-            throw new DataProcessingException("Can't insert to DB user: "
-                    + user, e);
+            throw new DataProcessingException("Can't insert order "
+                    + order + " to DB.", e);
         } finally {
             if (session != null) {
                 session.close();
@@ -42,12 +43,18 @@ public class UserDaoImpl implements UserDao {
     }
 
     @Override
-    public Optional<User> findByEmail(String email) {
+    public List<Order> getOrdersHistory(User user) {
         try (Session session = sessionFactory.openSession()) {
-            return session.createQuery("FROM User u "
-                    + "WHERE u.email = :email", User.class)
-                    .setParameter("email", email)
-                    .uniqueResultOptional();
+            return session.createQuery("FROM Order AS o "
+                    + "LEFT JOIN FETCH o.tickets AS t "
+                    + "LEFT JOIN FETCH o.user AS u "
+                    + "LEFT JOIN FETCH t.cinemaHall AS ch "
+                    + "LEFT JOIN FETCH t.movie AS m "
+                    + "WHERE o.user =: user", Order.class)
+                    .setParameter("user", user)
+                    .getResultList();
+        } catch (Exception e) {
+            throw new DataProcessingException("", e);
         }
     }
 }
