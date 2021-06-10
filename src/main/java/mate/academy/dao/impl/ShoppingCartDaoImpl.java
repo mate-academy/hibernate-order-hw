@@ -27,7 +27,8 @@ public class ShoppingCartDaoImpl implements ShoppingCartDao {
             if (transaction != null) {
                 transaction.rollback();
             }
-            throw new DataProcessingException("Cannot create Shopping cart ", e);
+            throw new DataProcessingException("Cannot add Shopping cart \""
+                    + shoppingCart + "\" to DB", e);
         } finally {
             if (session != null) {
                 session.close();
@@ -38,12 +39,14 @@ public class ShoppingCartDaoImpl implements ShoppingCartDao {
     @Override
     public ShoppingCart getByUser(User user) {
         try (Session session = HibernateUtil.getSessionFactory().openSession()) {
-            Query<ShoppingCart> query = session.createQuery("FROM ShoppingCart WHERE user = "
-                    + ":user", ShoppingCart.class);
+            Query<ShoppingCart> query = session.createQuery("from ShoppingCart sc "
+                    + "left join fetch sc.tickets t "
+                    + "where sc.user = :user", ShoppingCart.class);
             query.setParameter("user", user);
             return query.uniqueResult();
         } catch (Exception e) {
-            throw new DataProcessingException("Cannot find shopping cart using user ", e);
+            throw new DataProcessingException("Cannot find shopping cart using user \""
+                    + user + "\" from DB", e);
         }
     }
 
