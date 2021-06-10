@@ -29,6 +29,8 @@ public class Main {
             (AuthenticationService) injector.getInstance(AuthenticationService.class);
     private static final OrderService orderService =
             (OrderService) injector.getInstance(OrderService.class);
+    private static final ShoppingCartService shoppingCartService =
+            (ShoppingCartService) injector.getInstance(ShoppingCartService.class);
 
     public static void main(String[] args) {
         //--------Movies--------//
@@ -132,8 +134,6 @@ public class Main {
         }
 
         //--------Buying tickets--------//
-        ShoppingCartService shoppingCartService =
-                (ShoppingCartService) injector.getInstance(ShoppingCartService.class);
         shoppingCartService.addSession(movieSession1, bobRoss);
         shoppingCartService.addSession(movieSession3, bobRoss);
 
