@@ -6,17 +6,23 @@ import mate.academy.lib.Dao;
 import mate.academy.model.Ticket;
 import mate.academy.util.HibernateUtil;
 import org.hibernate.Session;
+import org.hibernate.SessionFactory;
 import org.hibernate.Transaction;
 
 @Dao
 public class TicketDaoImpl implements TicketDao {
+    private final SessionFactory sessionFactory;
+
+    public TicketDaoImpl() {
+        sessionFactory = HibernateUtil.getSessionFactory();
+    }
 
     @Override
     public Ticket add(Ticket ticket) {
         Session session = null;
         Transaction transaction = null;
         try {
-            session = HibernateUtil.getSessionFactory().openSession();
+            session = sessionFactory.openSession();
             transaction = session.beginTransaction();
             session.save(ticket);
             transaction.commit();
