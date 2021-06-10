@@ -2,7 +2,6 @@ package mate.academy;
 
 import java.time.LocalDate;
 import java.time.LocalDateTime;
-
 import mate.academy.lib.Injector;
 import mate.academy.model.CinemaHall;
 import mate.academy.model.Movie;
@@ -18,15 +17,10 @@ import mate.academy.service.ShoppingCartService;
 
 public class Main {
     private static final Injector injector = Injector.getInstance("mate.academy");
+
     public static void main(String[] args) {
         MovieService movieService =
                 (MovieService) injector.getInstance(MovieService.class);
-        AuthenticationService authenticationService =
-                (AuthenticationService) injector.getInstance(AuthenticationService.class);
-        ShoppingCartService shoppingCartService =
-                (ShoppingCartService) injector.getInstance(ShoppingCartService.class);
-        OrderService orderService =
-                (OrderService) injector.getInstance(OrderService.class);
 
         Movie fastAndFurious = new Movie("Fast and Furious");
         fastAndFurious.setDescription("An action film about street racing, heists, and spies.");
@@ -69,15 +63,22 @@ public class Main {
         System.out.println(movieSessionService.findAvailableSessions(
                         fastAndFurious.getId(), LocalDate.now()));
 
+        AuthenticationService authenticationService =
+                (AuthenticationService) injector.getInstance(AuthenticationService.class);
+        ShoppingCartService shoppingCartService =
+                (ShoppingCartService) injector.getInstance(ShoppingCartService.class);
 
-       User ilia = authenticationService.register("ilia.sytnik@gamil.com", "qwerty");
+        User ilia = authenticationService.register("ilia.sytnik@gamil.com", "qwerty");
 
-       shoppingCartService.addSession(tomorrowMovieSession, ilia);
-       shoppingCartService.addSession(yesterdayMovieSession, ilia);
+        shoppingCartService.addSession(tomorrowMovieSession, ilia);
+        shoppingCartService.addSession(yesterdayMovieSession, ilia);
 
         ShoppingCart shoppingCartIlia = shoppingCartService.getByUser(ilia);
         System.out.println(shoppingCartIlia);
         shoppingCartService.clearShoppingCart(shoppingCartIlia);
+
+        OrderService orderService =
+                (OrderService) injector.getInstance(OrderService.class);
 
         System.out.println(orderService.completeOrder(shoppingCartIlia));
         System.out.println(orderService.getOrdersHistory(ilia));
