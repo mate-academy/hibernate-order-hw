@@ -24,7 +24,7 @@ public class OrderServiceImp implements OrderService {
         order.setUser(shoppingCart.getUser());
         order.setOrderDate(LocalDateTime.now());
         orderDao.add(order);
-        return null;
+        return order;
     }
 
     @Override

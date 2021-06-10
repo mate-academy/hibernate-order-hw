@@ -43,6 +43,8 @@ public class OrderDaoImp implements OrderDao {
                     + "WHERE t.user  =: user", Order.class)
                     .setParameter("user", user)
                     .getResultList();
+        } catch (Exception e) {
+            throw new DataProcessingException("Can't get order bu user:" + user, e);
         }
     }
 }

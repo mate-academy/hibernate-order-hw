@@ -2,6 +2,7 @@ package mate.academy.security;
 
 import java.util.Optional;
 import mate.academy.exception.AuthenticationException;
+import mate.academy.exception.RegisterException;
 import mate.academy.lib.Inject;
 import mate.academy.lib.Service;
 import mate.academy.model.User;
@@ -26,13 +27,16 @@ public class AuthenticationServiceImpl implements AuthenticationService {
     }
 
     @Override
-    public User register(String email, String password) {
-        User user = new User();
-        user.setEmail(email);
-        user.setPassword(password);
-        userService.add(user);
-        shoppingCartService.registerNewShoppingCart(user);
-        return user;
+    public User register(String email, String password) throws RegisterException {
+        if (userService.findByEmail(email).isEmpty()) {
+            User user = new User();
+            user.setEmail(email);
+            user.setPassword(password);
+            userService.add(user);
+            shoppingCartService.registerNewShoppingCart(user);
+            return user;
+        }
+        throw new RegisterException("User already exists in the DB ");
     }
 
     private boolean matchPasswords(String rawPassword, User userFromDb) {

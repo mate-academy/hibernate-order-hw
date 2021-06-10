@@ -1,5 +1,7 @@
 package mate.academy.model;
 
+import org.hibernate.annotations.Fetch;
+
 import java.time.LocalDateTime;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
