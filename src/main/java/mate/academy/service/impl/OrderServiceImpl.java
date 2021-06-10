@@ -20,14 +20,14 @@ public class OrderServiceImpl implements OrderService {
     
     @Override
     public Order completeOrder(ShoppingCart shoppingCart) {
-        Order order = new Order();
-        if (!shoppingCart.getTickets().isEmpty()) {
-            order = new Order();
-            List<Ticket> ticketsCopy = shoppingCart.getTickets();
-            order.setTickets(ticketsCopy);
-            order.setUser(shoppingCart.getUser());
-            order.setOrderDate(shoppingCart.getTickets().get(0).getShowTime());
+        if (shoppingCart.getTickets().isEmpty()) {
+            throw new RuntimeException("Your cart is empty, no orders to complete");
         }
+        Order order = new Order();
+        List<Ticket> ticketsCopy = shoppingCart.getTickets();
+        order.setTickets(ticketsCopy);
+        order.setUser(shoppingCart.getUser());
+        order.setOrderDate(shoppingCart.getTickets().get(0).getShowTime());
         shoppingCartService.clearShoppingCart(shoppingCart);
         return orderDao.add(order);
     }
