@@ -8,11 +8,9 @@ import mate.academy.model.User;
 import mate.academy.util.HibernateUtil;
 import org.hibernate.Session;
 import org.hibernate.Transaction;
-import org.hibernate.query.Query;
 
 @Dao
 public class ShoppingCartDaoImpl implements ShoppingCartDao {
-
     @Override
     public ShoppingCart add(ShoppingCart shoppingCart) {
         Session session = null;
@@ -27,7 +25,7 @@ public class ShoppingCartDaoImpl implements ShoppingCartDao {
             if (transaction != null) {
                 transaction.rollback();
             }
-            throw new DataProcessingException("Cannot create Shopping cart ", e);
+            throw new DataProcessingException("Can't create shopping cart " + shoppingCart, e);
         } finally {
             if (session != null) {
                 session.close();
@@ -38,12 +36,15 @@ public class ShoppingCartDaoImpl implements ShoppingCartDao {
     @Override
     public ShoppingCart getByUser(User user) {
         try (Session session = HibernateUtil.getSessionFactory().openSession()) {
-            Query<ShoppingCart> query = session.createQuery("FROM ShoppingCart WHERE user = "
-                    + ":user", ShoppingCart.class);
-            query.setParameter("user", user);
-            return query.uniqueResult();
+            return session.createQuery("FROM ShoppingCart AS sc "
+                    + "LEFT JOIN FETCH sc.tickets AS t "
+                    + "LEFT JOIN FETCH t.cinemaHall AS ch "
+                    + "LEFT JOIN FETCH t.movie AS m "
+                    + "WHERE sc.user = :user", ShoppingCart.class)
+                    .setParameter("user", user)
+                    .getSingleResult();
         } catch (Exception e) {
-            throw new DataProcessingException("Cannot find shopping cart using user ", e);
+            throw new DataProcessingException("Can't find shopping cart by user: " + user, e);
         }
     }
 
@@ -60,7 +61,7 @@ public class ShoppingCartDaoImpl implements ShoppingCartDao {
             if (transaction != null) {
                 transaction.rollback();
             }
-            throw new DataProcessingException("Cannot create shopping cart ", e);
+            throw new DataProcessingException("Can't update shopping cart " + shoppingCart, e);
         } finally {
             if (session != null) {
                 session.close();

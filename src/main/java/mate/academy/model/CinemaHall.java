@@ -18,6 +18,10 @@ public class CinemaHall {
     public CinemaHall() {
     }
 
+    public CinemaHall(int capacity) {
+        this.capacity = capacity;
+    }
+
     public Long getId() {
         return id;
     }
