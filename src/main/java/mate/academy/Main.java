@@ -92,6 +92,5 @@ public class Main {
 
         orderService.completeOrder(cart);
         System.out.println(orderService.getOrdersHistory(bob));
-
     }
 }
