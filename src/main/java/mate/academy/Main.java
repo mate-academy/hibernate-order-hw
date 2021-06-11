@@ -76,7 +76,6 @@ public class Main {
         shoppingCartService.addSession(tomorrowMovieSession, bob);
         ShoppingCart bobsShoppingCart = shoppingCartService.getByUser(bob);
         Order bobsOrder = orderService.completeOrder(bobsShoppingCart);
-        shoppingCartService.clearShoppingCart(bobsShoppingCart);
         System.out.println(bobsOrder);
         List<Order> bobsOrders = orderService.getOrdersHistory(bob);
         System.out.println(bobsOrders);
