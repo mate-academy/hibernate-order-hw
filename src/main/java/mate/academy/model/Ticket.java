@@ -19,7 +19,7 @@ public class Ticket {
     private CinemaHall cinemaHall;
     @ManyToOne(fetch = FetchType.LAZY)
     private Movie movie;
-    @ManyToOne(fetch = FetchType.LAZY)
+    @ManyToOne
     private User user;
     private LocalDateTime showTime;
 
