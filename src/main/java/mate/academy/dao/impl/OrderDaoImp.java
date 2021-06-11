@@ -44,7 +44,7 @@ public class OrderDaoImp implements OrderDao {
                     .setParameter("user", user)
                     .getResultList();
         } catch (Exception e) {
-            throw new DataProcessingException("Can't get order bu user:" + user, e);
+            throw new DataProcessingException("Can't get order history by user:" + user, e);
         }
     }
 }
