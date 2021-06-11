@@ -20,15 +20,13 @@ public class ShoppingCartServiceImpl implements ShoppingCartService {
 
     @Override
     public void addSession(MovieSession movieSession, User user) {
-        Ticket newTicket = new Ticket();
-        newTicket.setUser(user);
-        newTicket.setCinemaHall(movieSession.getCinemaHall());
-        newTicket.setShowTime(movieSession.getShowTime());
-        newTicket.setMovie(movieSession.getMovie());
+        Ticket ticket = new Ticket();
+        ticket.setMovieSession(movieSession);
+        ticket.setUser(user);
 
-        ShoppingCart shoppingCart = shoppingCartDao.getByUser(user);
-        shoppingCart.getTickets().add(ticketDao.add(newTicket));
-        shoppingCartDao.update(shoppingCart);
+        ShoppingCart currentUserCart = shoppingCartDao.getByUser(user);
+        currentUserCart.getTickets().add(ticketDao.add(ticket));
+        shoppingCartDao.update(currentUserCart);
     }
 
     @Override
@@ -44,8 +42,8 @@ public class ShoppingCartServiceImpl implements ShoppingCartService {
     }
 
     @Override
-    public void clearShoppingCart(ShoppingCart cart) {
-        cart.setTickets(new ArrayList<>());
-        shoppingCartDao.update(cart);
+    public void clear(ShoppingCart shoppingCart) {
+        shoppingCart.setTickets(new ArrayList<>());
+        shoppingCartDao.update(shoppingCart);
     }
 }
