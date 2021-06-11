@@ -91,10 +91,6 @@ public class Main {
         orderService.completeOrder(shoppingCartService.getByUser(bob));
         orderService.completeOrder(shoppingCartService.getByUser(alice));
 
-        System.out.println("Clearing shopping cards...");
-        shoppingCartService.clearShoppingCart(shoppingCartService.getByUser(bob));
-        shoppingCartService.clearShoppingCart(shoppingCartService.getByUser(alice));
-
         System.out.println("----------Get order history----------");
         System.out.println(orderService.getOrdersHistory(bob));
         System.out.println(orderService.getOrdersHistory(alice));
