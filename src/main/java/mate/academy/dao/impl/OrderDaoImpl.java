@@ -42,7 +42,7 @@ public class OrderDaoImpl implements OrderDao {
                     + "left join fetch o.user WHERE o.user = :user", Order.class)
                     .setParameter("user", user).getResultList();
         } catch (Exception e) {
-            throw new DataProcessingException("Can't get all movies", e);
+            throw new DataProcessingException("Can't get all orders history from user: " + user, e);
         }
     }
 }
