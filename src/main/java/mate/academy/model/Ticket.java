@@ -2,6 +2,7 @@ package mate.academy.model;
 
 import java.time.LocalDateTime;
 import javax.persistence.Entity;
+import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
@@ -18,7 +19,9 @@ public class Ticket {
     private CinemaHall cinemaHall;
     @ManyToOne
     private Movie movie;
-    @ManyToOne
+    @ManyToOne(fetch = FetchType.LAZY)
+    private MovieSession movieSession;
+    @ManyToOne(fetch = FetchType.LAZY)
     private User user;
     private LocalDateTime showTime;
 
@@ -62,10 +65,18 @@ public class Ticket {
         this.user = user;
     }
 
+    public MovieSession getMovieSession() {
+        return movieSession;
+    }
+
+    public void setMovieSession(MovieSession movieSession) {
+        this.movieSession = movieSession;
+    }
+
     @Override
     public String toString() {
         return "Ticket{" + "id=" + id
-                + ", cinemaHall=" + cinemaHall + ", movie=" + movie
+                + ", movieSession=" + movieSession
                 + ", user=" + user + ", showTime=" + showTime + '}';
     }
 }
