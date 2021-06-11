@@ -2,6 +2,8 @@ package mate.academy;
 
 import java.time.LocalDate;
 import java.time.LocalDateTime;
+import java.util.Optional;
+
 import mate.academy.exception.RegistrationException;
 import mate.academy.lib.Injector;
 import mate.academy.model.CinemaHall;
@@ -82,9 +84,9 @@ public class Main {
 
         shoppingCartService.addSession(tomorrowMovieSession, user);
         shoppingCartService.addSession(yesterdayMovieSession, user);
-
-        ShoppingCart userShoppingCardFromDB = shoppingCartService.getByUser(user);
+        Optional<User> userByEmail = userService.findByEmail(user.getEmail());
+        ShoppingCart userShoppingCardFromDB = shoppingCartService.getByUser(userByEmail.get());
         System.out.println(orderService.completeOrder(userShoppingCardFromDB));
-        System.out.println(orderService.getOrdersHistory(user));
+        System.out.println(orderService.getOrdersHistory(userByEmail.get()));
     }
 }
