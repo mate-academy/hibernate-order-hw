@@ -1,6 +1,5 @@
 package mate.academy.model;
 
-import java.time.LocalDateTime;
 import javax.persistence.Entity;
 import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
@@ -48,11 +47,9 @@ public class Ticket {
 
     @Override
     public String toString() {
-        return "Ticket{" +
-              "id=" + id +
-              ", movieSession=" + movieSession +
-              ", user=" + user +
-              '}';
+        return "Ticket{" + "id=" + id
+              + ", movieSession=" + movieSession
+              + ", user=" + user + '}';
     }
 
 }
