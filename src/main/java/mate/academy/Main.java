@@ -68,6 +68,7 @@ public class Main {
                 (AuthenticationService) injector.getInstance(AuthenticationService.class);
         ShoppingCartService shoppingCartService =
                 (ShoppingCartService) injector.getInstance(ShoppingCartService.class);
+
         User alice = null;
         try {
             alice = authenticationService.register("alice", "1234");
