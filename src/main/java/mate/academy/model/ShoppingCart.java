@@ -2,6 +2,7 @@ package mate.academy.model;
 
 import java.util.List;
 import javax.persistence.Entity;
+import javax.persistence.FetchType;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.MapsId;
@@ -16,7 +17,7 @@ public class ShoppingCart {
     private Long id;
     @OneToMany
     private List<Ticket> tickets;
-    @OneToOne
+    @OneToOne(fetch = FetchType.LAZY)
     @MapsId
     @JoinColumn(name = "id")
     private User user;
