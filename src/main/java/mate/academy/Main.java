@@ -89,6 +89,5 @@ public class Main {
         ShoppingCart shoppingCart = shoppingCartService.getByUser(eugen);
         orderService.completeOrder(shoppingCart);
         orderService.getOrdersHistory(eugen).forEach(System.out::println);
-        //shoppingCartService.clearShoppingCart(shoppingCart);
     }
 }
