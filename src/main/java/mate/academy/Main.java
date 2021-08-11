@@ -78,7 +78,7 @@ public class Main {
         shoppingCartService.clearShoppingCart(shoppingCartService.getByUser(bob));
         System.out.println(shoppingCartService.getByUser(bob));
 
-        ShoppingCart shoppingCartFromDb = shoppingCartService.getByUser(bob);
+        ShoppingCart shoppingCartFromDb = shoppingCartService.getByUser(ron);
         System.out.println(orderService.completeOrder(shoppingCartFromDb));
         orderService.getOrdersHistory(ron).forEach(System.out::println);
     }
