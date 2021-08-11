@@ -1,55 +1,66 @@
 package mate.academy;
 
-import java.time.LocalDate;
 import java.time.LocalDateTime;
+import mate.academy.dao.CinemaHallDao;
+import mate.academy.dao.MovieDao;
+import mate.academy.dao.MovieSessionDao;
+import mate.academy.dao.OrderDao;
+import mate.academy.dao.ShoppingCartDao;
+import mate.academy.dao.TicketDao;
+import mate.academy.dao.UserDao;
+import mate.academy.lib.Injector;
 import mate.academy.model.CinemaHall;
 import mate.academy.model.Movie;
 import mate.academy.model.MovieSession;
+import mate.academy.model.User;
+import mate.academy.security.AuthenticationService;
 import mate.academy.service.CinemaHallService;
 import mate.academy.service.MovieService;
 import mate.academy.service.MovieSessionService;
+import mate.academy.service.OrderService;
+import mate.academy.service.ShoppingCartService;
+import mate.academy.service.UserService;
 
 public class Main {
+    public static final Injector injector = Injector.getInstance("mate.academy");
+    public static final CinemaHallDao cinemaHallDao = (CinemaHallDao) injector
+            .getInstance(CinemaHallDao.class);
+    public static final CinemaHallService cinemaHallService = (CinemaHallService) injector
+            .getInstance(CinemaHallService.class);
+    public static final MovieDao movieDao = (MovieDao) injector.getInstance(MovieDao.class);
+    public static final MovieService movieService = (MovieService) injector
+            .getInstance(MovieService.class);
+    public static final MovieSessionDao movieSessionDao = (MovieSessionDao) injector
+            .getInstance(MovieSessionDao.class);
+    public static final MovieSessionService movieSessionService = (MovieSessionService) injector
+            .getInstance(MovieSessionService.class);
+    public static final ShoppingCartDao shoppingCartDao = (ShoppingCartDao) injector
+            .getInstance(ShoppingCartDao.class);
+    public static final ShoppingCartService shoppingCartService = (ShoppingCartService) injector
+            .getInstance(ShoppingCartService.class);
+    public static final UserDao userDao = (UserDao) injector.getInstance(UserDao.class);
+    public static final UserService userService = (UserService) injector
+            .getInstance(UserService.class);
+    public static final TicketDao ticketDao = (TicketDao) injector.getInstance(TicketDao.class);
+    public static final OrderDao orderDao = (OrderDao) injector.getInstance(OrderDao.class);
+    public static final OrderService orderService = (OrderService) injector
+            .getInstance(OrderService.class);
+    public static final AuthenticationService authenticationService =
+            (AuthenticationService) injector
+                    .getInstance(AuthenticationService.class);
+
     public static void main(String[] args) {
-        MovieService movieService = null;
+        cinemaHallService.add(new CinemaHall(100, "Big hall"));
+        movieService.add(new Movie("1 + 1", "family film"));
+        movieSessionService
+                .add(new MovieSession(movieService.get(1L), cinemaHallService.get(1L), LocalDateTime
+                        .of(2021, 10, 11, 10, 1)));
 
-        Movie fastAndFurious = new Movie("Fast and Furious");
-        fastAndFurious.setDescription("An action film about street racing, heists, and spies.");
-        movieService.add(fastAndFurious);
-        System.out.println(movieService.get(fastAndFurious.getId()));
-        movieService.getAll().forEach(System.out::println);
+        User user = authenticationService.register("vova", "123");
+        shoppingCartService.addSession(movieSessionService.get(1L), user);
 
-        CinemaHall firstCinemaHall = new CinemaHall();
-        firstCinemaHall.setCapacity(100);
-        firstCinemaHall.setDescription("first hall with capacity 100");
+        orderService.completeOrder(shoppingCartService.getByUser(user));
+        System.out.println(shoppingCartService.getByUser(user).getTickets());
 
-        CinemaHall secondCinemaHall = new CinemaHall();
-        secondCinemaHall.setCapacity(200);
-        secondCinemaHall.setDescription("second hall with capacity 200");
-
-        CinemaHallService cinemaHallService = null;
-        cinemaHallService.add(firstCinemaHall);
-        cinemaHallService.add(secondCinemaHall);
-
-        System.out.println(cinemaHallService.getAll());
-        System.out.println(cinemaHallService.get(firstCinemaHall.getId()));
-
-        MovieSession tomorrowMovieSession = new MovieSession();
-        tomorrowMovieSession.setCinemaHall(firstCinemaHall);
-        tomorrowMovieSession.setMovie(fastAndFurious);
-        tomorrowMovieSession.setShowTime(LocalDateTime.now().plusDays(1L));
-
-        MovieSession yesterdayMovieSession = new MovieSession();
-        yesterdayMovieSession.setCinemaHall(firstCinemaHall);
-        yesterdayMovieSession.setMovie(fastAndFurious);
-        yesterdayMovieSession.setShowTime(LocalDateTime.now().minusDays(1L));
-
-        MovieSessionService movieSessionService = null;
-        movieSessionService.add(tomorrowMovieSession);
-        movieSessionService.add(yesterdayMovieSession);
-
-        System.out.println(movieSessionService.get(yesterdayMovieSession.getId()));
-        System.out.println(movieSessionService.findAvailableSessions(
-                        fastAndFurious.getId(), LocalDate.now()));
     }
 }
