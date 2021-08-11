@@ -2,13 +2,21 @@ package mate.academy;
 
 import java.time.LocalDate;
 import java.time.LocalDateTime;
+import java.util.List;
+import mate.academy.exception.RegistrationException;
 import mate.academy.lib.Injector;
 import mate.academy.model.CinemaHall;
 import mate.academy.model.Movie;
 import mate.academy.model.MovieSession;
+import mate.academy.model.Order;
+import mate.academy.model.ShoppingCart;
+import mate.academy.model.User;
+import mate.academy.security.AuthenticationService;
 import mate.academy.service.CinemaHallService;
 import mate.academy.service.MovieService;
 import mate.academy.service.MovieSessionService;
+import mate.academy.service.OrderService;
+import mate.academy.service.ShoppingCartService;
 
 public class Main {
     private static final Injector injector = Injector.getInstance("mate.academy");
@@ -18,6 +26,12 @@ public class Main {
             (CinemaHallService) injector.getInstance(CinemaHallService.class);
     private static final MovieSessionService movieSessionService =
             (MovieSessionService) injector.getInstance(MovieSessionService.class);
+    private static final AuthenticationService authenticationService =
+            (AuthenticationService) injector.getInstance(AuthenticationService.class);
+    private static final ShoppingCartService shoppingCartService =
+            (ShoppingCartService) injector.getInstance(ShoppingCartService.class);
+    private static final OrderService orderService =
+            (OrderService) injector.getInstance(OrderService.class);
 
     public static void main(String[] args) {
         Movie fastAndFurious = new Movie("Fast and Furious");
@@ -56,5 +70,21 @@ public class Main {
         System.out.println(movieSessionService.get(yesterdayMovieSession.getId()));
         System.out.println(movieSessionService.findAvailableSessions(
                 fastAndFurious.getId(), LocalDate.now()));
+
+        String email = "kuruch@gmail.com";
+        String password = "password";
+        User user = null;
+        try {
+            user = authenticationService.register(email, password);
+        } catch (RegistrationException e) {
+            throw new RuntimeException("User exists with email " + email, e);
+        }
+        shoppingCartService.addSession(tomorrowMovieSession, user);
+        ShoppingCart shoppingCart = shoppingCartService.getByUser(user);
+        shoppingCart.getTickets().forEach(System.out::println);
+        orderService.completeOrder(shoppingCart);
+
+        List<Order> ordersHistory = orderService.getOrdersHistory(user);
+        ordersHistory.forEach(System.out::println);
     }
 }
