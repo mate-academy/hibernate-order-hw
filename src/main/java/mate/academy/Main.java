@@ -79,7 +79,6 @@ public class Main {
         shoppingCartService.addSession(tomorrowMovieSession, user);
         ShoppingCart shoppingCartByUser = shoppingCartService.getByUser(user);
         System.out.println(shoppingCartByUser);
-        shoppingCartService.clearShoppingCart(shoppingCartByUser);
         System.out.println(shoppingCartService.getByUser(user));
 
         orderService.completeOrder(shoppingCartByUser);
