@@ -74,8 +74,9 @@ public class Main {
         shoppingCartService.addSession(yesterdayMovieSession, ron);
         shoppingCartService.addSession(tomorrowMovieSession, bob);
         System.out.println(shoppingCartService.getByUser(ron));
-        shoppingCartService.clearShoppingCart(shoppingCartService.getByUser(ron));
-        System.out.println(shoppingCartService.getByUser(ron));
+        System.out.println(shoppingCartService.getByUser(bob));
+        shoppingCartService.clearShoppingCart(shoppingCartService.getByUser(bob));
+        System.out.println(shoppingCartService.getByUser(bob));
 
         ShoppingCart shoppingCartFromDb = shoppingCartService.getByUser(bob);
         System.out.println(orderService.completeOrder(shoppingCartFromDb));
