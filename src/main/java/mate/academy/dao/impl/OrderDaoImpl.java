@@ -21,6 +21,7 @@ public class OrderDaoImpl implements OrderDao {
             transaction = session.beginTransaction();
             session.save(order);
             transaction.commit();
+            return order;
         } catch (Exception e) {
             if (transaction != null) {
                 transaction.rollback();
@@ -31,7 +32,6 @@ public class OrderDaoImpl implements OrderDao {
                 session.close();
             }
         }
-        return order;
     }
 
     @Override
