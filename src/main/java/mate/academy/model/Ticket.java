@@ -16,7 +16,6 @@ public class Ticket {
     private Long id;
 
     @ManyToOne(fetch = FetchType.LAZY)
-
     private MovieSession movieSession;
 
     @ManyToOne(fetch = FetchType.LAZY)
