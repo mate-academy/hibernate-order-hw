@@ -2,6 +2,7 @@ package mate.academy;
 
 import java.time.LocalDate;
 import java.time.LocalDateTime;
+import java.util.List;
 import mate.academy.exception.AuthenticationException;
 import mate.academy.lib.Injector;
 import mate.academy.model.CinemaHall;
@@ -88,7 +89,8 @@ public class Main {
 
         OrderService orderService =
                 (OrderService) injector.getInstance(OrderService.class);
-        Order bobsOrder = orderService.completeOder(bobsShoppingCart);
-        System.out.println(bobsOrder);
+        orderService.completeOder(bobsShoppingCart);
+        List<Order> bobsOrders = orderService.getByUser(bob);
+        System.out.println(bobsOrders);
     }
 }
