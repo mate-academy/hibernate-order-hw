@@ -7,12 +7,12 @@ import mate.academy.model.CinemaHall;
 import mate.academy.model.Movie;
 import mate.academy.model.MovieSession;
 import mate.academy.model.User;
+import mate.academy.security.AuthenticationService;
 import mate.academy.service.CinemaHallService;
 import mate.academy.service.MovieService;
 import mate.academy.service.MovieSessionService;
 import mate.academy.service.OrderService;
 import mate.academy.service.ShoppingCartService;
-import mate.academy.service.UserService;
 
 public class Main {
     private static final Injector injector = Injector.getInstance("mate.academy");
@@ -22,8 +22,8 @@ public class Main {
             .getInstance(CinemaHallService.class);
     private static final MovieSessionService movieSessionService = (MovieSessionService) injector
             .getInstance(MovieSessionService.class);
-    private static final UserService userService = (UserService) injector
-            .getInstance(UserService.class);
+    private static final AuthenticationService authenticationService =
+            (AuthenticationService) injector.getInstance(AuthenticationService.class);
     private static final ShoppingCartService shoppingCartService = (ShoppingCartService) injector
             .getInstance(ShoppingCartService.class);
     private static final OrderService orderService = (OrderService) injector
@@ -67,13 +67,7 @@ public class Main {
         System.out.println(movieSessionService.findAvailableSessions(
                 fastAndFurious.getId(), LocalDate.now()));
 
-        User user = new User();
-        user.setEmail("test1");
-        user.setPassword("qwerty");
-        userService.add(user);
-        System.out.println(userService.findByEmail(user.getEmail()));
-
-        shoppingCartService.registerNewShoppingCart(user);
+        User user = authenticationService.register("test1@gmail.com", "qwerty");
         System.out.println(shoppingCartService.getByUser(user));
         shoppingCartService.addSession(yesterdayMovieSession, user);
         System.out.println(shoppingCartService.getByUser(user));
