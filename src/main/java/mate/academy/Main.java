@@ -64,10 +64,7 @@ public class Main {
         movieSessionService.add(tomorrowMovieSession);
         movieSessionService.add(yesterdayMovieSession);
 
-        User user = new User();
-        user.setEmail("bobmarley@gmail.com");
-        user.setPassword("123321");
-        user = authenticationService.register(user.getEmail(), user.getPassword());
+        User user = authenticationService.register("bobmarley@gmail.com", "123321");
 
         shoppingCartService.addSession(tomorrowMovieSession,
                 userService.findByEmail(user.getEmail()).get());
