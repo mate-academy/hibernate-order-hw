@@ -1,32 +1,33 @@
 package mate.academy.dao.impl;
 
 import java.util.List;
-import java.util.Optional;
-import mate.academy.dao.CinemaHallDao;
+import mate.academy.dao.OrderDao;
 import mate.academy.exception.DataProcessingException;
 import mate.academy.lib.Dao;
-import mate.academy.model.CinemaHall;
+import mate.academy.model.Order;
+import mate.academy.model.User;
 import mate.academy.util.HibernateUtil;
 import org.hibernate.Session;
 import org.hibernate.Transaction;
 
 @Dao
-public class CinemaHallDaoImpl implements CinemaHallDao {
+public class OrderDaoImpl implements OrderDao {
     @Override
-    public CinemaHall add(CinemaHall cinemaHall) {
+    public Order add(Order order) {
         Session session = null;
         Transaction transaction = null;
         try {
             session = HibernateUtil.getSessionFactory().openSession();
             transaction = session.beginTransaction();
-            session.save(cinemaHall);
+            session.save(order);
             transaction.commit();
-            return cinemaHall;
+            return order;
         } catch (Exception e) {
             if (transaction != null) {
                 transaction.rollback();
             }
-            throw new DataProcessingException("Can't insert cinema hall: " + cinemaHall, e);
+            throw new DataProcessingException("Can't save order with tickets:"
+                    + order.getTickets(), e);
         } finally {
             if (session != null) {
                 session.close();
@@ -35,21 +36,19 @@ public class CinemaHallDaoImpl implements CinemaHallDao {
     }
 
     @Override
-    public Optional<CinemaHall> get(Long id) {
+    public List<Order> getByUser(User user) {
         try (Session session = HibernateUtil.getSessionFactory().openSession()) {
-            return Optional.ofNullable(session.get(CinemaHall.class, id));
-        } catch (Exception e) {
-            throw new DataProcessingException("Can't get a cinema hall by id: " + id, e);
-        }
-    }
-
-    @Override
-    public List<CinemaHall> getAll() {
-        try (Session session = HibernateUtil.getSessionFactory().openSession()) {
-            return session.createQuery("from CinemaHall", CinemaHall.class)
+            return session.createQuery("select distinct o from Order o "
+                    + "join fetch o.user "
+                    + "join fetch o.tickets t "
+                    + "join fetch t.movieSession ms "
+                    + "join fetch ms.cinemaHall "
+                    + "join fetch ms.movie "
+                    + "where o.user = :user", Order.class)
+                    .setParameter("user", user)
                     .getResultList();
         } catch (Exception e) {
-            throw new DataProcessingException("Can't get all cinema halls", e);
+            throw new DataProcessingException("Can't get orders by User", e);
         }
     }
 }
