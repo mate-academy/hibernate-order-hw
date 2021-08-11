@@ -1,7 +1,6 @@
 package mate.academy.dao.impl;
 
 import java.util.List;
-
 import mate.academy.dao.OrderDao;
 import mate.academy.exception.DataProcessingException;
 import mate.academy.lib.Dao;
