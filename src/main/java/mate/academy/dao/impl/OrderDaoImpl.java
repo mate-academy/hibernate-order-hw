@@ -55,7 +55,7 @@ public class OrderDaoImpl implements OrderDao {
         try {
             session = HibernateUtil.getSessionFactory().openSession();
             transaction = session.beginTransaction();
-            session.save(order);
+            session.update(order);
             transaction.commit();
         } catch (Exception e) {
             if (transaction != null) {
@@ -73,11 +73,11 @@ public class OrderDaoImpl implements OrderDao {
     public List<Order> getByUser(User user) {
         try (Session session = HibernateUtil.getSessionFactory().openSession()) {
             return session.createQuery("from Order o "
-                            + "join fetch o.tickets t "
-                            + "join fetch o.user user "
-                            + "join fetch t.movieSession ms "
-                            + "join fetch ms.movie "
-                            + "join fetch ms.cinemaHall "
+                            + "inner join fetch o.tickets t "
+                            + "inner join fetch o.user user "
+                            + "inner join fetch t.movieSession ms "
+                            + "inner join fetch ms.movie "
+                            + "inner join fetch ms.cinemaHall "
                             + "where o.user = :user ", Order.class).setParameter("user", user)
                     .getResultList();
         } catch (Exception e) {
