@@ -30,13 +30,6 @@ public class OrderServiceImpl implements OrderService {
 
     @Override
     public List<Order> getOrdersHistory(User user) {
-        try (Session session = HibernateUtil.getSessionFactory().openSession()) {
-            Query<Order> query = session.createQuery("FROM Order o WHERE o.user = "
-                    + ":user", Order.class);
-            query.setParameter("user", user);
-            return query.getResultList();
-        } catch (Exception e) {
-            throw new DataProcessingException("Cannot find orders using user ", e);
-        }
+       return orderDao.getOrdersHistory(user);
     }
 }
