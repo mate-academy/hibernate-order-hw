@@ -42,6 +42,7 @@ public class OrderDaoImpl implements OrderDao {
                             + "inner join fetch t.movieSession m "
                             + "inner join fetch m.movie "
                             + "inner join fetch m.cinemaHall "
+                            + "inner join fetch o.user "
                             + "where o.user = :user", Order.class)
                     .setParameter("user", user)
                     .getResultList();

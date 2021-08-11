@@ -53,14 +53,14 @@ public class User {
     }
 
     @Override
-    public boolean equals(Object o) {
-        if (this == o) {
+    public boolean equals(Object object) {
+        if (this == object) {
             return true;
         }
-        if (o == null || getClass() != o.getClass()) {
+        if (object == null || getClass() != object.getClass()) {
             return false;
         }
-        User user = (User) o;
+        User user = (User) object;
         return Objects.equals(id, user.id) && Objects.equals(email, user.email)
                 && Objects.equals(password, user.password) && Arrays.equals(salt, user.salt);
     }

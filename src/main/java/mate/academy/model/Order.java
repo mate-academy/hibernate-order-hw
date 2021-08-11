@@ -5,18 +5,21 @@ import java.util.List;
 import java.util.Objects;
 import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.FetchType;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.JoinTable;
-import javax.persistence.MapsId;
+import javax.persistence.ManyToOne;
 import javax.persistence.OneToMany;
-import javax.persistence.OneToOne;
 import javax.persistence.Table;
 
 @Entity
 @Table(name = "orders")
 public class Order {
     @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
     @OneToMany
     @JoinTable(name = "orders_tickets",
@@ -25,8 +28,7 @@ public class Order {
     private List<Ticket> tickets;
     @Column(name = "order_date")
     private LocalDateTime orderDate;
-    @OneToOne
-    @MapsId
+    @ManyToOne(fetch = FetchType.LAZY)
     private User user;
 
     public Long getId() {
@@ -62,14 +64,14 @@ public class Order {
     }
 
     @Override
-    public boolean equals(Object o) {
-        if (this == o) {
+    public boolean equals(Object object) {
+        if (this == object) {
             return true;
         }
-        if (o == null || getClass() != o.getClass()) {
+        if (object == null || getClass() != object.getClass()) {
             return false;
         }
-        Order order = (Order) o;
+        Order order = (Order) object;
         return Objects.equals(id, order.id) && Objects.equals(tickets, order.tickets)
                 && Objects.equals(orderDate, order.orderDate) && Objects.equals(user, order.user);
     }
