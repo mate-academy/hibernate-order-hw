@@ -1,47 +1,54 @@
 package mate.academy.dao.impl;
 
-import java.util.Optional;
-import mate.academy.dao.UserDao;
+import java.util.List;
+import mate.academy.dao.OrderDao;
 import mate.academy.exception.DataProcessingException;
 import mate.academy.lib.Dao;
+import mate.academy.model.Order;
 import mate.academy.model.User;
 import mate.academy.util.HibernateUtil;
 import org.hibernate.Session;
 import org.hibernate.Transaction;
 
 @Dao
-public class UserDaoImpl implements UserDao {
+public class OrderDaoImpl implements OrderDao {
+
     @Override
-    public User add(User user) {
+    public Order add(Order order) {
         Session session = null;
         Transaction transaction = null;
         try {
             session = HibernateUtil.getSessionFactory().openSession();
             transaction = session.beginTransaction();
-            session.save(user);
+            session.save(order);
             transaction.commit();
-            return user;
         } catch (Exception e) {
             if (transaction != null) {
                 transaction.rollback();
             }
-            throw new DataProcessingException("Can't insert to DB user: "
-                    + user, e);
+            throw new DataProcessingException("Can`t add order: " + order, e);
         } finally {
             if (session != null) {
                 session.close();
             }
         }
+        return order;
     }
 
     @Override
-    public Optional<User> findByEmail(String email) {
+    public List<Order> getByUser(User user) {
         try (Session session = HibernateUtil.getSessionFactory().openSession()) {
-            return session.createQuery("FROM User u "
-                    + "WHERE u.email = :email", User.class)
-                    .setParameter("email", email).uniqueResultOptional();
+            return session.createQuery("FROM Order o "
+                    + "JOIN fetch o.user u "
+                    + "JOIN fetch o.tickets t "
+                    + "JOIN fetch t.movieSession ms "
+                    + "JOIN fetch ms.cinemaHall ch "
+                    + "JOIN fetch ms.movie m "
+                    + "WHERE o.user =:user", Order.class)
+                    .setParameter("user", user)
+                    .getResultList();
         } catch (Exception e) {
-            throw new DataProcessingException("Can`t find user with email: " + email, e);
+            throw new DataProcessingException("Can`t get order history by user: " + user, e);
         }
     }
 }
