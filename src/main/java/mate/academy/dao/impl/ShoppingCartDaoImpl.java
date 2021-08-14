@@ -1,8 +1,11 @@
 package mate.academy.dao.impl;
 
+import mate.academy.dao.MovieSessionDao;
 import mate.academy.dao.ShoppingCartDao;
+import mate.academy.dao.TicketDao;
 import mate.academy.exception.DataProcessingException;
 import mate.academy.lib.Dao;
+import mate.academy.lib.Inject;
 import mate.academy.model.ShoppingCart;
 import mate.academy.model.User;
 import mate.academy.util.HibernateUtil;
@@ -12,6 +15,10 @@ import org.hibernate.query.Query;
 
 @Dao
 public class ShoppingCartDaoImpl implements ShoppingCartDao {
+    @Inject
+    private MovieSessionDao movieSessionDao;
+    @Inject
+    private TicketDao ticketDao;
 
     @Override
     public ShoppingCart add(ShoppingCart shoppingCart) {
@@ -27,7 +34,7 @@ public class ShoppingCartDaoImpl implements ShoppingCartDao {
             if (transaction != null) {
                 transaction.rollback();
             }
-            throw new DataProcessingException("Cannot create Shopping cart ", e);
+            throw new DataProcessingException("Cannot create Shopping cart " + shoppingCart, e);
         } finally {
             if (session != null) {
                 session.close();
@@ -38,12 +45,16 @@ public class ShoppingCartDaoImpl implements ShoppingCartDao {
     @Override
     public ShoppingCart getByUser(User user) {
         try (Session session = HibernateUtil.getSessionFactory().openSession()) {
-            Query<ShoppingCart> query = session.createQuery("FROM ShoppingCart WHERE user = "
-                    + ":user", ShoppingCart.class);
-            query.setParameter("user", user);
-            return query.uniqueResult();
+            Query<ShoppingCart> query = session.createQuery("SELECT sc FROM ShoppingCart sc "
+                    + "JOIN FETCH sc.user "
+                    + "LEFT JOIN FETCH sc.tickets "
+                    + "WHERE sc.id = "
+                    + ":id", ShoppingCart.class);
+            query.setParameter("id", user.getId());
+            ShoppingCart shoppingCart = query.uniqueResult();
+            return shoppingCart;
         } catch (Exception e) {
-            throw new DataProcessingException("Cannot find shopping cart using user ", e);
+            throw new DataProcessingException("Cannot find shopping cart for user ", e);
         }
     }
 
@@ -60,7 +71,7 @@ public class ShoppingCartDaoImpl implements ShoppingCartDao {
             if (transaction != null) {
                 transaction.rollback();
             }
-            throw new DataProcessingException("Cannot create shopping cart ", e);
+            throw new DataProcessingException("Cannot update shopping cart ", e);
         } finally {
             if (session != null) {
                 session.close();
