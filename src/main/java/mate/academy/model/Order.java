@@ -1,26 +1,36 @@
 package mate.academy.model;
 
+import java.time.LocalDateTime;
 import java.util.List;
 import java.util.Objects;
 import javax.persistence.Entity;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
 import javax.persistence.Id;
-import javax.persistence.JoinColumn;
-import javax.persistence.MapsId;
+import javax.persistence.ManyToOne;
 import javax.persistence.OneToMany;
-import javax.persistence.OneToOne;
 import javax.persistence.Table;
 
 @Entity
-@Table (name = "shopping_carts")
-public class ShoppingCart {
+@Table(name = "orders")
+public class Order {
     @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
     @OneToMany
     private List<Ticket> tickets;
-    @OneToOne
-    @MapsId
-    @JoinColumn(name = "id")
+    private LocalDateTime orderDate;
+    @ManyToOne
     private User user;
+
+    public Order() {
+    }
+
+    public Order(List<Ticket> tickets, LocalDateTime orderDate, User user) {
+        this.tickets = tickets;
+        this.orderDate = orderDate;
+        this.user = user;
+    }
 
     public Long getId() {
         return id;
@@ -36,6 +46,14 @@ public class ShoppingCart {
 
     public void setTickets(List<Ticket> tickets) {
         this.tickets = tickets;
+    }
+
+    public LocalDateTime getOrderDate() {
+        return orderDate;
+    }
+
+    public void setOrderDate(LocalDateTime orderDate) {
+        this.orderDate = orderDate;
     }
 
     public User getUser() {
@@ -54,22 +72,24 @@ public class ShoppingCart {
         if (o == null || getClass() != o.getClass()) {
             return false;
         }
-        ShoppingCart that = (ShoppingCart) o;
-        return Objects.equals(id, that.id)
-                && Objects.equals(tickets, that.tickets)
-                && Objects.equals(user, that.user);
+        Order order = (Order) o;
+        return Objects.equals(id, order.id)
+                && Objects.equals(tickets, order.tickets)
+                && Objects.equals(orderDate, order.orderDate)
+                && Objects.equals(user, order.user);
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(id, tickets, user);
+        return Objects.hash(id, tickets, orderDate, user);
     }
 
     @Override
     public String toString() {
-        return "ShoppingCart{"
+        return "Order{"
                 + "id=" + id
                 + ", tickets=" + tickets
+                + ", orderDate=" + orderDate
                 + ", user=" + user
                 + '}';
     }
