@@ -2,14 +2,17 @@ package mate.academy;
 
 import java.time.LocalDate;
 import java.time.LocalDateTime;
-import mate.academy.exception.AuthenticationException;
 import mate.academy.lib.Injector;
 import mate.academy.model.CinemaHall;
 import mate.academy.model.Movie;
 import mate.academy.model.MovieSession;
 import mate.academy.model.User;
 import mate.academy.security.AuthenticationService;
-import mate.academy.service.*;
+import mate.academy.service.CinemaHallService;
+import mate.academy.service.MovieService;
+import mate.academy.service.MovieSessionService;
+import mate.academy.service.OrderService;
+import mate.academy.service.ShoppingCartService;
 
 public class Main {
     private static final Injector INJECTOR = Injector.getInstance("mate.academy");
@@ -61,7 +64,6 @@ public class Main {
 
         AuthenticationService authenticationService =
                 (AuthenticationService) INJECTOR.getInstance(AuthenticationService.class);
-
 
         User userOne = authenticationService.register("qwerty", "martin2010@gmail.com");
         System.out.println("User is registered!");
