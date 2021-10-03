@@ -44,9 +44,11 @@ public class OrderDaoImpl implements OrderDao {
             Query<Order> queryGetOrdersByUser = session.createQuery("FROM Order o "
                     + "LEFT JOIN FETCH o.user u "
                     + "LEFT JOIN FETCH o.tickets t "
-                    + "LEFT JOIN FETCH t.movieSession "
+                    + "LEFT JOIN FETCH t.movieSession ms "
+                    + "LEFT JOIN FETCH ms.cinemaHall "
+                    + "LEFT JOIN FETCH ms.movie "
                     + "LEFT JOIN FETCH t.user "
-                    + "WHERE sc.user =:user", Order.class);
+                    + "WHERE o.user = :user", Order.class);
             queryGetOrdersByUser.setParameter("user", user);
             return queryGetOrdersByUser.getResultList();
         } catch (Exception e) {
