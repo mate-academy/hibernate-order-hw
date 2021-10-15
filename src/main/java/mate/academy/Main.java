@@ -64,29 +64,29 @@ public class Main {
 
         AuthenticationService authenticationService = (AuthenticationService) injector
                 .getInstance(AuthenticationService.class);
-        User user1 = authenticationService.register("user1@gmail.com", "qwerty");
-        User user2 = authenticationService.register("user2@gmail.com", "qwerty");
+        User firstUser = authenticationService.register("user1@gmail.com", "qwerty");
+        User secondUser = authenticationService.register("user2@gmail.com", "qwerty");
 
         ShoppingCartService shoppingCartService = (ShoppingCartService) injector
                 .getInstance(ShoppingCartService.class);
 
-        shoppingCartService.addSession(yesterdayMovieSession, user1);
-        shoppingCartService.addSession(tomorrowMovieSession, user2);
+        shoppingCartService.addSession(yesterdayMovieSession, firstUser);
+        shoppingCartService.addSession(tomorrowMovieSession, secondUser);
 
-        ShoppingCart shoppingCartUser1 = shoppingCartService.getByUser(user1);
-        System.out.println(shoppingCartUser1);
+        ShoppingCart shoppingCartFirstUser = shoppingCartService.getByUser(firstUser);
+        System.out.println(shoppingCartFirstUser);
 
-        ShoppingCart shoppingCartUser2 = shoppingCartService.getByUser(user2);
-        System.out.println(shoppingCartUser2);
+        ShoppingCart shoppingCartSecondUser = shoppingCartService.getByUser(secondUser);
+        System.out.println(shoppingCartSecondUser);
 
         OrderService orderService = (OrderService) injector.getInstance(OrderService.class);
-        orderService.completeOrder(shoppingCartUser1);
-        orderService.completeOrder(shoppingCartUser2);
+        orderService.completeOrder(shoppingCartFirstUser);
+        orderService.completeOrder(shoppingCartSecondUser);
 
-        orderService.getOrdersHistory(user1).forEach(System.out::println);
-        orderService.getOrdersHistory(user2).forEach(System.out::println);
+        orderService.getOrdersHistory(firstUser).forEach(System.out::println);
+        orderService.getOrdersHistory(secondUser).forEach(System.out::println);
 
-        System.out.println(shoppingCartService.getByUser(user1));
-        System.out.println(shoppingCartService.getByUser(user2));
+        System.out.println(shoppingCartService.getByUser(firstUser));
+        System.out.println(shoppingCartService.getByUser(secondUser));
     }
 }
