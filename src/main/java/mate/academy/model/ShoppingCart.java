@@ -15,7 +15,7 @@ public class ShoppingCart {
     @Id
     private Long id;
     @OneToMany
-    private List<Ticket> tickets;
+    private List<Ticket> tickets; // how can change name of column?
     @OneToOne
     @MapsId
     @JoinColumn(name = "id")
