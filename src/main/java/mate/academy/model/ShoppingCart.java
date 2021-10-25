@@ -1,7 +1,6 @@
 package mate.academy.model;
 
 import java.util.List;
-import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
@@ -16,7 +15,9 @@ public class ShoppingCart {
     @Id
     private Long id;
     @OneToMany
-    @Column(name = "ticket_id")
+    //@Column(name = "ticket_id")A
+    // /@JoinColumn(name = "shopping_cart_id",
+    //referencedColumnName = "ticket_id")
     private List<Ticket> tickets;
     @OneToOne
     @MapsId

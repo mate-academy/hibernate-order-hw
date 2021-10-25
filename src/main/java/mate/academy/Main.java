@@ -16,7 +16,6 @@ import mate.academy.service.MovieService;
 import mate.academy.service.MovieSessionService;
 import mate.academy.service.OrderService;
 import mate.academy.service.ShoppingCartService;
-import mate.academy.service.UserService;
 
 public class Main {
     public static final Injector injector = Injector.getInstance("mate.academy");
@@ -30,10 +29,14 @@ public class Main {
         try {
             registerUser
                     = authenticationService.register("b1234@i.com", "1234");
+        } catch (Exception e) {
+            throw new DataProcessingException("Can't register email", e);
+        }
+        try {
             userDB
                     = authenticationService.login("b1234@i.com", "1234");
         } catch (Exception e) {
-            throw new DataProcessingException("can't register", e);
+            throw new DataProcessingException("Can't login with email", e);
         }
 
         MovieService movieService
@@ -72,8 +75,6 @@ public class Main {
         ShoppingCartService shoppingCartService
                 = (ShoppingCartService) injector.getInstance(ShoppingCartService.class);
         shoppingCartService.addSession(yesterdayMovieSession,userDB);
-        UserService userService = (UserService) injector.getInstance(UserService.class);
-        userService.findByEmail(userDB.getEmail());
         ShoppingCart byUser = shoppingCartService.getByUser(userDB);
         OrderService orderService = (OrderService) injector.getInstance(OrderService.class);
         Order order = orderService.completeOrder(byUser);
