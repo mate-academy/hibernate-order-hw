@@ -22,7 +22,7 @@ public class Order {
     private List<Ticket> tickets;
     @ManyToOne(fetch = FetchType.LAZY)
     private User user;
-    private LocalDateTime localDateTime;
+    private LocalDateTime orderDateTime;
 
     public Order() {
     }
@@ -30,7 +30,7 @@ public class Order {
     public Order(List<Ticket> tickets, User user, LocalDateTime localDateTime) {
         this.tickets = tickets;
         this.user = user;
-        this.localDateTime = localDateTime;
+        this.orderDateTime = localDateTime;
     }
 
     public Long getId() {
@@ -57,12 +57,12 @@ public class Order {
         this.user = user;
     }
 
-    public LocalDateTime getLocalDateTime() {
-        return localDateTime;
+    public LocalDateTime getOrderDateTime() {
+        return orderDateTime;
     }
 
-    public void setLocalDateTime(LocalDateTime localDateTime) {
-        this.localDateTime = localDateTime;
+    public void setOrderDateTime(LocalDateTime orderDateTime) {
+        this.orderDateTime = orderDateTime;
     }
 
     @Override
@@ -71,7 +71,7 @@ public class Order {
                 + "id=" + id
                 + ", tickets=" + tickets
                 + ", user=" + user
-                + ", localDateTime=" + localDateTime
+                + ", orderDateTime=" + orderDateTime
                 + '}';
     }
 
@@ -87,11 +87,11 @@ public class Order {
         return Objects.equals(id, order.id)
                 && Objects.equals(tickets, order.tickets)
                 && Objects.equals(user, order.user)
-                && Objects.equals(localDateTime, order.localDateTime);
+                && Objects.equals(orderDateTime, order.orderDateTime);
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(id, tickets, user, localDateTime);
+        return Objects.hash(id, tickets, user, orderDateTime);
     }
 }

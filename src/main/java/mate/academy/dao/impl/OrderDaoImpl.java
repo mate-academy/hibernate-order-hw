@@ -22,7 +22,6 @@ public class OrderDaoImpl implements OrderDao {
             transaction = session.beginTransaction();
             session.save(order);
             transaction.commit();
-            session.close();
             return order;
         } catch (Exception e) {
             if (transaction != null) {
@@ -45,7 +44,7 @@ public class OrderDaoImpl implements OrderDao {
                     + "inner join fetch t.movieSession ms "
                     + "inner join fetch  ms.cinemaHall "
                     + "inner  join fetch ms.movie "
-                    + "where t.user = :user", Order.class);// why do we have copy of user? http://prntscr.com/1x6759l
+                    + "where t.user = :user", Order.class);
             query.setParameter("user",user);
             return query.getResultList();
         } catch (Exception e) {
