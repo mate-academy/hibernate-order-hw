@@ -46,10 +46,10 @@ public class OrderDaoImpl implements OrderDao {
                 + "LEFT JOIN FETCH t.movieSession ms "
                 + "LEFT JOIN FETCH ms.movie "
                 + "LEFT JOIN FETCH ms.cinemaHall "
-                + "WHERE o.user.id = :userId";
+                + "WHERE o.user = :user";
         try (Session session = sessionFactory.openSession()) {
             Query<Order> orderQuery = session.createQuery(getOrdersByUserQuery, Order.class);
-            orderQuery.setParameter("userId", user.getId());
+            orderQuery.setParameter("user", user);
             return orderQuery.getResultList();
         } catch (Exception e) {
             throw new DataProcessingException("Can't get orders by user " + user, e);
