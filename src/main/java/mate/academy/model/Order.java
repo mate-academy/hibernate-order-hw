@@ -1,25 +1,27 @@
 package mate.academy.model;
 
+import java.time.LocalDateTime;
 import java.util.List;
 import javax.persistence.Entity;
+import javax.persistence.FetchType;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
 import javax.persistence.Id;
-import javax.persistence.JoinColumn;
-import javax.persistence.MapsId;
+import javax.persistence.ManyToOne;
 import javax.persistence.OneToMany;
-import javax.persistence.OneToOne;
 import javax.persistence.Table;
 
 @Entity
-@Table (name = "shopping_carts")
-public class ShoppingCart {
+@Table(name = "orders")
+public class Order {
     @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
     @OneToMany
     private List<Ticket> tickets;
-    @OneToOne
-    @MapsId
-    @JoinColumn(name = "id")
+    @ManyToOne(fetch = FetchType.LAZY)
     private User user;
+    private LocalDateTime orderDate;
 
     public Long getId() {
         return id;
@@ -45,11 +47,20 @@ public class ShoppingCart {
         this.user = user;
     }
 
+    public LocalDateTime getOrderDate() {
+        return orderDate;
+    }
+
+    public void setOrderDate(LocalDateTime orderDate) {
+        this.orderDate = orderDate;
+    }
+
     @Override
     public String toString() {
-        return "ShoppingCart{" + "id="
-                + id + ", tickets="
-                + tickets
-                + ", user=" + user + '}';
+        return "Order{"
+                + "id=" + id
+                + ", tickets=" + tickets
+                + ", user=" + user
+                + ", orderDate=" + orderDate + '}';
     }
 }
