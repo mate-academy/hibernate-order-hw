@@ -59,27 +59,21 @@ public class Main {
         movieSessionService.add(tomorrowMovieSession);
         movieSessionService.add(yesterdayMovieSession);
 
-        System.out.println("This is a new movieSession: "
-                + movieSessionService.get(yesterdayMovieSession.getId()));
+        System.out.println(movieSessionService.get(yesterdayMovieSession.getId()));
         System.out.println(movieSessionService.findAvailableSessions(
                         fastAndFurious.getId(), LocalDate.now()));
 
         AuthenticationService authenticationService
                 = (AuthenticationService) injector.getInstance(AuthenticationService.class);
 
-        User varian = authenticationService.register("wrynna@stormwind.ci", "wrynn");
-
-        System.out.println("----------------------------------------");
-        System.out.println("This is a new user: " + varian);
-        System.out.println("----------------------------------------");
+        User varian = authenticationService.register("wrynn@stormwind.ty", "wrynn");
 
         ShoppingCartService shoppingCartService
                 = (ShoppingCartService) injector.getInstance(ShoppingCartService.class);
         shoppingCartService.addSession(tomorrowMovieSession, varian);
+        shoppingCartService.addSession(yesterdayMovieSession, varian);
         ShoppingCart variansShoppingCart = shoppingCartService.getByUser(varian);
-        System.out.println("----------------------------------------");
         System.out.println(variansShoppingCart);
-        System.out.println("----------------------------------------");
 
         OrderService orderService
                 = (OrderService) injector.getInstance(OrderService.class);
