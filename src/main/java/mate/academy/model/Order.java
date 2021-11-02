@@ -23,9 +23,6 @@ public class Order {
     @ManyToOne(fetch = FetchType.LAZY)
     private User user;
 
-    public Order() {
-    }
-
     public Long getId() {
         return id;
     }
