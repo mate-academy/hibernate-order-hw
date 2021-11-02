@@ -23,12 +23,13 @@ public class OrderServiceImpl implements OrderService {
     @Override
     public Order completeOrder(ShoppingCart shoppingCart) {
         List<Ticket> tickets = shoppingCart.getTickets();
-        shoppingCartService.clearShoppingCart(shoppingCart);
         Order order = new Order();
         order.setTickets(new ArrayList<>(tickets));
         order.setOrderDate(LocalDateTime.now());
         order.setUser(shoppingCart.getUser());
-        return orderDao.add(order);
+        orderDao.add(order);
+        shoppingCartService.clearShoppingCart(shoppingCart);
+        return order;
     }
 
     @Override
