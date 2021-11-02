@@ -82,8 +82,6 @@ public class Main {
         Order order = orderService.completeOrder(shoppingCartByUser);
         List<Order> ordersHistory = orderService.getOrdersHistory(userB);
         System.out.println(order);
-        for (Order temp : ordersHistory) {
-            System.out.println(temp);
-        }
+        ordersHistory.forEach(System.out::println);
     }
 }
