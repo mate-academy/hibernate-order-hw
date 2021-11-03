@@ -1,10 +1,11 @@
-package mate.academy.security;
+package mate.academy.security.impl;
 
 import java.util.Optional;
 import mate.academy.exception.AuthenticationException;
 import mate.academy.lib.Inject;
 import mate.academy.lib.Service;
 import mate.academy.model.User;
+import mate.academy.security.AuthenticationService;
 import mate.academy.service.ShoppingCartService;
 import mate.academy.service.UserService;
 import mate.academy.util.HashUtil;
