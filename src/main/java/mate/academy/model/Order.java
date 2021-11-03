@@ -22,6 +22,9 @@ public class Order {
     @ManyToOne
     private User user;
 
+    public Order() {
+    }
+
     public Long getId() {
         return id;
     }
