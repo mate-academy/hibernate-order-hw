@@ -3,7 +3,6 @@ package mate.academy;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.util.List;
-
 import mate.academy.exception.AuthenticationException;
 import mate.academy.lib.Injector;
 import mate.academy.model.CinemaHall;
@@ -71,7 +70,6 @@ public class Main {
                 injector.getInstance(AuthenticationService.class);
         User vader = authenticationService.register("dartvader@gmail.com", "5555");
         authenticationService.login("dartvader@gmail.com", "5555");
-
 
         ShoppingCartService shoppingCartService = (ShoppingCartService)
                 injector.getInstance(ShoppingCartService.class);
