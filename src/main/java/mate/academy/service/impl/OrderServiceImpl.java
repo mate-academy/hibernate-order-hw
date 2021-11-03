@@ -26,8 +26,9 @@ public class OrderServiceImpl implements OrderService {
         order.setTickets(tickets);
         order.setUser(shoppingCart.getUser());
         order.setOrderDate(LocalDateTime.now());
+        orderDao.add(order);
         shoppingCartService.clearShoppingCart(shoppingCart);
-        return orderDao.add(order);
+        return order;
     }
 
     @Override
