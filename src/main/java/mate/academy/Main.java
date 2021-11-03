@@ -64,7 +64,7 @@ public class Main {
 
         AuthenticationService authenticationService = (AuthenticationService) injector
                 .getInstance(AuthenticationService.class);
-        User stepan = authenticationService.register("user@gmail.com", "12345");
+        User stepan = authenticationService.register("users@gmail.com", "12345");
         ShoppingCartService shoppingCartService = (ShoppingCartService) injector
                 .getInstance(ShoppingCartService.class);
         shoppingCartService.addSession(tomorrowMovieSession, stepan);

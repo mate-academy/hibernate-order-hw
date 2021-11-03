@@ -30,7 +30,7 @@ public class OrderServiceImpl implements OrderService {
         order.setUser(user);
         order.setOrderDate(LocalDateTime.now());
         shoppingCartService.clearShoppingCart(shoppingCart);
-        return orderDao.save(order);
+        return orderDao.add(order);
     }
 
     @Override
