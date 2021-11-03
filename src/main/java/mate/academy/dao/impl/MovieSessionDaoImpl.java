@@ -18,7 +18,7 @@ import org.hibernate.Transaction;
 import org.hibernate.query.Query;
 
 @Dao
-public class MovieSessionDaoImpl implements MovieSessionDao {
+public class MovieSessionDaoImpl extends AbstractDao implements MovieSessionDao {
     private static final LocalTime END_OF_DAY = LocalTime.of(23, 59, 59);
 
     @Override
@@ -26,7 +26,7 @@ public class MovieSessionDaoImpl implements MovieSessionDao {
         Transaction transaction = null;
         Session session = null;
         try {
-            session = HibernateUtil.getSessionFactory().openSession();
+            session = factory.openSession();
             transaction = session.beginTransaction();
             session.save(movieSession);
             transaction.commit();
@@ -45,7 +45,7 @@ public class MovieSessionDaoImpl implements MovieSessionDao {
 
     @Override
     public List<MovieSession> findAvailableSessions(Long movieId, LocalDate date) {
-        try (Session session = HibernateUtil.getSessionFactory().openSession()) {
+        try (Session session = factory.openSession()) {
             CriteriaBuilder criteriaBuilder = session.getCriteriaBuilder();
             CriteriaQuery<MovieSession> criteriaQuery =
                     criteriaBuilder.createQuery(MovieSession.class);
@@ -66,7 +66,7 @@ public class MovieSessionDaoImpl implements MovieSessionDao {
 
     @Override
     public Optional<MovieSession> get(Long id) {
-        try (Session session = HibernateUtil.getSessionFactory().openSession()) {
+        try (Session session = factory.openSession()) {
             Query<MovieSession> query = session.createQuery("FROM MovieSession ms "
                     + "JOIN FETCH ms.movie m "
                     + "JOIN FETCH ms.cinemaHall ch "

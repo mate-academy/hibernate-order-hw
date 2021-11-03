@@ -1,33 +1,31 @@
 package mate.academy.dao.impl;
 
-import java.util.Optional;
-import mate.academy.dao.UserDao;
+import mate.academy.dao.OrderDao;
 import mate.academy.exception.DataProcessingException;
-import mate.academy.lib.Dao;
+import mate.academy.model.Order;
 import mate.academy.model.User;
-import mate.academy.util.HibernateUtil;
 import org.hibernate.Session;
 import org.hibernate.Transaction;
 import org.hibernate.query.Query;
 
-@Dao
-public class UserDaoImpl extends AbstractDao implements UserDao {
+import java.util.List;
+
+public class OrderDaoImpl extends AbstractDao implements OrderDao {
     @Override
-    public User add(User user) {
+    public Order add(Order order) {
         Session session = null;
         Transaction transaction = null;
         try {
             session = factory.openSession();
             transaction = session.beginTransaction();
-            session.save(user);
+            session.save(order);
             transaction.commit();
-            return user;
+            return order;
         } catch (Exception e) {
             if (transaction != null) {
                 transaction.rollback();
             }
-            throw new DataProcessingException("Can't insert to DB user: "
-                    + user, e);
+            throw new DataProcessingException("Can't insert order: " + order, e);
         } finally {
             if (session != null) {
                 session.close();
@@ -36,14 +34,14 @@ public class UserDaoImpl extends AbstractDao implements UserDao {
     }
 
     @Override
-    public Optional<User> findByEmail(String email) {
+    public List<Order> getAllOrdersByUser(User user) {
         try (Session session = factory.openSession()) {
-            Query<User> query = session.createQuery("FROM User u "
-                    + "WHERE u.email = :email", User.class);
-            query.setParameter("email", email);
-            return query.uniqueResultOptional();
+            Query<Order> getOrderByUser = session.createQuery("FROM Order o "
+                    + "WHERE t.user =:user", Order.class);
+            getOrderByUser.setParameter("user", user);
+            return getOrderByUser.list();
         } catch (Exception e) {
-            throw new DataProcessingException("Can't find user by email: " + email, e);
+            throw new DataProcessingException("Can't find orders by user: " + user, e);
         }
     }
 }
