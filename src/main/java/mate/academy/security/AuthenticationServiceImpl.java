@@ -2,19 +2,18 @@ package mate.academy.security;
 
 import java.util.Optional;
 import mate.academy.exception.AuthenticationException;
-import mate.academy.lib.Inject;
-import mate.academy.lib.Service;
+import mate.academy.lib.Injector;
 import mate.academy.model.User;
 import mate.academy.service.ShoppingCartService;
 import mate.academy.service.UserService;
 import mate.academy.util.HashUtil;
 
-@Service
 public class AuthenticationServiceImpl implements AuthenticationService {
-    @Inject
-    private UserService userService;
-    @Inject
-    private ShoppingCartService shoppingCartService;
+    private static final Injector injector = Injector.getInstance("mate.academy");
+    private final UserService userService = (UserService) injector
+            .getInstance(UserService.class);
+    private final ShoppingCartService shoppingCartService = (ShoppingCartService) injector
+            .getInstance(ShoppingCartService.class);
 
     @Override
     public User login(String email, String password) throws AuthenticationException {
