@@ -65,9 +65,13 @@ public class Main {
         User user;
         try {
             authenticationService.register("alexander.pushkin@mail.com", "mon_natalie");
-            user = authenticationService.login("alexander.pushkin@mail.com","mon_natalie");
         } catch (Exception e) {
             throw new RuntimeException("Registration failed: ", e);
+        }
+        try {
+            user = authenticationService.login("alexander.pushkin@mail.com","mon_natalie");
+        } catch (Exception e) {
+            throw new RuntimeException("Login failed: ", e);
         }
         ShoppingCartService shoppingCartService
                 = (ShoppingCartService) injector.getInstance(ShoppingCartService.class);
@@ -80,7 +84,6 @@ public class Main {
         System.out.println(orderService.completeOrder(shoppingCartService.getByUser(user)));
 
         System.out.println("2nd order:");
-        shoppingCartService.clearShoppingCart(shoppingCartService.getByUser(user));
         shoppingCartService.addSession(tomorrowMovieSession, user);
         System.out.println(orderService.completeOrder(shoppingCartService.getByUser(user)));
 

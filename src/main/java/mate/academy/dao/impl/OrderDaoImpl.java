@@ -14,7 +14,7 @@ import org.hibernate.query.Query;
 @Dao
 public class OrderDaoImpl implements OrderDao {
     @Override
-    public Order saveOrder(Order order) {
+    public Order add(Order order) {
         Transaction transaction = null;
         Session session = null;
         try {
@@ -39,13 +39,13 @@ public class OrderDaoImpl implements OrderDao {
     public List<Order> getOrdersHistory(User user) {
         try (Session session = HibernateUtil.getSessionFactory().openSession()) {
             Query<Order> query = session.createQuery("FROM Order o "
-                    + "LEFT JOIN FETCH o.user "
-                    + "LEFT JOIN FETCH o.tickets t "
-                    + "LEFT JOIN FETCH t.movieSession ms "
-                    + "LEFT JOIN FETCH ms.movie "
-                    + "LEFT JOIN FETCH ms.cinemaHall "
-                    + "WHERE o.user.id = :user_id", Order.class);
-            query.setParameter("user_id", user.getId());
+                    + "JOIN FETCH o.user "
+                    + "JOIN FETCH o.tickets t "
+                    + "JOIN FETCH t.movieSession ms "
+                    + "JOIN FETCH ms.movie "
+                    + "JOIN FETCH ms.cinemaHall "
+                    + "WHERE o.user = :user", Order.class);
+            query.setParameter("user", user);
             return query.getResultList();
         } catch (Exception e) {
             throw new DataProcessingException("Can't fetch order history of user: " + user, e);

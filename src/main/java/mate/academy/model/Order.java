@@ -20,14 +20,13 @@ public class Order {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
-    @OneToMany(fetch = FetchType.LAZY)
+    @OneToMany
     @JoinTable(joinColumns = @JoinColumn(name = "order_id"),
             inverseJoinColumns = @JoinColumn(name = "ticket_id"))
     private List<Ticket> tickets;
     @Column(name = "order_date")
     private LocalDateTime orderDate;
     @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn
     private User user;
 
     public Order() {
