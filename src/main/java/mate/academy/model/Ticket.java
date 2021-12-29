@@ -51,5 +51,4 @@ public class Ticket {
               + ", movieSession=" + movieSession
               + ", user=" + user + '}';
     }
-
 }
