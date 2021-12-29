@@ -20,7 +20,7 @@ public class ShoppingCart {
     @OneToMany
     @JoinTable(name = "shopping_carts_tickets",
             joinColumns = @JoinColumn(name = "shopping_cart_id"),
-            inverseJoinColumns = @JoinColumn(name = "tickets_id"))
+            inverseJoinColumns = @JoinColumn(name = "ticket_id"))
     private List<Ticket> tickets;
 
     @OneToOne(fetch = FetchType.LAZY)
