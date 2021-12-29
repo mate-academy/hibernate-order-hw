@@ -67,16 +67,16 @@ public class Main {
 
         AuthenticationService authenticationService
                 = (AuthenticationService) injector.getInstance(AuthenticationService.class);
-        User user;
+        User user = null;
         try {
             user = authenticationService.register("test@gmail.com", "1234");
         } catch (Exception e) {
-            throw new RuntimeException("Can't register user", e);
+            new RuntimeException(e.getMessage());
         }
         try {
             user = authenticationService.login("test@gmail.com", "1234");
         } catch (AuthenticationException e) {
-            throw new RuntimeException("Can't login with that e-mail: " + user.getEmail(), e);
+            new RuntimeException(e.getMessage());
         }
 
         ShoppingCartService shoppingCartService
