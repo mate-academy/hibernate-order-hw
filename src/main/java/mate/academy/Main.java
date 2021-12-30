@@ -2,7 +2,6 @@ package mate.academy;
 
 import java.time.LocalDate;
 import java.time.LocalDateTime;
-import mate.academy.exception.AuthenticationException;
 import mate.academy.lib.Injector;
 import mate.academy.model.CinemaHall;
 import mate.academy.model.Movie;
@@ -70,8 +69,12 @@ public class Main {
         User user = null;
         try {
             authenticationService.register("test@gmail.com", "1234");
+        } catch (Exception e) {
+            throw new RuntimeException("Can't register", e);
+        }
+        try {
             user = authenticationService.login("test@gmail.com", "1234");
-        } catch (AuthenticationException e) {
+        } catch (Exception e) {
             throw new RuntimeException("Can't login", e);
         }
 
