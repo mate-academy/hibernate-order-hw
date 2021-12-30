@@ -1,6 +1,7 @@
 package mate.academy.model;
 
 import java.util.List;
+import javax.persistence.CascadeType;
 import javax.persistence.Entity;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
@@ -14,7 +15,7 @@ import javax.persistence.Table;
 public class ShoppingCart {
     @Id
     private Long id;
-    @OneToMany
+    @OneToMany(cascade = CascadeType.REMOVE)
     private List<Ticket> tickets;
     @OneToOne
     @MapsId
