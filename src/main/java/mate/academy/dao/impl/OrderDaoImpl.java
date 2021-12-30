@@ -15,7 +15,7 @@ import org.hibernate.query.Query;
 public class OrderDaoImpl implements OrderDao {
 
     @Override
-    public Order completeOrder(Order order) {
+    public Order add(Order order) {
         Transaction transaction = null;
         Session session = null;
         try {
