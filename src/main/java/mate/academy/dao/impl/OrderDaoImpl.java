@@ -6,11 +6,8 @@ import java.util.List;
 import mate.academy.dao.OrderDao;
 import mate.academy.exception.DataProcessingException;
 import mate.academy.lib.Dao;
-import mate.academy.lib.Inject;
 import mate.academy.model.Order;
-import mate.academy.model.ShoppingCart;
 import mate.academy.model.User;
-import mate.academy.service.ShoppingCartService;
 import org.hibernate.HibernateException;
 import org.hibernate.Session;
 import org.hibernate.Transaction;
@@ -18,9 +15,6 @@ import org.hibernate.query.Query;
 
 @Dao
 public class OrderDaoImpl implements OrderDao {
-    @Inject
-    private ShoppingCartService shoppingCartService;
-
     @Override
     public Order add(Order order) {
         Session session = null;
@@ -30,8 +24,6 @@ public class OrderDaoImpl implements OrderDao {
             transaction = session.beginTransaction();
             session.save(order);
             transaction.commit();
-            ShoppingCart shoppingCart = shoppingCartService.getByUser(order.getUser());
-            shoppingCartService.clearShoppingCart(shoppingCart);
             return order;
         } catch (HibernateException e) {
             if (transaction != null) {
