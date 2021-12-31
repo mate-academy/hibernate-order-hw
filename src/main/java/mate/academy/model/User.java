@@ -18,14 +18,6 @@ public class User {
     private String password;
     private byte[] salt;
 
-    @Override
-    public String toString() {
-        return "User{"
-                + "id=" + id
-                + ", email='" + email + '\''
-                + '}';
-    }
-
     public Long getId() {
         return id;
     }
@@ -56,5 +48,13 @@ public class User {
 
     public void setSalt(byte[] salt) {
         this.salt = salt;
+    }
+
+    @Override
+    public String toString() {
+        return "User{"
+                + "id=" + id
+                + ", email='" + email + '\''
+                + '}';
     }
 }
