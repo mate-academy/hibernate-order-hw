@@ -20,9 +20,6 @@ public class OrderServiceImpl implements OrderService {
 
     @Override
     public Order completeOrder(ShoppingCart shoppingCart) {
-        if (shoppingCart.getTickets().isEmpty()) {
-            return null;
-        }
         Order order = new Order(shoppingCart.getTickets(),
                 LocalDateTime.now(), shoppingCart.getUser());
         orderDao.add(order);
@@ -32,6 +29,6 @@ public class OrderServiceImpl implements OrderService {
 
     @Override
     public List<Order> getOrdersHistory(User user) {
-        return orderDao.getOrdersHistory(user);
+        return orderDao.getByUser(user);
     }
 }
