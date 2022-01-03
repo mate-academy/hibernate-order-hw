@@ -65,12 +65,14 @@ public class Main {
         AuthenticationService authenticationService =
                 (AuthenticationService) injector.getInstance(AuthenticationService.class);
         User elon = null;
-        authenticationService.register("elon.musk@spacex.com", "MyBigRocket");
+        String elonsMail = "elon.musk@spacex.com";
+        String elonsPassword = "MyBigRocket";
+        authenticationService.register(elonsMail, elonsPassword);
 
         try {
-            elon = authenticationService.login("elon.musk@spacex.com", "MyBigRocket");
+            elon = authenticationService.login(elonsMail, elonsPassword);
         } catch (AuthenticationException e) {
-            System.out.println(e);;
+            System.out.println(e);
         }
 
         ShoppingCartService shoppingCartService =
