@@ -71,11 +71,8 @@ public class Main {
         User user = new User();
         user.setEmail("user@gmail.com");
         user.setPassword("123");
-        try {
-            user = authenticationService.register(user.getEmail(), user.getPassword());
-        } catch (Exception e) {
-            System.out.println(e);
-        }
+
+        user = authenticationService.register(user.getEmail(), user.getPassword());
 
         try {
             user = authenticationService.login("user@gmail.com", "123");

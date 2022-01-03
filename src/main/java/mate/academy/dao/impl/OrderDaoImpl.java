@@ -26,6 +26,7 @@ public class OrderDaoImpl implements OrderDao {
             if (transaction != null) {
                 transaction.rollback();
             }
+            throw new DataProcessingException("Can't add order -" + order, e);
         } finally {
             if (session != null) {
                 session.close();
@@ -38,7 +39,7 @@ public class OrderDaoImpl implements OrderDao {
     public List<Order> getByUser(User user) {
         try (Session session = HibernateUtil.getSessionFactory().openSession()) {
             Query<Order> query = session.createQuery("FROM Order o "
-                    + "LEFT JOIN FETCH o.user u "
+                    + "JOIN FETCH o.user u "
                     + "LEFT JOIN FETCH o.tickets  t "
                     + "LEFT JOIN FETCH t.movieSession ms "
                     + "LEFT JOIN FETCH ms.cinemaHall ch "
