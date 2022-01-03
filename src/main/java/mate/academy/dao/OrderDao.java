@@ -8,6 +8,4 @@ public interface OrderDao {
     Order add(Order order);
 
     List<Order> getByUser(User user);
-
-    void update(Order order);
 }
