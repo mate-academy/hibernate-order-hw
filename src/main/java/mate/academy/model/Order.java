@@ -30,9 +30,9 @@ public class Order {
             inverseJoinColumns = @JoinColumn(name = "ticket_id"))
     private List<Ticket> tickets;
     @Column(name = "order_date")
-    LocalDateTime orderDate;
+    private LocalDateTime orderDate;
     @ManyToOne(fetch = FetchType.LAZY)
-    User user;
+    private User user;
 
     public Order(LocalDateTime orderDate, User user) {
         this.orderDate = orderDate;
