@@ -83,7 +83,6 @@ public class Main {
         ShoppingCart user1ShoppingCart = shoppingCartService.getByUser(user1);
         shoppingCartService.addSession(tomorrowMovieSession, user1ShoppingCart.getUser());
         orderService.completeOrder(shoppingCartService.getByUser(user1));
-        shoppingCartService.clearShoppingCart(user1ShoppingCart);
         List<Order> ordersHistory = orderService.getOrdersHistory(user1);
         System.out.println("*****************");
         System.out.println(ordersHistory);
