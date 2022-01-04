@@ -9,10 +9,12 @@ import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.JoinTable;
+import javax.persistence.ManyToOne;
 import javax.persistence.MapsId;
 import javax.persistence.OneToMany;
 import javax.persistence.OneToOne;
 import javax.persistence.Table;
+import org.hibernate.mapping.ToOne;
 
 @Entity
 @Table(name = "orders")
@@ -27,7 +29,7 @@ public class Order {
     private List<Ticket> tickets;
     @Column(name = "order_date")
     private LocalDateTime orderDate;
-    @OneToOne
+    @ManyToOne
     @MapsId
     @JoinColumn(name = "id")
     private User user;
