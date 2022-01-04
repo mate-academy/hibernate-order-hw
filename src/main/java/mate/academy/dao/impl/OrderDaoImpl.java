@@ -13,7 +13,6 @@ import org.hibernate.query.Query;
 
 @Dao
 public class OrderDaoImpl implements OrderDao {
-
     @Override
     public Order add(Order order) {
         Transaction transaction = null;
@@ -40,17 +39,18 @@ public class OrderDaoImpl implements OrderDao {
     @Override
     public List<Order> getByUser(User user) {
         try (Session session = HibernateUtil.getSessionFactory().openSession()) {
-            Query<Order> query = session.createQuery("FROM Order o "
-                    + "LEFT JOIN FETCH o.user u "
-                    + "LEFT JOIN FETCH o.tickets  t "
-                    + "LEFT JOIN FETCH t.movieSession ms "
-                    + "LEFT JOIN FETCH ms.cinemaHall ch "
-                    + "LEFT JOIN FETCH ms.movie "
-                    + " WHERE o.user = :user", Order.class);
+            Query<Order> query = session.createQuery("SELECT DISTINCT o "
+                    + "FROM Order o "
+                    + "JOIN FETCH o.user u "
+                    + "JOIN FETCH o.tickets t "
+                    + "JOIN FETCH t.movieSession ms "
+                    + "JOIN FETCH ms.cinemaHall ch "
+                    + "JOIN FETCH ms.movie "
+                    + "WHERE o.user = :user", Order.class);
             query.setParameter("user", user);
             return query.getResultList();
         } catch (Exception e) {
-            throw new DataProcessingException("Couldn't find an order by user: " + user, e);
+            throw new DataProcessingException("Couldn't find all orders by user: " + user, e);
         }
     }
 }
