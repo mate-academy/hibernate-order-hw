@@ -18,14 +18,8 @@ import mate.academy.service.ShoppingCartService;
 
 public class Main {
     public static final String ANSI_RESET = "\u001B[0m";
-    public static final String ANSI_BLACK = "\u001B[30m";
-    public static final String ANSI_RED = "\u001B[31m";
-    public static final String ANSI_GREEN = "\u001B[32m";
     public static final String ANSI_YELLOW = "\u001B[33m";
     public static final String ANSI_BLUE = "\u001B[34m";
-    public static final String ANSI_PURPLE = "\u001B[35m";
-    public static final String ANSI_CYAN = "\u001B[36m";
-    public static final String ANSI_WHITE = "\u001B[37m";
     private static final Injector injector = Injector.getInstance("mate.academy");
 
     public static void main(String[] args) {
@@ -78,7 +72,7 @@ public class Main {
         User bob;
         try {
             bob = authService.login("bob123@gmail.com", "bob_password");
-            System.out.println(ANSI_GREEN + bob + ANSI_RESET);
+            System.out.println(ANSI_BLUE + bob + ANSI_RESET);
         } catch (AuthenticationException e) {
             throw new RuntimeException(e.getMessage(), e);
         }
