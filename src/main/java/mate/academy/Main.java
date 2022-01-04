@@ -64,7 +64,12 @@ public class Main {
 
         AuthenticationService authenticationService =
                 (AuthenticationService) injector.getInstance(AuthenticationService.class);
-        User bob = authenticationService.register("bob@gmail.com", "12345");
+        User bob = null;
+        try {
+            bob = authenticationService.register("bob@gmail.com", "12345");
+        } catch (Exception e) {
+            System.out.println(e);
+        }
 
         ShoppingCartService shoppingCartService =
                 (ShoppingCartService) injector.getInstance(ShoppingCartService.class);
