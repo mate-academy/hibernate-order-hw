@@ -22,27 +22,28 @@ public class OrderDaoImpl implements OrderDao {
             transaction = session.beginTransaction();
             session.save(order);
             transaction.commit();
+            return order;
         } catch (Exception ex) {
             if (transaction != null) {
                 transaction.rollback();
             }
+            throw new DataProcessingException("Can't insert new order into DB: " + order, ex);
         } finally {
             if (session != null) {
                 session.close();
             }
         }
-        return order;
     }
 
     @Override
     public List<Order> getByUser(User user) {
         try (Session session = HibernateUtil.getSessionFactory().openSession()) {
             Query<Order> query = session.createQuery("from Order o "
-                    + "left join fetch o.user u "
-                    + "left join fetch o.tickets t "
-                    + "left join fetch t.movieSession ms "
-                    + "left join fetch ms.cinemaHall ch "
-                    + "left join fetch ms.movie "
+                    + "join fetch o.user u "
+                    + "join fetch o.tickets t "
+                    + "join fetch t.movieSession ms "
+                    + "join fetch ms.cinemaHall ch "
+                    + "join fetch ms.movie "
                     + "where o.user = :user", Order.class);
             query.setParameter("user", user);
             return query.getResultList();
