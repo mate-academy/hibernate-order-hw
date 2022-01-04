@@ -34,8 +34,8 @@ public class Main {
         firstCinemaHall.setCapacity(100);
         firstCinemaHall.setDescription("first hall with capacity 100");
         CinemaHall secondCinemaHall = new CinemaHall();
-        firstCinemaHall.setCapacity(200);
-        firstCinemaHall.setDescription("second hall with capacity 200");
+        secondCinemaHall.setCapacity(200);
+        secondCinemaHall.setDescription("second hall with capacity 200");
         CinemaHallService cinemaHallService = (CinemaHallService)
                 injector.getInstance(CinemaHallService.class);
         cinemaHallService.add(secondCinemaHall);
