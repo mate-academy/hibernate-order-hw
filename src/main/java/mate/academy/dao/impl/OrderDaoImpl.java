@@ -36,9 +36,10 @@ public class OrderDaoImpl implements OrderDao {
     }
 
     @Override
-    public List<Order> getOrdersHistory(User user) {
+    public List<Order> getByUser(User user) {
         try (Session session = HibernateUtil.getSessionFactory().openSession()) {
-            Query<Order> query = session.createQuery("FROM Order o "
+            Query<Order> query = session.createQuery("SELECT DISTINCT o "
+                    + "FROM Order o "
                     + "JOIN FETCH o.tickets t "
                     + "JOIN FETCH o.user "
                     + "JOIN FETCH t.movieSession ms "
