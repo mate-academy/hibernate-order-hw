@@ -13,7 +13,6 @@ import org.hibernate.query.Query;
 
 @Dao
 public class OrderDaoImpl implements OrderDao {
-
     @Override
     public Order add(Order order) {
         Session session = null;
@@ -37,7 +36,7 @@ public class OrderDaoImpl implements OrderDao {
     }
 
     @Override
-    public List<Order> getOrdersHistory(User user) {
+    public List<Order> getByUser(User user) {
         try (Session session = HibernateUtil.getSessionFactory().openSession()) {
             Query<Order> getOrderHistoryQuery =
                     session.createQuery("SELECT DISTINCT o FROM Order o "

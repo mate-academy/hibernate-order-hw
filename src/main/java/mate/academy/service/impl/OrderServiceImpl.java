@@ -15,15 +15,14 @@ import mate.academy.service.ShoppingCartService;
 public class OrderServiceImpl implements OrderService {
     @Inject
     private OrderDao orderDao;
-
     @Inject
     private ShoppingCartService shoppingCartService;
 
     @Override
     public Order completeOrder(ShoppingCart shoppingCart) {
         Order order = new Order();
+        order.setTickets(List.copyOf(shoppingCart.getTickets()));
         order.setUser(shoppingCart.getUser());
-        order.setTickets(shoppingCart.getTickets());
         order.setOrderDate(LocalDateTime.now());
         orderDao.add(order);
         shoppingCartService.clearShoppingCart(shoppingCart);
@@ -32,6 +31,6 @@ public class OrderServiceImpl implements OrderService {
 
     @Override
     public List<Order> getOrdersHistory(User user) {
-        return orderDao.getOrdersHistory(user);
+        return orderDao.getByUser(user);
     }
 }
