@@ -80,10 +80,8 @@ public class Main {
                 (ShoppingCartService) injector.getInstance(ShoppingCartService.class);
         OrderService orderService =
                 (OrderService) injector.getInstance(OrderService.class);
-        ShoppingCart byUser = shoppingCartService.getByUser(anya);
-        shoppingCartService.addSession(tomorrowMovieSession, byUser.getUser());
+        shoppingCartService.addSession(tomorrowMovieSession, anya);
         orderService.completeOrder(shoppingCartService.getByUser(anya));
-        List<Order> ordersHistory = orderService.getOrdersHistory(anya);
-        System.out.println(ordersHistory);
+        orderService.getOrdersHistory(anya).forEach(System.out::println);
     }
 }
