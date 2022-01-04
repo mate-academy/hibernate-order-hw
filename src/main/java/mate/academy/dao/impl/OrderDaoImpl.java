@@ -26,7 +26,8 @@ public class OrderDaoImpl implements OrderDao {
             if (transaction != null) {
                 transaction.rollback();
             }
-            throw new DataProcessingException("Couldn't save order to db. Order: " + order, exception);
+            throw new DataProcessingException("Couldn't save order to db. Order: " + order,
+                    exception);
         } finally {
             if (session != null) {
                 session.close();
@@ -38,18 +39,19 @@ public class OrderDaoImpl implements OrderDao {
     @Override
     public List<Order> getByUser(User user) {
         try (Session session = HibernateUtil.getSessionFactory().openSession()) {
-            Query<Order> query = session.createQuery("SELECT DISTINCT o " +
-                    "FROM Order o " +
-                    "JOIN FETCH o.tickets t " +
-                    "JOIN FETCH t.movieSession ms " +
-                    "JOIN FETCH t.user " +
-                    "JOIN FETCH ms.movie " +
-                    "JOIN FETCH ms.cinemaHall " +
-                    "WHERE o.user = :user ", Order.class);
+            Query<Order> query = session.createQuery("SELECT DISTINCT o "
+                    + "FROM Order o "
+                    + "JOIN FETCH o.tickets t "
+                    + "JOIN FETCH t.movieSession ms "
+                    + "JOIN FETCH t.user "
+                    + "JOIN FETCH ms.movie "
+                    + "JOIN FETCH ms.cinemaHall "
+                    + "WHERE o.user = :user ", Order.class);
             query.setParameter("user", user);
             return query.getResultList();
         } catch (Exception exception) {
-            throw new DataProcessingException("Couldn't get all orders by user: " + user, exception);
+            throw new DataProcessingException("Couldn't get all orders by user: " + user,
+                    exception);
         }
     }
 }

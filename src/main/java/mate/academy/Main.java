@@ -32,38 +32,39 @@ public class Main {
             (OrderService) injector.getInstance(OrderService.class);
 
     public static void main(String[] args) {
-        Movie fastAndFurious = createMovie("Fast and Furious",
+        final Movie needForSpeed2 = createMovie("Need For Speed",
+                "The series generally centers around illicit"
+                        + " street racing and tasks players to complete various"
+                        + " types of races while evading the local law enforcement"
+                        + " in police pursuits.");
+        final Movie gameOfThrones = createMovie("Game of Thrones",
+                "Game of Thrones is an American fantasy drama"
+                        + " television series created by David Benioff and D. B. Weiss for HBO.");
+        final Movie snowden = createMovie("Snowden", "About former CIA operative Edward Snowden, "
+                + "who made one of the biggest revelations");
+        final Movie fastAndFurious = createMovie("Fast and Furious",
                 "An action film about street racing, heists, and spies");
-        Movie needForSpeed2 = createMovie("Need For Speed",
-                "The series generally centers around illicit" +
-                        " street racing and tasks players to complete various" +
-                        " types of races while evading the local law enforcement in police pursuits.");
-        Movie gameOfThrones = createMovie("Game of Thrones",
-                "Game of Thrones is an American fantasy drama" +
-                        " television series created by David Benioff and D. B. Weiss for HBO.");
-        Movie snowden = createMovie("Snowden", "About former CIA operative Edward Snowden, " +
-                "who made one of the biggest revelations");
         System.out.println("Move with id = 2: " + movieService.get(2L));
         System.out.println("All movies in Db: ");
         movieService.getAll().forEach(System.out::println);
         System.out.println(System.lineSeparator());
 
-        CinemaHall cinemaHall1 = createCinemaHall(50, "Hall #1");
-        CinemaHall cinemaHall2 = createCinemaHall(100, "Hall #2");
-        CinemaHall cinemaHall3 = createCinemaHall(200, "Hall #3");
-        CinemaHall cinemaHall4 = createCinemaHall(250, "Hall #4");
+        final CinemaHall cinemaHall1 = createCinemaHall(50, "Hall #1");
+        final CinemaHall cinemaHall2 = createCinemaHall(100, "Hall #2");
+        final CinemaHall cinemaHall3 = createCinemaHall(200, "Hall #3");
+        final CinemaHall cinemaHall4 = createCinemaHall(250, "Hall #4");
         System.out.println("Cinema hall with id = 1: " + cinemaHallService.get(1L));
         System.out.println("All cinema hall in Db: ");
         cinemaHallService.getAll().forEach(System.out::println);
         System.out.println(System.lineSeparator());
 
-        MovieSession movieSession1 = createMovieSession(fastAndFurious, cinemaHall1,
+        final MovieSession movieSession1 = createMovieSession(fastAndFurious, cinemaHall1,
                 LocalDateTime.of(2020, 2, 12, 11,30));
-        MovieSession movieSession2 = createMovieSession(fastAndFurious, cinemaHall2,
+        final MovieSession movieSession2 = createMovieSession(fastAndFurious, cinemaHall2,
                 LocalDateTime.of(2022, 1, 21, 19,30));
-        MovieSession movieSession3 = createMovieSession(fastAndFurious, cinemaHall3,
+        final MovieSession movieSession3 = createMovieSession(fastAndFurious, cinemaHall3,
                 LocalDateTime.of(2022, 1, 3, 19,30));
-        MovieSession movieSession4= createMovieSession(needForSpeed2, cinemaHall1,
+        final MovieSession movieSession4 = createMovieSession(needForSpeed2, cinemaHall1,
                 LocalDateTime.of(2022, 1, 25, 15,30));
         System.out.println("MovieSession with id = 4: " + movieSessionService.get(4L));
         System.out.println("Available movie sessions 21.01.2022 with movie: " + fastAndFurious);
@@ -105,11 +106,11 @@ public class Main {
         shoppingCartService.addSession(movieSession1, bob);
         ShoppingCart shoppingCart = shoppingCartService.getByUser(bob);
         orderService.completeOrder(shoppingCart);
-        System.out.println("John history: ");
+        System.out.println("John's history: ");
         orderService.getOrdersHistory(john).forEach(System.out::println);
-        System.out.println("Bob history: ");
+        System.out.println("Bob's history: ");
         orderService.getOrdersHistory(bob).forEach(System.out::println);
-        System.out.println("Alice history: ");
+        System.out.println("Alice's history: ");
         orderService.getOrdersHistory(alice).forEach(System.out::println);
     }
 
@@ -128,7 +129,7 @@ public class Main {
         return cinemaHall;
     }
 
-    private static MovieSession createMovieSession (Movie movie ,
+    private static MovieSession createMovieSession(Movie movie,
              CinemaHall cinemaHall, LocalDateTime dateTime) {
         MovieSession movieSession = new MovieSession();
         movieSession.setMovie(movie);
