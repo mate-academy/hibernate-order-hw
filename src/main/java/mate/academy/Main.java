@@ -14,7 +14,6 @@ import mate.academy.service.MovieService;
 import mate.academy.service.MovieSessionService;
 import mate.academy.service.OrderService;
 import mate.academy.service.ShoppingCartService;
-import mate.academy.service.UserService;
 
 public class Main {
     private static final Injector injector = Injector.getInstance("mate.academy");
@@ -63,17 +62,16 @@ public class Main {
         System.out.println(movieSessionService.findAvailableSessions(
                         fastAndFurious.getId(), LocalDate.now()));
 
+        User user;
         AuthenticationService authenticationService =
                 (AuthenticationService) injector.getInstance(AuthenticationService.class);
         try {
             authenticationService.register("katedeshchynska@gmail.com", "12345678");
-            System.out.println(authenticationService
-                    .login("katedeshchynska@gmail.com", "12345678"));
+            user = authenticationService
+                    .login("katedeshchynska@gmail.com", "12345678");
         } catch (AuthenticationException e) {
             throw new RuntimeException(e);
         }
-        UserService userService = (UserService) injector.getInstance(UserService.class);
-        User user = userService.findByEmail("katedeshchynska@gmail.com").get();
 
         ShoppingCartService shoppingCartService =
                 (ShoppingCartService) injector.getInstance(ShoppingCartService.class);
