@@ -62,7 +62,7 @@ public class Main {
 
         System.out.println(movieSessionService.get(yesterdayMovieSession.getId()));
         System.out.println(movieSessionService.findAvailableSessions(
-                        fastAndFurious.getId(), LocalDate.now()));
+                fastAndFurious.getId(), LocalDate.now()));
         User bob = new User();
         bob.setEmail("bobovich@gmail.com");
         bob.setPassword("qqqwww111");
