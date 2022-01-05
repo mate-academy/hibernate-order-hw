@@ -15,7 +15,9 @@ import javax.persistence.Table;
 public class ShoppingCart {
     @Id
     private Long id;
-    @JoinTable(joinColumns = @JoinColumn(name = "shopping_cart"))
+    @JoinTable(name = "carts_tickets",
+            joinColumns = @JoinColumn(name = "cart_id"),
+            inverseJoinColumns = @JoinColumn(name = "ticket_id"))
     @OneToMany
     private List<Ticket> tickets;
     @OneToOne

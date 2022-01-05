@@ -67,7 +67,7 @@ public class Main {
         final MovieSession movieSession4 = createMovieSession(needForSpeed2, cinemaHall1,
                 LocalDateTime.of(2022, 1, 25, 15,30));
         System.out.println("MovieSession with id = 4: " + movieSessionService.get(4L));
-        System.out.println("Available movie sessions 21.01.2022 with movie: " + fastAndFurious);
+        System.out.println("Available movie sessions 25.01.2022 with movie: " + fastAndFurious);
         movieSessionService.findAvailableSessions(fastAndFurious.getId(),
                 LocalDate.of(2022, 1, 25)).forEach(System.out::println);
         System.out.println(System.lineSeparator());
