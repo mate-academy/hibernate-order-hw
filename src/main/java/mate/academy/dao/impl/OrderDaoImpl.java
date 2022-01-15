@@ -39,7 +39,7 @@ public class OrderDaoImpl implements OrderDao {
             Predicate userPredicate = criteriaBuilder.equal(root.get("user"), user);
             Predicate unfinishedPredicate = criteriaBuilder.equal(root.get("orderDate"), null);
             criteriaQuery.select(root)
-                .where(criteriaBuilder.and(userPredicate, unfinishedPredicate));
+                    .where(criteriaBuilder.and(userPredicate, unfinishedPredicate));
             return session.createQuery(criteriaQuery).getSingleResult();
 
         } catch (Exception e) {
