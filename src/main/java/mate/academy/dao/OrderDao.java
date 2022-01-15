@@ -6,5 +6,6 @@ import mate.academy.model.User;
 
 public interface OrderDao {
     List<Order> getOrdersByUser(User user);
+
     Order getUnfinishedOrderByUser(User user);
 }
