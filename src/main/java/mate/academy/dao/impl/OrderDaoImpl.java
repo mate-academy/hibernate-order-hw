@@ -1,5 +1,10 @@
 package mate.academy.dao.impl;
 
+import java.util.List;
+import javax.persistence.criteria.CriteriaBuilder;
+import javax.persistence.criteria.CriteriaQuery;
+import javax.persistence.criteria.Predicate;
+import javax.persistence.criteria.Root;
 import mate.academy.dao.OrderDao;
 import mate.academy.exception.DataProcessingException;
 import mate.academy.lib.Service;
@@ -7,13 +12,6 @@ import mate.academy.model.Order;
 import mate.academy.model.User;
 import mate.academy.util.HibernateUtil;
 import org.hibernate.Session;
-import org.hibernate.Transaction;
-
-import javax.persistence.criteria.CriteriaBuilder;
-import javax.persistence.criteria.CriteriaQuery;
-import javax.persistence.criteria.Predicate;
-import javax.persistence.criteria.Root;
-import java.util.List;
 
 @Service
 public class OrderDaoImpl implements OrderDao {
