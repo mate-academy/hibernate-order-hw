@@ -5,7 +5,7 @@ import java.security.NoSuchAlgorithmException;
 import java.security.SecureRandom;
 
 public class HashUtil {
-    public static final String HASH_ALGORITHM = "SHA-512";
+    private static final String HASH_ALGORITHM = "SHA-512";
 
     private HashUtil() {
     }
