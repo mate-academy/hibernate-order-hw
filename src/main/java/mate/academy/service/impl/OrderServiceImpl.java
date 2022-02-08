@@ -19,9 +19,11 @@ public class OrderServiceImpl implements OrderService {
     @Override
     @Transactional
     public Order completeOrder(ShoppingCart shoppingCart) {
-        Order order = orderDao.getUnfinishedOrderByUser(shoppingCart.getUser());
+        Order order = new Order();
+        order.setTickets(shoppingCart.getTickets());
         order.setOrderDate(LocalDateTime.now());
-        return order;
+        order.setStatus("completed");
+        return orderDao.addOrder(order);
     }
 
     @Override

@@ -12,6 +12,7 @@ import mate.academy.model.Order;
 import mate.academy.model.User;
 import mate.academy.util.HibernateUtil;
 import org.hibernate.Session;
+import org.hibernate.Transaction;
 
 @Service
 public class OrderDaoImpl implements OrderDao {
@@ -31,19 +32,24 @@ public class OrderDaoImpl implements OrderDao {
     }
 
     @Override
-    public Order getUnfinishedOrderByUser(User user) {
-        try (Session session = HibernateUtil.getSessionFactory().openSession()) {
-            CriteriaBuilder criteriaBuilder = session.getCriteriaBuilder();
-            CriteriaQuery<Order> criteriaQuery = criteriaBuilder.createQuery(Order.class);
-            Root<Order> root = criteriaQuery.from(Order.class);
-            Predicate userPredicate = criteriaBuilder.equal(root.get("user"), user);
-            Predicate unfinishedPredicate = criteriaBuilder.equal(root.get("orderDate"), null);
-            criteriaQuery.select(root)
-                    .where(criteriaBuilder.and(userPredicate, unfinishedPredicate));
-            return session.createQuery(criteriaQuery).getSingleResult();
-
+    public Order addOrder(Order order) {
+        Session session = null;
+        Transaction transaction = null;
+        try {
+            session = HibernateUtil.getSessionFactory().openSession();
+            transaction = session.beginTransaction();
+            session.save(order);
+            transaction.commit();
+            return order;
         } catch (Exception e) {
-            throw new DataProcessingException("Can't get unfinished Order by user: " + user, e);
+            if (transaction != null) {
+                transaction.rollback();
+            }
+            throw new DataProcessingException("Can't save order: " + order, e);
+        } finally {
+            if (session != null) {
+                session.close();
+            }
         }
     }
 }

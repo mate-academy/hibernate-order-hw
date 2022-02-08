@@ -28,6 +28,8 @@ public class Order {
     @Column(name = "order_date")
     private LocalDateTime orderDate;
 
+    private String status;
+
     public Long getId() {
         return id;
     }
@@ -58,6 +60,14 @@ public class Order {
 
     public void setOrderDate(LocalDateTime orderDate) {
         this.orderDate = orderDate;
+    }
+
+    public String getStatus() {
+        return status;
+    }
+
+    public void setStatus(String status) {
+        this.status = status;
     }
 
     @Override
