@@ -2,7 +2,6 @@ package mate.academy;
 
 import java.time.LocalDate;
 import java.time.LocalDateTime;
-
 import mate.academy.exception.AuthenticationException;
 import mate.academy.exception.RegistrationException;
 import mate.academy.lib.Injector;
@@ -74,10 +73,9 @@ public class Main {
             authenticationService.register("user2@gmail.com", "12345");
             user1 = authenticationService.login("user1@gmail.com", "qwerty");
             user2 = authenticationService.login("user2@gmail.com", "12345");
-        }catch (RegistrationException e) {
-            throw new RuntimeException("Can't registration",e );
-        }
-        catch (AuthenticationException e) {
+        } catch (RegistrationException e) {
+            throw new RuntimeException("Can't registration",e);
+        } catch (AuthenticationException e) {
             throw new RuntimeException("Can't login ", e);
         }
 
