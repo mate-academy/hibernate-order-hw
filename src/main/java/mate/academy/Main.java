@@ -20,7 +20,7 @@ public class Main {
         movieService.getAll().forEach(System.out::println);
 
         CinemaHall firstCinemaHall = new CinemaHall();
-        firstCinemaHall.setCapacity(100);
+        firstCinemaHall.setCapacity(101);
         firstCinemaHall.setDescription("first hall with capacity 100");
 
         CinemaHall secondCinemaHall = new CinemaHall();
