@@ -13,6 +13,7 @@ import mate.academy.security.AuthenticationService;
 import mate.academy.service.CinemaHallService;
 import mate.academy.service.MovieService;
 import mate.academy.service.MovieSessionService;
+import mate.academy.service.OrderService;
 import mate.academy.service.ShoppingCartService;
 
 public class Main {
@@ -76,12 +77,22 @@ public class Main {
             throw new RuntimeException(e.getMessage(), e);
         }
 
-        shoppingCartService.registerNewShoppingCart(bohdan); // There is raising exception
         shoppingCartService.addSession(tomorrowMovieSession, bohdan);
         System.out.println("Getting Bohdan's shopping cart");
         ShoppingCart bohdanShoppingCart = shoppingCartService
                 .getByUser(bohdan);
         System.out.println(bohdanShoppingCart);
 
+        OrderService orderService = (OrderService) injector
+                .getInstance(OrderService.class);
+
+        System.out.println("Getting empty Bohdan's orders history");
+        System.out.println(orderService.getOrdersHistory(bohdan));
+
+        System.out.println("Completing Bohdan's order");
+        System.out.println(orderService.completeOrder(bohdanShoppingCart));
+
+        System.out.println("Getting not empty Bohdan's orders history");
+        System.out.println(orderService.getOrdersHistory(bohdan));
     }
 }
