@@ -101,7 +101,7 @@ public class Main {
 
         orderService.completeOrder(bobShoppingCart);
         shoppingCartService.clearShoppingCart(bobShoppingCart);
-        System.out.println("---------------Bob's order---------------");
+        System.out.println("---------------Bob's order----------------");
         System.out.println(orderService.getOrdersHistory(bob));
     }
 }
