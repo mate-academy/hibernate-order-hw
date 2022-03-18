@@ -86,22 +86,18 @@ public class Main {
 
         shoppingCartService.addSession(tomorrowMovieSession, bob);
         shoppingCartService.addSession(tomorrowMovieSession, bob);
-        shoppingCartService.addSession(yesterdayMovieSession, bob);
-        shoppingCartService.addSession(yesterdayMovieSession, bob);
-
-        shoppingCartService.addSession(tomorrowMovieSession, alice);
-        shoppingCartService.addSession(tomorrowMovieSession, alice);
-        shoppingCartService.addSession(yesterdayMovieSession, alice);
-        shoppingCartService.addSession(yesterdayMovieSession, alice);
 
         ShoppingCart bobShoppingCart = shoppingCartService.getByUser(bob);
 
         OrderService orderService =
                 (OrderService) injector.getInstance(OrderService.class);
-
         orderService.completeOrder(bobShoppingCart);
-        shoppingCartService.clearShoppingCart(bobShoppingCart);
-        System.out.println("---------------Bob's order----------------");
+
+        shoppingCartService.addSession(yesterdayMovieSession, bob);
+        shoppingCartService.addSession(yesterdayMovieSession, bob);
+
+        bobShoppingCart = shoppingCartService.getByUser(bob);
+        orderService.completeOrder(bobShoppingCart);
         System.out.println(orderService.getOrdersHistory(bob));
     }
 }
