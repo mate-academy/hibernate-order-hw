@@ -32,7 +32,6 @@ public class OrderDaoImpl implements OrderDao {
         } finally {
             if (session != null) {
                 session.close();
-
             }
         }
     }
