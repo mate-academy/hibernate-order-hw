@@ -71,7 +71,6 @@ public class Main {
         shoppingCartService.addSession(yesterdayMovieSession, leo);
         ShoppingCart shoppingCart = shoppingCartService.getByUser(leo);
         System.out.println("Shopping cart after add session: " + shoppingCart);
-
         orderService.completeOrder(shoppingCart);
         orderService.getOrdersHistory(leo).forEach(System.out::println);
     }
