@@ -66,7 +66,6 @@ public class Main {
 
         User leo = authenticationService.register("diCaprioPretty", "firstOscarFinally");
         authenticationService.login("diCaprioPretty", "firstOscarFinally");
-
         shoppingCartService.addSession(tomorrowMovieSession, leo);
         shoppingCartService.addSession(yesterdayMovieSession, leo);
         ShoppingCart shoppingCart = shoppingCartService.getByUser(leo);
