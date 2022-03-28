@@ -1,12 +1,10 @@
 package mate.academy.dao.impl;
 
-import java.time.LocalDateTime;
 import java.util.List;
 import mate.academy.dao.OrderDao;
 import mate.academy.exception.DataProcessingException;
 import mate.academy.lib.Dao;
 import mate.academy.model.Order;
-import mate.academy.model.ShoppingCart;
 import mate.academy.model.User;
 import mate.academy.util.HibernateUtil;
 import org.hibernate.HibernateException;
@@ -16,14 +14,9 @@ import org.hibernate.Transaction;
 @Dao
 public class OrderDaoImpl implements OrderDao {
     @Override
-    public Order completeOrder(ShoppingCart shoppingCart) {
+    public Order add(Order order) {
         Session session = null;
         Transaction transaction = null;
-        Order order = new Order(
-                shoppingCart.getTickets(),
-                LocalDateTime.now(),
-                shoppingCart.getUser()
-        );
         try {
             session = HibernateUtil.getSessionFactory().openSession();
             transaction = session.beginTransaction();
@@ -34,7 +27,7 @@ public class OrderDaoImpl implements OrderDao {
                 transaction.rollback();
             }
             throw new DataProcessingException(
-                    "Can`t complete order of shopping cart " + shoppingCart, e);
+                    "Can`t add order " + order, e);
         }
         if (session != null) {
             session.close();
@@ -43,7 +36,7 @@ public class OrderDaoImpl implements OrderDao {
     }
 
     @Override
-    public List<Order> getOrdersHistory(User user) {
+    public List<Order> getByUser(User user) {
         try (Session session = HibernateUtil.getSessionFactory().openSession()) {
             return session.createQuery("FROM Order o "
                             + "LEFT JOIN FETCH o.user u "
