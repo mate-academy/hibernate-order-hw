@@ -2,7 +2,6 @@ package mate.academy;
 
 import java.time.LocalDate;
 import java.time.LocalDateTime;
-
 import mate.academy.exception.AuthenticationException;
 import mate.academy.exception.RegistrationException;
 import mate.academy.lib.Injector;
@@ -69,9 +68,9 @@ public class Main {
         AuthenticationService authenticationService =
                 (AuthenticationService) injector.getInstance(AuthenticationService.class);
         //
-        User alex = authenticationService.register("Alex3@sugar.com", "p@ssw0rd");
+        User alex = authenticationService.register("Alex@sugar.com", "p@ssw0rd");
         System.out.println(alex);
-        System.out.println(authenticationService.login("Alex3@sugar.com", "p@ssw0rd"));
+        System.out.println(authenticationService.login("Alex@sugar.com", "p@ssw0rd"));
         //
         ShoppingCartService shoppingCartService =
                 (ShoppingCartService) injector.getInstance(ShoppingCartService.class);
@@ -79,6 +78,7 @@ public class Main {
         ShoppingCart alexShoppingCart = shoppingCartService.getByUser(alex);
         System.out.println(alexShoppingCart);
         shoppingCartService.addSession(tomorrowMovieSession, alex);
+        alexShoppingCart = shoppingCartService.getByUser(alex);
         System.out.println(alexShoppingCart);
         //
         OrderService orderService =
