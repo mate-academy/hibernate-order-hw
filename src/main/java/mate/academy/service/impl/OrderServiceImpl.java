@@ -16,9 +16,9 @@ import mate.academy.service.ShoppingCartService;
 @Service
 public class OrderServiceImpl implements OrderService {
     @Inject
-    OrderDao orderDao;
+    private OrderDao orderDao;
     @Inject
-    ShoppingCartService shoppingCartService;
+    private ShoppingCartService shoppingCartService;
 
     @Override
     public Order completeOrder(ShoppingCart shoppingCart) {
