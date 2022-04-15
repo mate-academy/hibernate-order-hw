@@ -17,7 +17,6 @@ import mate.academy.service.ShoppingCartService;
 
 import java.time.LocalDate;
 import java.time.LocalDateTime;
-import java.util.List;
 
 /**
  * Feel free to remove this class and create your own.
@@ -88,8 +87,6 @@ public class TestOrderService {
         OrderService orderService = (OrderService) injector.getInstance(OrderService.class);
         Order order = orderService.completeOrder(shoppingCart);
         System.out.println(order);
-        List<Order> orders = orderService.getOrdersHistory(shoppingCart.getUser());
-        orders.forEach(o->System.out.println(o));
         orderService.getOrdersHistory(shoppingCart.getUser()).forEach(System.out::println);
         shoppingCart = shoppingCartService.getByUser(user);
         System.out.println(shoppingCart);

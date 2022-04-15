@@ -39,7 +39,8 @@ public class OrderDaoImpl implements OrderDao {
     @Override
     public List<Order> getByUser(User user) {
         try (Session session = HibernateUtil.getSessionFactory().openSession()) {
-            Query<Order> query = session.createQuery("FROM mate.academy.model.Order ord "
+            Query<Order> query = session.createQuery(
+                    "SELECT DISTINCT ord FROM mate.academy.model.Order ord "
                     + "LEFT JOIN FETCH ord.tickets t "
                     + "LEFT JOIN FETCH t.movieSession ms "
                     + "LEFT JOIN FETCH ms.movie "
