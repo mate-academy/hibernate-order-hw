@@ -1,5 +1,7 @@
 package core.basesyntax;
 
+import java.time.LocalDate;
+import java.time.LocalDateTime;
 import mate.academy.exception.RegistrationException;
 import mate.academy.lib.Injector;
 import mate.academy.model.CinemaHall;
@@ -14,9 +16,6 @@ import mate.academy.service.MovieService;
 import mate.academy.service.MovieSessionService;
 import mate.academy.service.OrderService;
 import mate.academy.service.ShoppingCartService;
-
-import java.time.LocalDate;
-import java.time.LocalDateTime;
 
 public class TestOrderService {
     private static final Injector injector = Injector.getInstance("mate.academy");
