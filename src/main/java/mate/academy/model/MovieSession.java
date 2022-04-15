@@ -22,7 +22,7 @@ public class MovieSession {
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "cinema_hall_id")
     private CinemaHall cinemaHall;
-    @Column(name = "show_time")
+    @Column(name = "showTime")
     private LocalDateTime showTime;
 
     public Long getId() {
