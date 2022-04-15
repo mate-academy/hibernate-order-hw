@@ -18,9 +18,6 @@ import mate.academy.service.ShoppingCartService;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
 
-/**
- * Feel free to remove this class and create your own.
- */
 public class TestOrderService {
     private static final Injector injector = Injector.getInstance("mate.academy");
 
