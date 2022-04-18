@@ -1,6 +1,8 @@
 package mate.academy.model;
 
+import java.time.LocalDateTime;
 import java.util.List;
+import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
@@ -25,6 +27,8 @@ public class Order {
     private List<Ticket> tickets;
     @ManyToOne(fetch = FetchType.LAZY)
     private User user;
+    @Column(name = "order_time")
+    private LocalDateTime orderTime;
 
     public List<Ticket> getTickets() {
         return tickets;
@@ -42,12 +46,21 @@ public class Order {
         this.user = user;
     }
 
+    public LocalDateTime getOrderTime() {
+        return orderTime;
+    }
+
+    public void setOrderTime(LocalDateTime orderTime) {
+        this.orderTime = orderTime;
+    }
+
     @Override
     public String toString() {
         return "Order{"
                 + "id=" + id
                 + ", tickets=" + tickets
                 + ", user=" + user
+                + ", orderTime=" + orderTime
                 + '}';
     }
 }
