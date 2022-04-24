@@ -26,7 +26,6 @@ public class Order {
     private List<Ticket> tickets;
     @ManyToOne
     @JoinColumn(name = "user_id")
-    @MapsId
     private User user;
     private LocalDateTime orderDate;
 
