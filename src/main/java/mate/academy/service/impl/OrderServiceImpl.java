@@ -10,10 +10,11 @@ import mate.academy.model.Order;
 import mate.academy.model.ShoppingCart;
 import mate.academy.model.Ticket;
 import mate.academy.model.User;
+import mate.academy.service.OrderService;
 import mate.academy.service.ShoppingCartService;
 
 @Service
-public class OrderServiceImpl implements mate.academy.service.OrderService {
+public class OrderServiceImpl implements OrderService {
     @Inject
     private OrderDao orderDao;
     @Inject
@@ -33,6 +34,6 @@ public class OrderServiceImpl implements mate.academy.service.OrderService {
 
     @Override
     public List<Order> getOrdersHistory(User user) {
-        return (List<Order>) orderDao.getByUser(user);
+        return orderDao.getByUser(user);
     }
 }

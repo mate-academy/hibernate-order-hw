@@ -46,7 +46,7 @@ public class OrderDaoImpl implements OrderDao {
                     + "LEFT JOIN FETCH ms.cinemaHall "
                     + "WHERE o.user = :user", Order.class);
             query.setParameter("user", user);
-            return (List<Order>) query.uniqueResult();
+            return query.list();
         } catch (Exception e) {
             throw new DataProcessingException("Can't find a order cart by user: " + user, e);
         }
