@@ -3,7 +3,7 @@
 - Create models
     - Order
 - Create DAO
-    - OrderDao
+    - OrderDao. To get the order for a specific user create method getByUser().
 - Create service  
     - OrderService
         ```java
