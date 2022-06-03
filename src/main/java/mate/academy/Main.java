@@ -76,9 +76,9 @@ public class Main {
         }
         OrderService orderService = (OrderService) injector.getInstance(OrderService.class);
 
-        ShoppingCart shoppingCart = shoppingCartService.getByUser(dima);
         shoppingCartService.addSession(yesterdayMovieSession, dima);
         shoppingCartService.addSession(tomorrowMovieSession, dima);
+        ShoppingCart shoppingCart = shoppingCartService.getByUser(dima);
         System.out.println(orderService.completeOrder(shoppingCart));
         orderService.getOrdersHistory(dima).forEach(System.out::println);
     }
