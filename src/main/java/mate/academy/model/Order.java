@@ -3,6 +3,7 @@ package mate.academy.model;
 import java.time.LocalDateTime;
 import java.util.List;
 import java.util.StringJoiner;
+import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
@@ -20,6 +21,7 @@ public class Order {
     private Long id;
     @OneToMany
     private List<Ticket> tickets;
+    @Column(name = "order_date")
     private LocalDateTime orderDate;
     @ManyToOne(fetch = FetchType.LAZY)
     private User user;
@@ -66,4 +68,3 @@ public class Order {
                 .toString();
     }
 }
-
