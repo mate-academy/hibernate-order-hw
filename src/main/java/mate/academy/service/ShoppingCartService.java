@@ -5,8 +5,6 @@ import mate.academy.model.ShoppingCart;
 import mate.academy.model.User;
 
 public interface ShoppingCartService {
-
-
     void addSession(MovieSession movieSession, User user);
 
     ShoppingCart getByUser(User user);
