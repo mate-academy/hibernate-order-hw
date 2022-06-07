@@ -69,16 +69,21 @@ public class Main {
                         fastAndFurious.getId(), LocalDate.now()));
 
         User alisa;
+        User bob;
         try {
             alisa = authenticationService.register("alisa@gmail.com", "123456789");
+            bob = authenticationService.register("bob@gmail.com", "123456789");
         } catch (RegistrationException e) {
             throw new RuntimeException("Something went wrong ...", e);
         }
 
         shoppingCartService.addSession(tomorrowMovieSession, alisa);
         shoppingCartService.addSession(yesterdayMovieSession, alisa);
+        shoppingCartService.addSession(tomorrowMovieSession, bob);
+        shoppingCartService.addSession(yesterdayMovieSession, bob);
 
         orderService.completeOrder(shoppingCartService.getByUser(alisa));
+        orderService.completeOrder(shoppingCartService.getByUser(bob));
         orderService.getOrdersHistory(alisa).forEach(System.out::println);
     }
 }
