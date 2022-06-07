@@ -62,7 +62,7 @@ public class Main {
                         fastAndFurious.getId(), LocalDate.now()));
         User bob;
         try {
-            bob = authenticationService.register("dfgh@gmail.com", "12345678");
+            bob = authenticationService.register("vv@gmail.com", "12345678");
         } catch (RegistrationException e) {
             throw new RuntimeException("Please check your details", e);
         }
