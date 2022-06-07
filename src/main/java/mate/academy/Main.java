@@ -79,6 +79,8 @@ public class Main {
         shoppingCartService.addSession(tomorrowMovieSession, alex);
 
         orderService.completeOrder(shoppingCartService.getByUser(alex));
+        shoppingCartService.addSession(yesterdayMovieSession, alex);
+        orderService.completeOrder(shoppingCartService.getByUser(alex));
         System.out.println(orderService.getOrdersHistory(alex));
     }
 }

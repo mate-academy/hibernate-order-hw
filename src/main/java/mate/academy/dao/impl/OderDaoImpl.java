@@ -40,6 +40,7 @@ public class OderDaoImpl implements OrderDao {
         try (Session session = HibernateUtil.getSessionFactory().openSession()) {
             Query<Order> query = session.createQuery("from Order o "
                     + "join fetch o.tickets t "
+                    + "join fetch t.user u "
                     + "join fetch t.movieSession ms "
                     + "join fetch ms.movie m "
                     + "join fetch ms.cinemaHall ch "
