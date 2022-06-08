@@ -22,7 +22,7 @@ public class OrderServiceImpl implements OrderService {
     @Override
     public Order completeOrder(ShoppingCart shoppingCart) {
         Order order = new Order();
-        order.setOderDate(LocalDateTime.now());
+        order.setOrderDate(LocalDateTime.now());
         order.setUser(shoppingCart.getUser());
         order.setTickets(new ArrayList<>(shoppingCart.getTickets()));
         shoppingCartService.clearShoppingCart(shoppingCart);

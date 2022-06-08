@@ -44,7 +44,7 @@ public class Order {
         return orderDate;
     }
 
-    public void setOderDate(LocalDateTime orderDate) {
+    public void setOrderDate(LocalDateTime orderDate) {
         this.orderDate = orderDate;
     }
 
@@ -68,7 +68,7 @@ public class Order {
     public String toString() {
         return "Order{"
                 + "id=" + id
-                + ", oderDate=" + orderDate
+                + ", orderDate=" + orderDate
                 + ", user=" + user
                 + ", tickets=" + tickets
                 + '}';
