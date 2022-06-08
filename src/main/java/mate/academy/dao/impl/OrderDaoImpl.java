@@ -12,7 +12,6 @@ import org.hibernate.Transaction;
 
 @Dao
 public class OrderDaoImpl implements OrderDao {
-
     @Override
     public Order add(Order order) {
         Session session = null;
@@ -38,7 +37,8 @@ public class OrderDaoImpl implements OrderDao {
     @Override
     public List<Order> getByUser(User user) {
         try (Session session = HibernateUtil.getSessionFactory().openSession()) {
-            return session.createQuery("FROM Order o "
+            return session.createQuery("SELECT DISTINCT o "
+                    + "FROM Order o "
                     + "JOIN FETCH o.user "
                     + "JOIN FETCH o.tickets t "
                     + "JOIN FETCH t.movieSession ms "

@@ -71,11 +71,6 @@ public class Main {
         OrderService orderService = (OrderService) injector.getInstance(OrderService.class);
 
         shoppingCartService.addSession(yesterdayMovieSession, lewis);
-        System.out.println("Before completing order: " + shoppingCartService.getByUser(lewis));
-
-        System.out.println(orderService.completeOrder(shoppingCartService.getByUser(lewis)));
-        System.out.println("After completing order: " + shoppingCartService.getByUser(lewis));
-
         shoppingCartService.addSession(tomorrowMovieSession, lewis);
         System.out.println(orderService.completeOrder(shoppingCartService.getByUser(lewis)));
 
