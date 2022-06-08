@@ -75,9 +75,9 @@ public class Main {
             throw new RuntimeException("Can't register new user ", ex);
         }
 
-        User testUser;
+        User matthew;
         try {
-            testUser = authenticationService.login("testmail@localhost", "SuperPass");
+            matthew = authenticationService.login("testmail@localhost", "SuperPass");
         } catch (AuthenticationException ex) {
             throw new RuntimeException("Login or password is incorrect ", ex);
         }
@@ -85,15 +85,10 @@ public class Main {
         OrderService orderService = (OrderService) injector
                 .getInstance(OrderService.class);
 
-        shoppingCartService.addSession(yesterdayMovieSession, testUser);
-        shoppingCartService.addSession(tomorrowMovieSession, testUser);
-        ShoppingCart shoppingCart1 = shoppingCartService.getByUser(testUser);
-        orderService.completeOrder(shoppingCart1);
-
-        shoppingCartService.addSession(yesterdayMovieSession, testUser);
-        shoppingCartService.addSession(tomorrowMovieSession, testUser);
-        ShoppingCart shoppingCart2 = shoppingCartService.getByUser(testUser);
-        orderService.completeOrder(shoppingCart2);
-        orderService.getOrdersHistory(testUser).forEach(System.out::println);
+        shoppingCartService.addSession(yesterdayMovieSession, matthew);
+        shoppingCartService.addSession(tomorrowMovieSession, matthew);
+        ShoppingCart matthewShoppingCart = shoppingCartService.getByUser(matthew);
+        orderService.completeOrder(matthewShoppingCart);
+        orderService.getOrdersHistory(matthew).forEach(System.out::println);
     }
 }
