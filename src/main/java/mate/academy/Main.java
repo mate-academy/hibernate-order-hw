@@ -77,4 +77,3 @@ public class Main {
         orderService.getOrdersHistory(firstUser).forEach(System.out::println);
     }
 }
-
