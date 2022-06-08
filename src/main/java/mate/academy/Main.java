@@ -33,7 +33,6 @@ public class Main {
             (OrderService) injector.getInstance(OrderService.class);
 
     public static void main(String[] args) throws RegistrationException {
-
         Movie fastAndFurious = new Movie("Fast and Furious");
         fastAndFurious.setDescription("An action film about street racing, heists, and spies.");
         movieService.add(fastAndFurious);
@@ -80,8 +79,8 @@ public class Main {
 
         orderService.completeOrder(bobShoppingCart);
 
-        for (Order o : orderService.getOrdersHistory(bob)) {
-            System.out.println(o);
+        for (Order order : orderService.getOrdersHistory(bob)) {
+            System.out.println(order);
         }
     }
 }

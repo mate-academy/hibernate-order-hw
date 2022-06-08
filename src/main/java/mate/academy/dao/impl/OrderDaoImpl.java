@@ -26,7 +26,7 @@ public class OrderDaoImpl implements OrderDao {
             if (transaction != null) {
                 transaction.rollback();
             }
-            throw new DataProcessingException("Can't create order by shoping cart " + order, e);
+            throw new DataProcessingException("Can't create order " + order, e);
         } finally {
             if (session != null) {
                 session.close();
@@ -37,13 +37,13 @@ public class OrderDaoImpl implements OrderDao {
     @Override
     public List<Order> getOrdersHistory(User user) {
         try (Session session = HibernateUtil.getSessionFactory().openSession()) {
-            return session.createQuery("SELECT DISTINCT o from Order o "
+            return session.createQuery("select distinct o from Order o "
                             + "join fetch o.user u "
                             + "join fetch o.tickets t "
-                    + "join fetch t.movieSession ms "
-                    + "join fetch ms.cinemaHall ch "
-                    + "join fetch ms.movie m "
-                    + "where o.user = :user", Order.class)
+                            + "join fetch t.movieSession ms "
+                            + "join fetch ms.cinemaHall ch "
+                            + "join fetch ms.movie m "
+                            + "where o.user = :user", Order.class)
                     .setParameter("user", user).getResultList();
         } catch (Exception e) {
             throw new DataProcessingException("Can't get orders by user " + user.getEmail(), e);
