@@ -2,10 +2,12 @@ package mate.academy;
 
 import java.time.LocalDate;
 import java.time.LocalDateTime;
+import java.util.List;
 import mate.academy.lib.Injector;
 import mate.academy.model.CinemaHall;
 import mate.academy.model.Movie;
 import mate.academy.model.MovieSession;
+import mate.academy.model.Order;
 import mate.academy.model.ShoppingCart;
 import mate.academy.model.User;
 import mate.academy.security.AuthenticationService;
@@ -77,11 +79,14 @@ public class Main {
         ShoppingCartService shoppingCartService = (ShoppingCartService) injector
                 .getInstance(ShoppingCartService.class);
         shoppingCartService.addSession(tomorrowMovieSession, testLogin);
+        shoppingCartService.addSession(yesterdayMovieSession, testLogin);
         ShoppingCart byUser = shoppingCartService.getByUser(testLogin);
 
         OrderService orderService = (OrderService) injector
                 .getInstance(OrderService.class);
-        orderService.getOrdersHistory(testLogin);
-        orderService.completeOrder(byUser);
+        Order order = orderService.completeOrder(byUser);
+        System.out.println(order);
+        List<Order> ordersHistory = orderService.getOrdersHistory(testLogin);
+        System.out.println(ordersHistory);
     }
 }
