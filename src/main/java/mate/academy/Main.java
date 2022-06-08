@@ -83,8 +83,9 @@ public class Main {
 
         User userFromDb = userService.findByEmail(user.getEmail()).get();
 
-        ShoppingCart shoppingCartServiceByUser = shoppingCartService.getByUser(userFromDb);
         shoppingCartService.addSession(yesterdayMovieSession, userFromDb);
+        shoppingCartService.addSession(tomorrowMovieSession, userFromDb);
+        ShoppingCart shoppingCartServiceByUser = shoppingCartService.getByUser(userFromDb);
 
         System.out.println(orderService.completeOrder(shoppingCartServiceByUser));
         orderService.getOrdersHistory(userFromDb).forEach(System.out::println);
