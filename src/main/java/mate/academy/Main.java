@@ -7,7 +7,6 @@ import mate.academy.lib.Injector;
 import mate.academy.model.CinemaHall;
 import mate.academy.model.Movie;
 import mate.academy.model.MovieSession;
-import mate.academy.model.ShoppingCart;
 import mate.academy.model.User;
 import mate.academy.security.AuthenticationService;
 import mate.academy.service.CinemaHallService;
@@ -77,18 +76,19 @@ public class Main {
         ShoppingCartService shoppingCartService
                 = (ShoppingCartService) injector.getInstance(ShoppingCartService.class);
 
-        ShoppingCart shoppingCart = shoppingCartService.getByUser(firstUser);
-        shoppingCartService.addSession(yesterdayMovieSession, shoppingCart.getUser());
-        shoppingCartService.addSession(tomorrowMovieSession, shoppingCart.getUser());
+        shoppingCartService.addSession(yesterdayMovieSession, firstUser);
+        shoppingCartService.addSession(tomorrowMovieSession, firstUser);
         System.out.println(shoppingCartService.getByUser(firstUser));
 
         OrderService orderService
                 = (OrderService) injector.getInstance(OrderService.class);
 
-        orderService.completeOrder(shoppingCart);
-        System.out.println(shoppingCartService.getByUser(firstUser));
-        System.out.println("__________________________________________________");
+        orderService.completeOrder(shoppingCartService.getByUser(firstUser));
+        shoppingCartService.addSession(tomorrowMovieSession, firstUser);
+        shoppingCartService.addSession(yesterdayMovieSession, firstUser);
+        orderService.completeOrder(shoppingCartService.getByUser(firstUser));
         System.out.println(orderService.getOrdersHistory(firstUser));
-
+        System.out.println(shoppingCartService.getByUser(firstUser));
+        System.out.println(orderService.getOrdersHistory(firstUser));
     }
 }
