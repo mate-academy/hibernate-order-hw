@@ -66,7 +66,7 @@ public class Main {
 
         User user;
         try {
-            user = authenticationService.register("QQQQ@gmail.com", "qwerty");
+            user = authenticationService.register("QQQQ9@gmail.com", "qwerty");
         } catch (RegistrationException e) {
             throw new RuntimeException("Can`t register user with email", e);
         }
