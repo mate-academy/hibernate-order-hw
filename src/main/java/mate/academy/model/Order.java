@@ -20,7 +20,7 @@ public class Order {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
     @Column(name = "order_date")
-    private LocalDateTime oderDate;
+    private LocalDateTime orderDate;
     @ManyToOne
     private User user;
     @OneToMany
@@ -40,12 +40,12 @@ public class Order {
         this.id = id;
     }
 
-    public LocalDateTime getOderDate() {
-        return oderDate;
+    public LocalDateTime getOrderDate() {
+        return orderDate;
     }
 
-    public void setOderDate(LocalDateTime oderDate) {
-        this.oderDate = oderDate;
+    public void setOderDate(LocalDateTime orderDate) {
+        this.orderDate = orderDate;
     }
 
     public User getUser() {
@@ -68,7 +68,7 @@ public class Order {
     public String toString() {
         return "Order{"
                 + "id=" + id
-                + ", oderDate=" + oderDate
+                + ", oderDate=" + orderDate
                 + ", user=" + user
                 + ", tickets=" + tickets
                 + '}';
