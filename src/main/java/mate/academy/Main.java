@@ -28,6 +28,8 @@ public class Main {
             (AuthenticationService) injector.getInstance(AuthenticationService.class);
     private static final ShoppingCartService shoppingCartService =
             (ShoppingCartService) injector.getInstance(ShoppingCartService.class);
+    private static final OrderService orderService =
+            (OrderService) injector.getInstance(OrderService.class);
 
     public static void main(String[] args) {
         Movie fastAndFurious = new Movie("Fast and Furious");
@@ -73,7 +75,6 @@ public class Main {
         } catch (RegistrationException e) {
             throw new RuntimeException("Something went wrong with registration ", e);
         }
-        OrderService orderService = (OrderService) injector.getInstance(OrderService.class);
 
         shoppingCartService.addSession(yesterdayMovieSession, bob);
         shoppingCartService.addSession(tomorrowMovieSession, bob);

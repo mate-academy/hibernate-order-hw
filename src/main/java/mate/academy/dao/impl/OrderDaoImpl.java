@@ -38,7 +38,7 @@ public class OrderDaoImpl implements OrderDao {
     @Override
     public List<Order> getByUser(User user) {
         try (Session session = HibernateUtil.getSessionFactory().openSession()) {
-            Query<Order> query = session.createQuery("SELECT o "
+            Query<Order> query = session.createQuery("SELECT DISTINCT o "
                     + "FROM Order o "
                     + "JOIN FETCH o.tickets t "
                     + "JOIN FETCH o.user u "
@@ -50,7 +50,7 @@ public class OrderDaoImpl implements OrderDao {
             List<Order> resultList = query.getResultList();
             return resultList;
         } catch (Exception e) {
-            throw new DataProcessingException("Can't get order by user " + user, e);
+            throw new DataProcessingException("Can't get orders by user " + user, e);
         }
     }
 }
