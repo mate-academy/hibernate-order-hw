@@ -72,20 +72,14 @@ public class Main {
         try {
             abrams = authenticationService.register("abrams.to.db@gmail.com", "123456");
         } catch (RegistrationException e) {
-            throw new RuntimeException("Something went wrong", e);
+            throw new RuntimeException("Something went wrong.", e);
         }
         shoppingCartService.addSession(tomorrowMovieSession, abrams);
         shoppingCartService.addSession(yesterdayMovieSession, abrams);
         System.out.println(orderService.completeOrder(shoppingCartService.getByUser(abrams)));
+        shoppingCartService.addSession(tomorrowMovieSession, abrams);
+        shoppingCartService.addSession(yesterdayMovieSession, abrams);
+        System.out.println(orderService.completeOrder(shoppingCartService.getByUser(abrams)));
         System.out.println(orderService.getOrdersHistory(abrams));
-        User simpson = null;
-        try {
-            simpson = authenticationService.register("simpson.to.db@gmail.com", "123456");
-        } catch (RegistrationException e) {
-            throw new RuntimeException("Something went wrong", e);
-        }
-        shoppingCartService.addSession(tomorrowMovieSession, simpson);
-        System.out.println(orderService.completeOrder(shoppingCartService.getByUser(simpson)));
-        System.out.println(orderService.getOrdersHistory(simpson));
     }
 }
