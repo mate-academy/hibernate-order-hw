@@ -76,7 +76,7 @@ public class Main {
         OrderService orderService = (OrderService) injector.getInstance(OrderService.class);
         Order order = orderService.completeOrder(shoppingCart);
         System.out.println("order = " + order);
-        System.out.println("orderService.getOrdersHistory(user) " +
-                "= " + orderService.getOrdersHistory(user));
+        System.out.println("orderService.getOrdersHistory(user) = "
+                + orderService.getOrdersHistory(user));
     }
 }
