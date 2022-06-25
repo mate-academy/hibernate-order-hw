@@ -22,6 +22,7 @@ public class OrderDaoImpl implements OrderDao {
                     + "LEFT JOIN FETCH tk.movieSession ms "
                     + "LEFT JOIN FETCH ms.cinemaHall "
                     + "LEFT JOIN FETCH ms.movie "
+                    + "LEFT JOIN FETCH o.user "
                     + "WHERE o.user = :user", Order.class);
             orderQuery.setParameter("user", user);
             return orderQuery.uniqueResultOptional();
@@ -60,6 +61,7 @@ public class OrderDaoImpl implements OrderDao {
                     + "LEFT JOIN FETCH tk.movieSession ms "
                     + "LEFT JOIN FETCH ms.movie "
                     + "LEFT JOIN FETCH ms.cinemaHall "
+                    + "LEFT JOIN FETCH o.user "
                     + "WHERE o.user = :user", Order.class);
             getAllOrderQuery.setParameter("user", user);
             return getAllOrderQuery.getResultList();
