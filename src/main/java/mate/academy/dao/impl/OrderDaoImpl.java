@@ -15,23 +15,6 @@ import org.hibernate.query.Query;
 @Dao
 public class OrderDaoImpl implements OrderDao {
     @Override
-    public Optional<Order> getByUser(User user) {
-        try (Session session = HibernateUtil.getSessionFactory().openSession()) {
-            Query<Order> orderQuery = session.createQuery("FROM Order o "
-                    + "LEFT JOIN FETCH o.tickets tk "
-                    + "LEFT JOIN FETCH tk.movieSession ms "
-                    + "LEFT JOIN FETCH ms.cinemaHall "
-                    + "LEFT JOIN FETCH ms.movie "
-                    + "LEFT JOIN FETCH o.user "
-                    + "WHERE o.user = :user", Order.class);
-            orderQuery.setParameter("user", user);
-            return orderQuery.uniqueResultOptional();
-        } catch (Exception e) {
-            throw new DataProcessingException("Can`t find order by user: " + user, e);
-        }
-    }
-
-    @Override
     public Order add(Order order) {
         Session session = null;
         Transaction transaction = null;
@@ -54,7 +37,7 @@ public class OrderDaoImpl implements OrderDao {
     }
 
     @Override
-    public List<Order> getAllOrders(User user) {
+    public List<Order> getAllByUser(User user) {
         try (Session session = HibernateUtil.getSessionFactory().openSession()) {
             Query<Order> getAllOrderQuery = session.createQuery("FROM Order o "
                     + "LEFT JOIN FETCH o.tickets tk "

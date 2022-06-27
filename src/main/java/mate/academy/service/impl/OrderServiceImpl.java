@@ -25,12 +25,11 @@ public class OrderServiceImpl implements OrderService {
         order.setUser(shoppingCart.getUser());
         order.setOrderDate(LocalDateTime.now());
         orderDao.add(order);
-        shoppingCartService.clearShoppingCart(shoppingCart);
         return order;
     }
 
     @Override
     public List<Order> getOrdersHistory(User user) {
-        return orderDao.getAllOrders(user);
+        return orderDao.getAllByUser(user);
     }
 }
