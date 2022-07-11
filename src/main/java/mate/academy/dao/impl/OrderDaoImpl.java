@@ -1,21 +1,15 @@
 package mate.academy.dao.impl;
 
 import java.util.List;
-import javax.persistence.criteria.CriteriaBuilder;
-import javax.persistence.criteria.CriteriaQuery;
-import javax.persistence.criteria.Fetch;
-import javax.persistence.criteria.JoinType;
-import javax.persistence.criteria.Root;
 import mate.academy.dao.OrderDao;
 import mate.academy.exception.DataProcessingException;
 import mate.academy.lib.Dao;
-import mate.academy.model.MovieSession;
 import mate.academy.model.Order;
-import mate.academy.model.Ticket;
 import mate.academy.model.User;
 import mate.academy.util.HibernateUtil;
 import org.hibernate.Session;
 import org.hibernate.Transaction;
+import org.hibernate.query.Query;
 
 @Dao
 public class OrderDaoImpl implements OrderDao {
@@ -43,18 +37,17 @@ public class OrderDaoImpl implements OrderDao {
 
     @Override
     public List<Order> getAllByUser(User user) {
+        String hql = "SELECT DISTINCT o FROM Order o "
+                + "LEFT JOIN FETCH o.user u "
+                + "LEFT JOIN FETCH o.tickets t "
+                + "LEFT JOIN FETCH t.movieSession ms "
+                + "LEFT JOIN FETCH ms.movie "
+                + "LEFT JOIN FETCH ms.cinemaHall "
+                + "WHERE u = :user";
         try (Session session = HibernateUtil.getSessionFactory().openSession()) {
-            CriteriaBuilder criteriaBuilder = session.getCriteriaBuilder();
-            CriteriaQuery<Order> query = criteriaBuilder.createQuery(Order.class);
-            Root<Order> root = query.from(Order.class);
-            root.fetch("user", JoinType.LEFT);
-            Fetch<Order, Ticket> ticketFetch = root.fetch("tickets", JoinType.LEFT);
-            Fetch<Ticket, MovieSession> movieSessionFetch = ticketFetch
-                    .fetch("movieSession", JoinType.LEFT);
-            movieSessionFetch.fetch("movie", JoinType.LEFT);
-            movieSessionFetch.fetch("cinemaHall", JoinType.LEFT);
-            query.where(criteriaBuilder.equal(root.get("user"), user)).distinct(true);
-            return session.createQuery(query).getResultList();
+            Query<Order> query = session.createQuery(hql, Order.class);
+            query.setParameter("user", user);
+            return query.getResultList();
         } catch (Exception e) {
             throw new DataProcessingException("Cannot get all orders from DB by user: " + user, e);
         }
