@@ -28,7 +28,7 @@ public class OrderDaoImpl implements OrderDao {
                 transaction.rollback();
             }
             throw new DataProcessingException("Can't insert an order "
-                    + order + " into DB: " + order, e);
+                    + order + " into DB: ", e);
         } finally {
             if (session != null) {
                 session.close();
@@ -46,8 +46,8 @@ public class OrderDaoImpl implements OrderDao {
                     + "LEFT JOIN FETCH t.movieSession ms "
                     + "LEFT JOIN FETCH ms.movie "
                     + "LEFT JOIN FETCH ms.cinemaHall "
-                    + "WHERE u.id = :user_id", Order.class);
-            query.setParameter("user_id", user.getId());
+                    + "WHERE u = :user", Order.class);
+            query.setParameter("user", user);
             return Optional.ofNullable(query.getResultList());
         } catch (Exception e) {
             throw new DataProcessingException("Can't get orders' list from DB by user=" + user, e);
