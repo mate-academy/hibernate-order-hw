@@ -48,7 +48,7 @@ public class OrderDaoImpl implements OrderDao {
             query.setParameter("user", user);
             return query.getResultList();
         } catch (Exception e) {
-            throw new DataProcessingException("Can't find a order by user: " + user, e);
+            throw new DataProcessingException("Can't find list of orders by user: " + user, e);
         }
     }
 }

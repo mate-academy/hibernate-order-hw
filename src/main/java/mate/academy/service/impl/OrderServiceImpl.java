@@ -8,7 +8,6 @@ import mate.academy.lib.Inject;
 import mate.academy.lib.Service;
 import mate.academy.model.Order;
 import mate.academy.model.ShoppingCart;
-import mate.academy.model.Ticket;
 import mate.academy.model.User;
 import mate.academy.service.OrderService;
 import mate.academy.service.ShoppingCartService;
@@ -22,9 +21,8 @@ public class OrderServiceImpl implements OrderService {
 
     @Override
     public Order completeOrder(ShoppingCart shoppingCart) {
-        ArrayList<Ticket> tickets = new ArrayList<>(shoppingCart.getTickets());
         Order order = new Order();
-        order.setTickets(tickets);
+        order.setTickets(new ArrayList<>(shoppingCart.getTickets()));
         order.setUser(shoppingCart.getUser());
         order.setOrderDate(LocalDateTime.now());
         shoppingCartService.clearShoppingCart(shoppingCart);
