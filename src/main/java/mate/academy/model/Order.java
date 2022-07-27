@@ -18,7 +18,6 @@ import javax.persistence.Table;
 @Table(name = "orders")
 public class Order {
     @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
     @OneToMany
     @JoinTable(name = "orders_tickets",
