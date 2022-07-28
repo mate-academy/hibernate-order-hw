@@ -21,7 +21,7 @@ public class Order {
     private Long id;
     @OneToMany
     @JoinTable(name = "tickets_orders",
-                joinColumns = @JoinColumn(name = "oder_id"),
+                joinColumns = @JoinColumn(name = "order_id"),
                 inverseJoinColumns = @JoinColumn(name = "ticket_id"))
     private List<Ticket> tickets;
     @ManyToOne(fetch = FetchType.LAZY)
