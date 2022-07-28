@@ -8,5 +8,4 @@ public interface OrderDao {
     public List<Order> getByUser(User user);
 
     public Order add(Order order);
-
 }
