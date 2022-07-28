@@ -23,7 +23,7 @@ public class Order {
     @JoinTable(name = "orders_tickets",
             joinColumns = @JoinColumn(name = "order_id"),
             inverseJoinColumns = @JoinColumn(name = "ticket_id"))
-    private List<Ticket> tickets = new java.util.ArrayList<>();
+    private List<Ticket> tickets;
     private LocalDateTime orderDate;
     @OneToOne(fetch = FetchType.LAZY)
     private User user;
