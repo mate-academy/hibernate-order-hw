@@ -1,8 +1,6 @@
 package mate.academy.dao.impl;
 
 import java.util.List;
-import java.util.Optional;
-import javax.persistence.criteria.CriteriaQuery;
 import mate.academy.dao.OrderDao;
 import mate.academy.exception.DataProcessingException;
 import mate.academy.lib.Dao;
@@ -38,28 +36,7 @@ public class OrderDaoImpl implements OrderDao {
     }
 
     @Override
-    public Optional<Order> get(Long id) {
-        try (Session session = HibernateUtil.getSessionFactory().openSession()) {
-            return Optional.ofNullable(session.get(Order.class, id));
-        } catch (Exception e) {
-            throw new DataProcessingException("Can't get an order by id: " + id, e);
-        }
-    }
-
-    @Override
-    public List<Order> getAll() {
-        try (Session session = HibernateUtil.getSessionFactory().openSession()) {
-            CriteriaQuery<Order> criteriaQuery = session.getCriteriaBuilder()
-                    .createQuery(Order.class);
-            criteriaQuery.from(Order.class);
-            return session.createQuery(criteriaQuery).getResultList();
-        } catch (Exception e) {
-            throw new DataProcessingException("Can't get all orders", e);
-        }
-    }
-
-    @Override
-    public List<Order> getByUser(User user) {
+    public List<Order> getAllByUser(User user) {
         try (Session session = HibernateUtil.getSessionFactory().openSession()) {
             Query<Order> query = session.createQuery("FROM Order o "
                     + "INNER JOIN FETCH o.tickets t "
@@ -71,7 +48,7 @@ public class OrderDaoImpl implements OrderDao {
             query.setParameter("user", user);
             return query.getResultList();
         } catch (Exception e) {
-            throw new DataProcessingException("Can't find an order by user: " + user, e);
+            throw new DataProcessingException("Can't get all orders by user: " + user, e);
         }
     }
 }
