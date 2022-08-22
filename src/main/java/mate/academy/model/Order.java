@@ -1,5 +1,7 @@
 package mate.academy.model;
 
+import java.time.LocalDateTime;
+import java.util.List;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
@@ -10,8 +12,6 @@ import javax.persistence.JoinTable;
 import javax.persistence.ManyToOne;
 import javax.persistence.OneToMany;
 import javax.persistence.Table;
-import java.time.LocalDateTime;
-import java.util.List;
 
 @Entity
 @Table(name = "orders")
@@ -21,8 +21,8 @@ public class Order {
     private Long id;
     @OneToMany
     @JoinTable(name = "orders_tickets",
-    joinColumns = @JoinColumn(name = "order_id"),
-    inverseJoinColumns = @JoinColumn(name = "ticket_id"))
+            joinColumns = @JoinColumn(name = "order_id"),
+            inverseJoinColumns = @JoinColumn(name = "ticket_id"))
     private List<Ticket> tickets;
     @Column(name = "order_date")
     private LocalDateTime orderDate;
@@ -67,11 +67,11 @@ public class Order {
 
     @Override
     public String toString() {
-        return "Order{" +
-                "id=" + id +
-                ", tickets=" + tickets +
-                ", orderDate=" + orderDate +
-                ", user=" + user +
-                '}';
+        return "Order{"
+                + "id=" + id
+                + ", tickets=" + tickets
+                + ", orderDate=" + orderDate
+                + ", user=" + user
+                + '}';
     }
 }
