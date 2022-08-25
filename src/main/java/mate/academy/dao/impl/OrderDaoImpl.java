@@ -1,5 +1,7 @@
 package mate.academy.dao.impl;
 
+import java.util.List;
+import javax.persistence.criteria.CriteriaQuery;
 import mate.academy.dao.OrderDao;
 import mate.academy.exception.DataProcessingException;
 import mate.academy.lib.Dao;
@@ -9,8 +11,6 @@ import mate.academy.util.HibernateUtil;
 import org.hibernate.Session;
 import org.hibernate.Transaction;
 import org.hibernate.query.Query;
-import javax.persistence.criteria.CriteriaQuery;
-import java.util.List;
 
 @Dao
 public class OrderDaoImpl implements OrderDao {
@@ -38,14 +38,14 @@ public class OrderDaoImpl implements OrderDao {
 
     @Override
     public Order getByUser(User user) {
-        try(Session session = HibernateUtil.getSessionFactory().openSession()) {
-            Query<Order> query = session.createQuery("from Order o " +
-                    "left join fetch o.tickets t " +
-                    "left join fetch t.movieSession ms " +
-                    "left join fetch ms.movie " +
-                    "left join fetch ms.cinemaHall " +
-                    "left join fetch o.user " +
-                    "where o.user = :user");
+        try (Session session = HibernateUtil.getSessionFactory().openSession()) {
+            Query<Order> query = session.createQuery("from Order o "
+                    + "left join fetch o.tickets t "
+                    + "left join fetch t.movieSession ms "
+                    + "left join fetch ms.movie "
+                    + "left join fetch ms.cinemaHall "
+                    + "left join fetch o.user "
+                    + "where o.user = :user");
             query.setParameter("user", user);
             return query.getSingleResult();
         } catch (Exception e) {
@@ -66,14 +66,14 @@ public class OrderDaoImpl implements OrderDao {
 
     @Override
     public List<Order> getOrdersHistory(User user) {
-        try(Session session = HibernateUtil.getSessionFactory().openSession()) {
-            Query<Order> query = session.createQuery("from Order o " +
-                    "left join fetch o.tickets t " +
-                    "left join fetch t.movieSession ms " +
-                    "left join fetch ms.movie " +
-                    "left join fetch ms.cinemaHall " +
-                    "left join fetch o.user " +
-                    "where o.user.id = :userId");
+        try (Session session = HibernateUtil.getSessionFactory().openSession()) {
+            Query<Order> query = session.createQuery("from Order o "
+                    + "left join fetch o.tickets t "
+                    + "left join fetch t.movieSession ms "
+                    + "left join fetch ms.movie "
+                    + "left join fetch ms.cinemaHall "
+                    + "left join fetch o.user "
+                    + "where o.user.id = :userId");
             query.setParameter("userId", user.getId());
             return query.getResultList();
         }
