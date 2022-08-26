@@ -1,7 +1,6 @@
 package mate.academy.service.impl;
 
 import java.util.ArrayList;
-import mate.academy.dao.OrderDao;
 import mate.academy.dao.ShoppingCartDao;
 import mate.academy.dao.TicketDao;
 import mate.academy.lib.Inject;
@@ -18,8 +17,6 @@ public class ShoppingCartServiceImpl implements ShoppingCartService {
     private ShoppingCartDao shoppingCartDao;
     @Inject
     private TicketDao ticketDao;
-    @Inject
-    private OrderDao orderDao;
 
     @Override
     public void addSession(MovieSession movieSession, User user) {
