@@ -44,8 +44,8 @@ public class OrderDaoImpl implements OrderDao {
                     + "left join fetch ms.movie "
                     + "left join fetch ms.cinemaHall "
                     + "left join fetch o.user "
-                    + "where o.user.id = :userId");
-            query.setParameter("userId", user.getId());
+                    + "where o.user = :user");
+            query.setParameter("user", user);
             return query.getResultList();
         } catch (Exception e) {
             throw new DataProcessingException("Can't retrieve orders history for user: " + user, e);
