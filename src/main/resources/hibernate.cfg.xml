@@ -5,8 +5,8 @@
 
 <hibernate-configuration>
     <session-factory>
-        <property name="hibernate.dialect">org.hibernate.dialect.MySQL8Dialect</property>
-        <property name="connection.url">jdbc:mysql://localhost/cinema?serverTimezone=UTC</property>
+        <property name="hibernate.dialect">org.hibernate.dialect.MySQLDialect</property>
+        <property name="connection.url">jdbc:mysql://localhost/cinema</property>
         <property name="connection.driver_class">com.mysql.cj.jdbc.Driver</property>
         <property name="connection.username">root</property>
         <property name="connection.password">1234</property>
@@ -16,8 +16,9 @@
         <mapping class="mate.academy.model.CinemaHall"/>
         <mapping class="mate.academy.model.Movie"/>
         <mapping class="mate.academy.model.MovieSession"/>
+        <mapping class="mate.academy.model.Order"/>
         <mapping class="mate.academy.model.ShoppingCart"/>
-        <mapping class="mate.academy.model.User"/>
         <mapping class="mate.academy.model.Ticket"/>
+        <mapping class="mate.academy.model.User"/>
     </session-factory>
 </hibernate-configuration>
