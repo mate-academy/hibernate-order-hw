@@ -2,15 +2,28 @@ package mate.academy;
 
 import java.time.LocalDate;
 import java.time.LocalDateTime;
+import mate.academy.exception.AuthenticationException;
+import mate.academy.exception.RegistrationException;
 import mate.academy.lib.Injector;
 import mate.academy.model.CinemaHall;
 import mate.academy.model.Movie;
 import mate.academy.model.MovieSession;
+import mate.academy.model.User;
+import mate.academy.security.AuthenticationService;
 import mate.academy.service.CinemaHallService;
 import mate.academy.service.MovieService;
 import mate.academy.service.MovieSessionService;
+import mate.academy.service.OrderService;
+import mate.academy.service.ShoppingCartService;
 
 public class Main {
+
+    private static final String bobEmail = "bob@gmail.com";
+    private static final String bobPassword = "qwerty";
+    private static final String aliceEmail = "alice@gmail.com";
+    private static final String alicePassword = "1q2w3e";
+    private static final String johnEmail = "john@gmail.com";
+    private static final String johnPassword = "qqwweerr";
     private static final Injector injector = Injector.getInstance("mate.academy");
 
     public static void main(String[] args) {
@@ -56,5 +69,57 @@ public class Main {
         System.out.println(movieSessionService.get(yesterdayMovieSession.getId()));
         System.out.println(movieSessionService.findAvailableSessions(
                         fastAndFurious.getId(), LocalDate.now()));
+
+        //add users
+        AuthenticationService authenticationService = (AuthenticationService)
+                injector.getInstance(AuthenticationService.class);
+        try {
+            authenticationService.register(bobEmail, bobPassword);
+            authenticationService.register(aliceEmail, alicePassword);
+            authenticationService.register(johnEmail, johnPassword);
+        } catch (RegistrationException e) {
+            throw new RuntimeException(e);
+        }
+
+        // login user
+        User bob;
+        User alice;
+        User john;
+        try {
+            bob = authenticationService.login(bobEmail, bobPassword);
+            alice = authenticationService.login(aliceEmail, alicePassword);
+            john = authenticationService.login(johnEmail, johnPassword);
+        } catch (AuthenticationException e) {
+            throw new RuntimeException(e);
+        }
+        // add session
+        ShoppingCartService shoppingCartService = (ShoppingCartService)
+                injector.getInstance(ShoppingCartService.class);
+
+        shoppingCartService.addSession(tomorrowMovieSession, bob);
+        shoppingCartService.addSession(tomorrowMovieSession, alice);
+        shoppingCartService.addSession(tomorrowMovieSession, alice);
+        shoppingCartService.addSession(tomorrowMovieSession, john);
+
+        shoppingCartService.addSession(yesterdayMovieSession, bob);
+        shoppingCartService.addSession(yesterdayMovieSession, bob);
+        shoppingCartService.addSession(yesterdayMovieSession, alice);
+        shoppingCartService.addSession(yesterdayMovieSession, alice);
+        shoppingCartService.addSession(yesterdayMovieSession, alice);
+        shoppingCartService.addSession(yesterdayMovieSession, john);
+
+        System.out.println("------------ Test getByUser method ------------");
+        System.out.println(shoppingCartService.getByUser(bob));
+        System.out.println(shoppingCartService.getByUser(alice));
+        System.out.println(shoppingCartService.getByUser(john));
+
+        OrderService orderService = (OrderService) injector.getInstance(OrderService.class);
+
+        System.out.println("------------ Test completeOrder method ------------");
+        System.out.println(orderService.completeOrder(shoppingCartService.getByUser(bob)));
+
+        System.out.println("------------ Test getOrdersHistory method ------------");
+        System.out.println(orderService.getOrdersHistory(bob));
+
     }
 }
