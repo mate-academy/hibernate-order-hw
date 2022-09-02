@@ -26,6 +26,7 @@ public class Order {
             inverseJoinColumns = @JoinColumn(name = "ticket_id"))
     private List<Ticket> tickets;
 
+    @Column(name = "order_date")
     private LocalDateTime orderDate;
 
     @ManyToOne(fetch = FetchType.LAZY)
