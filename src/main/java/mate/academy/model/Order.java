@@ -10,10 +10,11 @@ import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.JoinTable;
 import javax.persistence.ManyToOne;
-import javax.persistence.MapsId;
 import javax.persistence.OneToMany;
+import javax.persistence.Table;
 
 @Entity
+@Table(name = "orders")
 public class Order {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -26,8 +27,6 @@ public class Order {
     @Column(name = "orders_date")
     private LocalDateTime orderDate;
     @ManyToOne
-    @MapsId
-    @JoinColumn(name = "id")
     private User user;
 
     public Order() {
