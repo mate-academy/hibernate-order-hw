@@ -1,13 +1,11 @@
 package mate.academy.dao.impl;
 
-import java.time.LocalDateTime;
 import java.util.List;
 import java.util.Optional;
 import mate.academy.dao.OrderDao;
 import mate.academy.exception.DataProcessingException;
 import mate.academy.lib.Dao;
 import mate.academy.model.Order;
-import mate.academy.model.ShoppingCart;
 import mate.academy.model.User;
 import mate.academy.util.HibernateUtil;
 import org.hibernate.Session;
@@ -17,17 +15,13 @@ import org.hibernate.query.Query;
 @Dao
 public class OrderDaoImpl implements OrderDao {
     @Override
-    public Optional<Order> completeOrder(ShoppingCart shoppingCart) {
+    public Optional<Order> completeOrder(Order order) {
         Session session = null;
         Transaction transaction = null;
 
         try {
             session = HibernateUtil.getSessionFactory().openSession();
             transaction = session.beginTransaction();
-            Order order = new Order();
-            order.setTickets(shoppingCart.getTickets());
-            order.setUser(shoppingCart.getUser());
-            order.setOrderDate(LocalDateTime.now());
             session.save(order);
             transaction.commit();
             return Optional.of(order);
@@ -35,8 +29,8 @@ public class OrderDaoImpl implements OrderDao {
             if (transaction != null) {
                 transaction.rollback();
             }
-            throw new DataProcessingException("Can`t complete order by shopping cart "
-                    + shoppingCart, e);
+            throw new DataProcessingException("Can`t save order "
+                    + order, e);
         } finally {
             if (session != null) {
                 session.close();
