@@ -1,0 +1,19 @@
+databaseChangeLog:
+  - include:
+      file: /db/changelog/changes/create-user-table.sql
+  - include:
+      file: /db/changelog/changes/create-movie-table.sql
+  - include:
+      file: /db/changelog/changes/create-cinema-hall-table.sql
+  - include:
+      file: /db/changelog/changes/create-movie-session-table.sql
+  - include:
+      file: /db/changelog/changes/create-ticket-table.sql
+  - include:
+      file: /db/changelog/changes/create-shopping-cart-table.sql
+  - include:
+      file: /db/changelog/changes/create-order-table.sql
+  - include:
+      file: /db/changelog/changes/create-order-ticket-table.sql
+  - include:
+      file: /db/changelog/changes/create-shopping-cart-ticket-table.sql
