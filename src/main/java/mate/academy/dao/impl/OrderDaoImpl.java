@@ -1,7 +1,6 @@
 package mate.academy.dao.impl;
 
 import java.util.List;
-import java.util.Optional;
 import mate.academy.dao.OrderDao;
 import mate.academy.exception.DataProcessingException;
 import mate.academy.lib.Dao;
@@ -15,7 +14,7 @@ import org.hibernate.query.Query;
 @Dao
 public class OrderDaoImpl implements OrderDao {
     @Override
-    public Optional<Order> completeOrder(Order order) {
+    public Order completeOrder(Order order) {
         Session session = null;
         Transaction transaction = null;
         try {
@@ -23,7 +22,7 @@ public class OrderDaoImpl implements OrderDao {
             transaction = session.beginTransaction();
             session.save(order);
             transaction.commit();
-            return Optional.of(order);
+            return order;
         } catch (Exception e) {
             if (transaction != null) {
                 transaction.rollback();

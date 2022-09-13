@@ -18,15 +18,11 @@ public class OrderServiceImpl implements OrderService {
 
     @Override
     public Order completeOrder(ShoppingCart shoppingCart) {
-        if (shoppingCart == null) {
-            throw new RuntimeException("Shopping cart is null");
-        }
         Order order = new Order();
         order.setTickets(new ArrayList<>(shoppingCart.getTickets()));
         order.setUser(shoppingCart.getUser());
         order.setOrderDate(LocalDateTime.now());
-        return orderDao.completeOrder(order).orElseThrow(() ->
-                new RuntimeException("Can`t complete Order" + shoppingCart));
+        return orderDao.completeOrder(order);
     }
 
     @Override
