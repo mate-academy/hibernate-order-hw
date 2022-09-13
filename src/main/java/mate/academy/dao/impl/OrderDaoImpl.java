@@ -18,7 +18,6 @@ public class OrderDaoImpl implements OrderDao {
     public Optional<Order> completeOrder(Order order) {
         Session session = null;
         Transaction transaction = null;
-
         try {
             session = HibernateUtil.getSessionFactory().openSession();
             transaction = session.beginTransaction();
@@ -48,9 +47,9 @@ public class OrderDaoImpl implements OrderDao {
                 + "LEFT JOIN FETCH ms.cinemaHall "
                 + "WHERE o.user = :user ";
         try (Session session = HibernateUtil.getSessionFactory().openSession()) {
-            Query<Order> getAllOrders = session.createQuery(query, Order.class);
-            getAllOrders.setParameter("user", user);
-            return getAllOrders.getResultList();
+            Query<Order> getAllOrdersQuery = session.createQuery(query, Order.class);
+            getAllOrdersQuery.setParameter("user", user);
+            return getAllOrdersQuery.getResultList();
         } catch (Exception e) {
             throw new DataProcessingException("Can`t get order history by user " + user, e);
         }
