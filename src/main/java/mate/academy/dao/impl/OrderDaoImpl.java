@@ -1,7 +1,6 @@
 package mate.academy.dao.impl;
 
 import java.util.List;
-import java.util.Optional;
 import mate.academy.dao.OrderDao;
 import mate.academy.exception.DataProcessingException;
 import mate.academy.lib.Dao;
@@ -32,15 +31,6 @@ public class OrderDaoImpl implements OrderDao {
             if (session != null) {
                 session.close();
             }
-        }
-    }
-
-    @Override
-    public Optional<Order> get(Long id) {
-        try (Session session = HibernateUtil.getSessionFactory().openSession()) {
-            return Optional.ofNullable(session.get(Order.class, id));
-        } catch (Exception e) {
-            throw new DataProcessingException("Can't get an order from DB by id: " + id, e);
         }
     }
 
