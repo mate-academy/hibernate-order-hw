@@ -18,6 +18,7 @@ public class OrderServiceImpl implements OrderService {
     private OrderDao orderDao;
     @Inject
     private ShoppingCartService shoppingCartService;
+
     @Override
     public Order completeOrder(ShoppingCart shoppingCart) {
         Order order = new Order();
