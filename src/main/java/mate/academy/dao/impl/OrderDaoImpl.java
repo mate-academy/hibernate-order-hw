@@ -8,6 +8,7 @@ import mate.academy.model.Order;
 import mate.academy.model.User;
 import mate.academy.util.HibernateUtil;
 import org.hibernate.Session;
+import org.hibernate.Transaction;
 
 @Dao
 public class OrderDaoImpl implements OrderDao {
@@ -26,5 +27,27 @@ public class OrderDaoImpl implements OrderDao {
         } catch (Exception e) {
             throw new DataProcessingException("Can't get the order by user: " + user, e);
         }
+    }
+
+    @Override
+    public Order add(Order order) {
+        Session session = null;
+        Transaction transaction = null;
+        try {
+            session = HibernateUtil.getSessionFactory().openSession();
+            transaction = session.beginTransaction();
+            session.save(order);
+            transaction.commit();
+        } catch (Exception e) {
+            if (transaction != null) {
+                transaction.rollback();
+            }
+            throw new DataProcessingException("Can't add the order to the db: " + order, e);
+        } finally {
+            if (session != null) {
+                session.close();
+            }
+        }
+        return order;
     }
 }
