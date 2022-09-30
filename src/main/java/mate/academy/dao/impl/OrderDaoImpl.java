@@ -27,7 +27,7 @@ public class OrderDaoImpl implements OrderDao {
             if (transaction != null) {
                 transaction.rollback();
             }
-            throw new DataProcessingException("Can't insert a order: " + order, e);
+            throw new DataProcessingException("Can't insert an order: " + order, e);
         } finally {
             if (session != null) {
                 session.close();
@@ -48,7 +48,7 @@ public class OrderDaoImpl implements OrderDao {
             query.setParameter("user", user);
             return query.getResultList();
         } catch (Exception e) {
-            throw new DataProcessingException("Can't find a order by user: " + user, e);
+            throw new DataProcessingException("Can't find an order by user: " + user, e);
         }
     }
 }
