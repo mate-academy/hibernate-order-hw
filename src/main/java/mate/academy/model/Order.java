@@ -11,7 +11,6 @@ import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.JoinTable;
 import javax.persistence.ManyToOne;
-import javax.persistence.MapsId;
 import javax.persistence.OneToMany;
 import javax.persistence.Table;
 
@@ -28,7 +27,6 @@ public class Order {
     @Column(name = "order_date")
     private LocalDateTime orderDate;
     @ManyToOne(fetch = FetchType.LAZY)
-    @MapsId
     private User user;
 
     public Long getId() {
