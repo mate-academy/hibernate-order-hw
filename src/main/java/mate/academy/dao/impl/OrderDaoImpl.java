@@ -13,7 +13,7 @@ import org.hibernate.Transaction;
 @Dao
 public class OrderDaoImpl implements OrderDao {
     @Override
-    public List<Order> getByUser(User user) {
+    public List<Order> getAllByUser(User user) {
         try (Session session = HibernateUtil.getSessionFactory().openSession()) {
             return session.createQuery("select distinct o from Order o "
                             + "inner join fetch o.tickets t "
