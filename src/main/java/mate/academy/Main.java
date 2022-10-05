@@ -67,25 +67,22 @@ public class Main {
 
         AuthenticationService authenticationService =
                 (AuthenticationService) injector.getInstance(AuthenticationService.class);
-        User userBob = new User();
-        userBob.setEmail("userBob@gmail.com");
-        userBob.setPassword("bobPassword");
+        User userBob = null;
         try {
-            System.out.println(authenticationService.register("userBob@gmail.com",
-                    "bobPassword"));
+            userBob = authenticationService.register("userBob@gmail.com",
+                    "bobPassword");
         } catch (RegistrationException e) {
             throw new RuntimeException(e);
         }
         try {
-            System.out.println(authenticationService.login(userBob.getEmail(),
-                    userBob.getPassword()));
+            authenticationService.login("userBob@gmail.com",
+                    "bobPassword");
         } catch (AuthenticationException e) {
             throw new RuntimeException(e);
         }
 
         ShoppingCartService shoppingCartService =
                 (ShoppingCartService) injector.getInstance(ShoppingCartService.class);
-        shoppingCartService.registerNewShoppingCart(userBob);
         shoppingCartService.addSession(tomorrowMovieSession, userBob);
         ShoppingCart bobShoppingCart = shoppingCartService.getByUser(userBob);
 
