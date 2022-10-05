@@ -17,10 +17,10 @@ public class OrderDaoImpl implements OrderDao {
         try (Session session = HibernateUtil.getSessionFactory().openSession()) {
             return session.createQuery("select distinct o from Order o "
                             + "inner join fetch o.tickets t "
-                            + "left join fetch t.user u "
-                            + "left join fetch t.movieSession ms "
-                            + "left join fetch ms.movie m "
-                            + "left join fetch ms.cinemaHall ch "
+                            + "inner join fetch t.user u "
+                            + "inner join fetch t.movieSession ms "
+                            + "inner join fetch ms.movie m "
+                            + "inner join fetch ms.cinemaHall ch "
                             + "where o.user.id = :userId", Order.class)
                     .setParameter("userId", user.getId())
                     .getResultList();
