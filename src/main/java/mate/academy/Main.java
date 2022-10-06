@@ -89,9 +89,7 @@ public class Main {
         ShoppingCartService shoppingCartService =
                 (ShoppingCartService) injector.getInstance(ShoppingCartService.class);
         shoppingCartService.addSession(tomorrowMovieSession, bob);
-        ShoppingCart shoppingCartByUser = shoppingCartService.getByUser(
-                userService.findByEmail("bob@gmail.com")
-                        .orElseThrow(() -> new RuntimeException("No such user in DB")));
+        ShoppingCart shoppingCartByUser = shoppingCartService.getByUser(bob);
         System.out.println(shoppingCartByUser.getTickets().get(0).getUser());
 
         OrderService orderService = (OrderService) injector.getInstance(OrderService.class);
