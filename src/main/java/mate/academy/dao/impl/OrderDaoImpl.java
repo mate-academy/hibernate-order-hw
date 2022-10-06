@@ -13,7 +13,7 @@ import org.hibernate.Transaction;
 @Dao
 public class OrderDaoImpl implements OrderDao {
     @Override
-    public Order completeOrder(Order order) {
+    public Order add(Order order) {
         Session session = null;
         Transaction transaction = null;
         try {
