@@ -9,7 +9,6 @@ import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.JoinTable;
 import javax.persistence.ManyToOne;
-import javax.persistence.MapsId;
 import javax.persistence.OneToMany;
 import javax.persistence.Table;
 
@@ -21,13 +20,12 @@ public class Order {
     private Long id;
     @OneToMany
     @JoinTable(name = "orders_tickets",
-            joinColumns = @JoinColumn(name = "order_id"),
-            inverseJoinColumns = @JoinColumn(name = "ticket_id"))
+            joinColumns = @JoinColumn(name = "orderId"),
+            inverseJoinColumns = @JoinColumn(name = "ticketId"))
     private List<Ticket> tickets;
     private LocalDateTime orderDate;
     @ManyToOne
-    @MapsId
-    @JoinColumn(name = "id")
+    @JoinColumn(name = "userId")
     private User user;
 
     public Long getId() {
