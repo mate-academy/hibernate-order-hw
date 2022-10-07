@@ -2,17 +2,47 @@ package mate.academy;
 
 import java.time.LocalDate;
 import java.time.LocalDateTime;
+import java.util.List;
+import mate.academy.exception.AuthenticationException;
+import mate.academy.exception.RegistrationException;
+import mate.academy.lib.Injector;
 import mate.academy.model.CinemaHall;
 import mate.academy.model.Movie;
 import mate.academy.model.MovieSession;
+import mate.academy.model.Order;
+import mate.academy.model.ShoppingCart;
+import mate.academy.model.User;
+import mate.academy.security.AuthenticationService;
 import mate.academy.service.CinemaHallService;
 import mate.academy.service.MovieService;
 import mate.academy.service.MovieSessionService;
+import mate.academy.service.OrderService;
+import mate.academy.service.ShoppingCartService;
 
 public class Main {
-    public static void main(String[] args) {
-        MovieService movieService = null;
+    private static final Injector injector = Injector.getInstance("mate.academy");
 
+    public static void main(String[] args) {
+        AuthenticationService authenticationService =
+                (AuthenticationService) injector.getInstance(AuthenticationService.class);
+        String email = "someEmail@gmail.com";
+        String password = "password";
+        try {
+            authenticationService.register(email, password);
+            System.out.println("Registration ok");
+        } catch (RegistrationException e) {
+            throw new RuntimeException("Registration failed", e);
+        }
+        User authorizedUser = null;
+        try {
+            authorizedUser = authenticationService.login(email, password);
+            System.out.println("User " + authorizedUser + " authorized successful");
+        } catch (AuthenticationException e) {
+            throw new RuntimeException("Authorization failed", e);
+        }
+
+        MovieService movieService =
+                (MovieService) injector.getInstance(MovieService.class);
         Movie fastAndFurious = new Movie("Fast and Furious");
         fastAndFurious.setDescription("An action film about street racing, heists, and spies.");
         movieService.add(fastAndFurious);
@@ -27,7 +57,8 @@ public class Main {
         secondCinemaHall.setCapacity(200);
         secondCinemaHall.setDescription("second hall with capacity 200");
 
-        CinemaHallService cinemaHallService = null;
+        CinemaHallService cinemaHallService =
+                (CinemaHallService) injector.getInstance(CinemaHallService.class);
         cinemaHallService.add(firstCinemaHall);
         cinemaHallService.add(secondCinemaHall);
 
@@ -44,12 +75,26 @@ public class Main {
         yesterdayMovieSession.setMovie(fastAndFurious);
         yesterdayMovieSession.setShowTime(LocalDateTime.now().minusDays(1L));
 
-        MovieSessionService movieSessionService = null;
+        MovieSessionService movieSessionService =
+                (MovieSessionService) injector.getInstance(MovieSessionService.class);
         movieSessionService.add(tomorrowMovieSession);
         movieSessionService.add(yesterdayMovieSession);
 
         System.out.println(movieSessionService.get(yesterdayMovieSession.getId()));
         System.out.println(movieSessionService.findAvailableSessions(
                         fastAndFurious.getId(), LocalDate.now()));
+
+        ShoppingCartService shoppingCartService =
+                (ShoppingCartService) injector.getInstance(ShoppingCartService.class);
+        shoppingCartService.addSession(tomorrowMovieSession, authorizedUser);
+        ShoppingCart shoppingCartByUser = shoppingCartService.getByUser(authorizedUser);
+        System.out.println(shoppingCartByUser);
+
+        OrderService orderService =
+                (OrderService) injector.getInstance(OrderService.class);
+        Order order = orderService.completeOrder(shoppingCartByUser);
+        System.out.println(order);
+        List<Order> ordersHistory = orderService.getOrdersHistory(authorizedUser);
+        ordersHistory.forEach(System.out::println);
     }
 }
