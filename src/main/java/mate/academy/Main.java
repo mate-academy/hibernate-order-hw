@@ -2,7 +2,7 @@ package mate.academy;
 
 import java.time.LocalDate;
 import java.time.LocalDateTime;
-import mate.academy.dao.OrderDao;
+import java.util.List;
 import mate.academy.exception.AuthenticationException;
 import mate.academy.exception.RegistrationException;
 import mate.academy.lib.Injector;
@@ -15,6 +15,7 @@ import mate.academy.security.AuthenticationService;
 import mate.academy.service.CinemaHallService;
 import mate.academy.service.MovieService;
 import mate.academy.service.MovieSessionService;
+import mate.academy.service.OrderService;
 import mate.academy.service.ShoppingCartService;
 
 public class Main {
@@ -78,15 +79,19 @@ public class Main {
             throw new RuntimeException("Can't login user with email: " + email, e);
         }
         System.out.println(user);
+
         final ShoppingCartService shoppingCartService =
                 (ShoppingCartService) injector.getInstance(ShoppingCartService.class);
         shoppingCartService.addSession(yesterdayMovieSession, user);
         shoppingCartService.addSession(tomorrowMovieSession, user);
         System.out.println(shoppingCartService.getByUser(user));
 
-        final OrderDao orderDao = (OrderDao) injector.getInstance(OrderDao.class);
-
-        Order order = new Order();
-
+        final OrderService orderService = (OrderService) injector.getInstance(OrderService.class);
+        orderService.completeOrder(shoppingCartService.getByUser(user));
+        List<Order> orders = orderService.getOrdersHistory(user);
+        System.out.println(orders.get(0).getId());
+        System.out.println(orders.get(0).getUser());
+        System.out.println(orders.get(0).getOrderDate());
+//        System.out.println(orders.get(0).getTickets());
     }
 }
