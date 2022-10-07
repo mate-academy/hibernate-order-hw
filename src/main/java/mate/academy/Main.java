@@ -92,6 +92,6 @@ public class Main {
         System.out.println(orders.get(0).getId());
         System.out.println(orders.get(0).getUser());
         System.out.println(orders.get(0).getOrderDate());
-//        System.out.println(orders.get(0).getTickets());
+        System.out.println(orders.get(0).getTickets());
     }
 }
