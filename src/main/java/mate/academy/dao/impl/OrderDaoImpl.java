@@ -43,10 +43,11 @@ public class OrderDaoImpl implements OrderDao {
                     + "LEFT JOIN FETCH t.movieSession ms "
                     + "LEFT JOIN FETCH ms.movie "
                     + "LEFT JOIN FETCH ms.cinemaHall "
-                    + "WHERE sc.user =:user", Order.class);
-            return query.setParameter("user", user).getResultList();
+                    + "WHERE o.user =:user", Order.class);
+            return query.setParameter("user", user)
+                    .getResultList();
         } catch (Exception e) {
-            throw new DataProcessingException("Can't find a shopping cart by user: " + user, e);
+            throw new DataProcessingException("Can't find a orders by user: " + user, e);
         }
     }
 }

@@ -2,6 +2,7 @@ package mate.academy;
 
 import java.time.LocalDate;
 import java.time.LocalDateTime;
+import java.util.List;
 import mate.academy.exception.RegistrationException;
 import mate.academy.lib.Injector;
 import mate.academy.model.CinemaHall;
@@ -90,5 +91,6 @@ public class Main {
                 (OrderService) injector.getInstance(OrderService.class);
         Order order = orderService.completeOrder(shoppingCart);
         System.out.println(order);
+        List<Order> ordersHistory = orderService.getOrdersHistory(user);
     }
 }
