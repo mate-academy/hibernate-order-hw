@@ -2,14 +2,12 @@ package mate.academy;
 
 import java.time.LocalDate;
 import java.time.LocalDateTime;
-import java.util.List;
 import mate.academy.exception.AuthenticationException;
 import mate.academy.exception.RegistrationException;
 import mate.academy.lib.Injector;
 import mate.academy.model.CinemaHall;
 import mate.academy.model.Movie;
 import mate.academy.model.MovieSession;
-import mate.academy.model.Order;
 import mate.academy.model.User;
 import mate.academy.security.AuthenticationService;
 import mate.academy.service.CinemaHallService;
@@ -88,10 +86,6 @@ public class Main {
 
         final OrderService orderService = (OrderService) injector.getInstance(OrderService.class);
         orderService.completeOrder(shoppingCartService.getByUser(user));
-        List<Order> orders = orderService.getOrdersHistory(user);
-        System.out.println(orders.get(0).getId());
-        System.out.println(orders.get(0).getUser());
-        System.out.println(orders.get(0).getOrderDate());
-        System.out.println(orders.get(0).getTickets());
+        orderService.getOrdersHistory(user).forEach(System.out::println);
     }
 }
