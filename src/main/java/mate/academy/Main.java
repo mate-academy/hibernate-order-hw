@@ -76,7 +76,6 @@ public class Main {
         } catch (AuthenticationException e) {
             throw new RuntimeException("Can't login user with email: " + email, e);
         }
-        System.out.println(user);
 
         final ShoppingCartService shoppingCartService =
                 (ShoppingCartService) injector.getInstance(ShoppingCartService.class);
