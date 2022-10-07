@@ -2,6 +2,7 @@ package mate.academy.model;
 
 import java.time.LocalDateTime;
 import java.util.List;
+import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
@@ -25,6 +26,7 @@ public class Order {
             inverseJoinColumns = @JoinColumn(name = "ticket_id"))
     private List<Ticket> tickets;
 
+    @Column(name = "order_date")
     private LocalDateTime orderDate;
 
     @ManyToOne
