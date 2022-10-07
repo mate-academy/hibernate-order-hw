@@ -92,5 +92,6 @@ public class Main {
         Order order = orderService.completeOrder(shoppingCart);
         System.out.println(order);
         List<Order> ordersHistory = orderService.getOrdersHistory(user);
+        System.out.println(ordersHistory);
     }
 }
