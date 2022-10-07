@@ -45,8 +45,8 @@ public class OrderDaoImpl implements OrderDao {
                     + "INNER JOIN FETCH ms.movie m "
                     + "INNER JOIN FETCH ms.cinemaHall ch "
                     + "WHERE o.user = :user", Order.class);
-            query.setParameter("user", user);
-            return query.getResultList();
+            return query.setParameter("user", user)
+                    .getResultList();
         } catch (Exception e) {
             throw new DataProcessingException("Can't find orders by user: "
                     + user, e);
