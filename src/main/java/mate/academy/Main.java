@@ -2,13 +2,20 @@ package mate.academy;
 
 import java.time.LocalDate;
 import java.time.LocalDateTime;
+import mate.academy.dao.OrderDao;
+import mate.academy.exception.AuthenticationException;
+import mate.academy.exception.RegistrationException;
 import mate.academy.lib.Injector;
 import mate.academy.model.CinemaHall;
 import mate.academy.model.Movie;
 import mate.academy.model.MovieSession;
+import mate.academy.model.Order;
+import mate.academy.model.User;
+import mate.academy.security.AuthenticationService;
 import mate.academy.service.CinemaHallService;
 import mate.academy.service.MovieService;
 import mate.academy.service.MovieSessionService;
+import mate.academy.service.ShoppingCartService;
 
 public class Main {
     private static final Injector injector = Injector.getInstance("mate.academy");
@@ -30,7 +37,7 @@ public class Main {
         secondCinemaHall.setCapacity(200);
         secondCinemaHall.setDescription("second hall with capacity 200");
 
-        CinemaHallService cinemaHallService =
+        final CinemaHallService cinemaHallService =
                 (CinemaHallService) injector.getInstance(CinemaHallService.class);
         cinemaHallService.add(firstCinemaHall);
         cinemaHallService.add(secondCinemaHall);
@@ -48,7 +55,7 @@ public class Main {
         yesterdayMovieSession.setMovie(fastAndFurious);
         yesterdayMovieSession.setShowTime(LocalDateTime.now().minusDays(1L));
 
-        MovieSessionService movieSessionService =
+        final MovieSessionService movieSessionService =
                 (MovieSessionService) injector.getInstance(MovieSessionService.class);
         movieSessionService.add(tomorrowMovieSession);
         movieSessionService.add(yesterdayMovieSession);
@@ -56,5 +63,30 @@ public class Main {
         System.out.println(movieSessionService.get(yesterdayMovieSession.getId()));
         System.out.println(movieSessionService.findAvailableSessions(
                 fastAndFurious.getId(), LocalDate.now()));
+
+        final AuthenticationService authenticationService =
+                (AuthenticationService) injector.getInstance(AuthenticationService.class);
+        String email = "bob@asd.ua";
+        String password = "q123";
+        User user = null;
+        try {
+            authenticationService.register(email, password);
+            user = authenticationService.login(email, password);
+        } catch (RegistrationException e) {
+            throw new RuntimeException("Can't register new user with email: " + email, e);
+        } catch (AuthenticationException e) {
+            throw new RuntimeException("Can't login user with email: " + email, e);
+        }
+        System.out.println(user);
+        final ShoppingCartService shoppingCartService =
+                (ShoppingCartService) injector.getInstance(ShoppingCartService.class);
+        shoppingCartService.addSession(yesterdayMovieSession, user);
+        shoppingCartService.addSession(tomorrowMovieSession, user);
+        System.out.println(shoppingCartService.getByUser(user));
+
+        final OrderDao orderDao = (OrderDao) injector.getInstance(OrderDao.class);
+
+        Order order = new Order();
+
     }
 }
