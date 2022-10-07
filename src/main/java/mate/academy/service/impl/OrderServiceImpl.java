@@ -27,7 +27,6 @@ public class OrderServiceImpl implements OrderService {
         order.setTickets(new ArrayList<>(shoppingCart.getTickets()));
         shoppingCartService.clearShoppingCart(shoppingCart);
         return orderDao.add(order);
-
     }
 
     @Override
