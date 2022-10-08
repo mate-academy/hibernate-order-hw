@@ -24,7 +24,9 @@ public class Order {
     private User user;
     private LocalDateTime orderData;
     @OneToMany
-    @JoinTable(name = "orders_tickets", joinColumns = @JoinColumn(name = "ticket_id"))
+    @JoinTable(name = "orders_tickets",
+            joinColumns = @JoinColumn(name = "order_id"),
+            inverseJoinColumns = @JoinColumn(name = "ticket_id"))
     private List<Ticket> tickets;
 
     public Order() {
