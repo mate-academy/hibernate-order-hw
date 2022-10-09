@@ -23,7 +23,7 @@ public class Main {
     private static final Injector injector
             = Injector.getInstance("mate.academy");
 
-    public static void main(String[] args) throws RegistrationException {
+    public static void main(String[] args) {
         MovieService movieService
                 = (MovieService) injector.getInstance(MovieService.class);
 
@@ -73,7 +73,12 @@ public class Main {
         AuthenticationService authenticationService
                 = (AuthenticationService) injector
                 .getInstance(AuthenticationService.class);
-        User ivan = authenticationService.register("ivan@mail.com", "qwerty");
+        User ivan = null;
+        try {
+            ivan = authenticationService.register("ivan@mail.com", "qwerty");
+        } catch (RegistrationException e) {
+            throw new RuntimeException("Can't register this user", e);
+        }
 
         ShoppingCartService shoppingCartService = (ShoppingCartService) injector
                 .getInstance(ShoppingCartService.class);
