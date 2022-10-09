@@ -72,7 +72,7 @@ public class Main {
         try {
             testUser = authenticationService.register("test@mail.com", "qwert");
         } catch (RegistrationException e) {
-            throw new RuntimeException(e);
+            throw new RuntimeException("Can't register user", e);
         }
 
         ShoppingCartService shoppingCartService = (ShoppingCartService) injector
