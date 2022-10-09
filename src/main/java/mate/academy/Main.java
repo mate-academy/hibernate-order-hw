@@ -77,6 +77,7 @@ public class Main {
 
         ShoppingCartService shoppingCartService = (ShoppingCartService) injector
                 .getInstance(ShoppingCartService.class);
+
         shoppingCartService.addSession(tomorrowMovieSession, user);
         shoppingCartService.addSession(yesterdayMovieSession, user);
 
@@ -89,6 +90,6 @@ public class Main {
 
         Order userOrder = orderService.completeOrder(bobShoppingCart);
         System.out.println(userOrder);
-
+        System.out.println(orderService.getOrdersHistory(user));
     }
 }
