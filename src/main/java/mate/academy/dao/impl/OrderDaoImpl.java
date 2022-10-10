@@ -39,14 +39,14 @@ public class OrderDaoImpl implements OrderDao {
     }
 
     @Override
-    public List<Order> getByUser(User user) {
+    public List<Order> getAllByUser(User user) {
         try (Session session = sessionFactory.openSession()) {
             Query<Order> query = session.createQuery("SELECT o FROM Order o "
-                    + "LEFT JOIN FETCH o.user u "
-                    + "LEFT JOIN FETCH o.tickets t "
-                    + "LEFT JOIN FETCH t.movieSession ms "
-                    + "LEFT JOIN FETCH ms.movie "
-                    + "LEFT JOIN FETCH ms.cinemaHall "
+                    + "INNER JOIN FETCH o.user u "
+                    + "INNER JOIN FETCH o.tickets t "
+                    + "INNER JOIN FETCH t.movieSession ms "
+                    + "INNER JOIN FETCH ms.movie "
+                    + "INNER JOIN FETCH ms.cinemaHall "
                     + "WHERE o.user =:user", Order.class);
             query.setParameter("user", user);
             return query.getResultList();
