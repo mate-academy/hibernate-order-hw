@@ -26,11 +26,11 @@ public class OrderServiceImpl implements OrderService {
         order.setOrderDate(LocalDateTime.now());
         order.setTickets(new ArrayList<>(shoppingCart.getTickets()));
         shoppingCartService.clearShoppingCart(shoppingCart);
-        return order;
+        return orderDao.add(order);
     }
 
     @Override
     public List<Order> getOrdersHistory(User user) {
-        return orderDao.getByUser(user);
+        return orderDao.getAllByUser(user);
     }
 }

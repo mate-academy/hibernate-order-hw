@@ -14,16 +14,16 @@ import org.hibernate.query.Query;
 @Dao
 public class OrderDaoImpl implements OrderDao {
     @Override
-    public List<Order> getByUser(User user) {
+    public List<Order> getAllByUser(User user) {
         try (Session session = HibernateUtil.getSessionFactory().openSession()) {
             Query<Order> ordersFromDb = session.createQuery("SELECT distinct o FROM Order o "
-                    + "LEFT JOIN FETCH o.user u "
-                    + "LEFT JOIN FETCH o.tickets t "
-                    + "LEFT JOIN FETCH t.movieSession ms "
-                    + "LEFT JOIN FETCH ms.cinemaHall "
-                    + "LEFT JOIN FETCH ms.movie "
-                    + "where o.user.id = :userId", Order.class);
-            ordersFromDb.setParameter("userId", user.getId());
+                    + "INNER JOIN FETCH o.user u "
+                    + "INNER JOIN FETCH o.tickets t "
+                    + "INNER JOIN FETCH t.movieSession ms "
+                    + "INNER JOIN FETCH ms.cinemaHall "
+                    + "INNER JOIN FETCH ms.movie "
+                    + "where o.user = :user", Order.class);
+            ordersFromDb.setParameter("user", user);
             return ordersFromDb.getResultList();
         } catch (Exception e) {
             throw new DataProcessingException("Can't get orders by user = " + user, e);
