@@ -43,8 +43,8 @@ public class OrderDaoImpl implements OrderDao {
                             + "inner join fetch t.movieSession ms "
                             + "inner join fetch ms.cinemaHall c "
                             + "inner join fetch ms.movie m "
-                            + "where o.user.id = :userId", Order.class)
-                    .setParameter("userId", user.getId())
+                            + "where o.user = :user", Order.class)
+                    .setParameter("user", user)
                     .getResultList();
         } catch (Exception e) {
             throw new DataProcessingException("Coldn't get orders by user: " + user, e);
