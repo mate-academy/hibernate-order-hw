@@ -13,7 +13,6 @@ import org.hibernate.query.Query;
 
 @Dao
 public class OrderDaoImpl implements OrderDao {
-
     @Override
     public Order add(Order order) {
         Session session = null;
@@ -37,14 +36,14 @@ public class OrderDaoImpl implements OrderDao {
     }
 
     @Override
-    public List<Order> getByUser(User user) {
+    public List<Order> getAllByUser(User user) {
         try (Session session = HibernateUtil.getSessionFactory().openSession()) {
             Query<Order> query = session.createQuery(" select distinct o from Order o "
-                    + "left join fetch o.tickets t "
-                    + "left join fetch t.movieSession ms "
-                    + "left join fetch t.user "
-                    + "left join fetch ms.movie "
-                    + "left join fetch ms.cinemaHall "
+                    + "join fetch o.tickets t "
+                    + "join fetch t.movieSession ms "
+                    + "join fetch t.user "
+                    + "join fetch ms.movie "
+                    + "join fetch ms.cinemaHall "
                     + "where o.user = :user", Order.class);
             query.setParameter("user", user);
             return query.getResultList();
