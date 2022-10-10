@@ -5,6 +5,7 @@ import mate.academy.dao.OrderDao;
 import mate.academy.exception.DataProcessingException;
 import mate.academy.lib.Dao;
 import mate.academy.model.Order;
+import mate.academy.model.ShoppingCart;
 import mate.academy.model.User;
 import mate.academy.util.HibernateUtil;
 import org.hibernate.Session;
@@ -14,7 +15,7 @@ import org.hibernate.query.Query;
 @Dao
 public class OrderDaoImpl implements OrderDao {
     @Override
-    public Order completeOrder(Order order) {
+    public Order add(Order order) {
         Session session = null;
         Transaction transaction = null;
         try {
@@ -38,17 +39,16 @@ public class OrderDaoImpl implements OrderDao {
 
     @Override
     public List<Order> getOrdersHistory(User user) {
-        String query = "FROM Order o "
-                + "LEFT JOIN FETCH o.tickets t "
-                + "LEFT JOIN FETCH o.user u "
-                + "LEFT JOIN FETCH t.movieSession ms "
-                + "LEFT JOIN FETCH ms.movie "
-                + "LEFT JOIN FETCH ms.cinemaHall "
-                + "WHERE o.user = :user ";
         try (Session session = HibernateUtil.getSessionFactory().openSession()) {
-            Query<Order> getAllOrdersQuery = session.createQuery(query, Order.class);
-            getAllOrdersQuery.setParameter("user", user);
-            return getAllOrdersQuery.getResultList();
+            Query<Order> query = session.createQuery( "FROM Order o "
+                    + "LEFT JOIN FETCH o.tickets t "
+                    + "LEFT JOIN FETCH o.user u "
+                    + "LEFT JOIN FETCH t.movieSession ms "
+                    + "LEFT JOIN FETCH ms.movie "
+                    + "LEFT JOIN FETCH ms.cinemaHall "
+                    + "WHERE o.user = :user ", Order.class);
+            query.setParameter("user", user);
+            return query.getResultList();
         } catch (Exception e) {
             throw new DataProcessingException("Can`t find an orders history by user: " + user, e);
         }
