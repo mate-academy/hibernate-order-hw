@@ -5,7 +5,6 @@ import mate.academy.dao.OrderDao;
 import mate.academy.exception.DataProcessingException;
 import mate.academy.lib.Dao;
 import mate.academy.model.Order;
-import mate.academy.model.ShoppingCart;
 import mate.academy.model.User;
 import mate.academy.util.HibernateUtil;
 import org.hibernate.Session;
@@ -40,7 +39,7 @@ public class OrderDaoImpl implements OrderDao {
     @Override
     public List<Order> getOrdersHistory(User user) {
         try (Session session = HibernateUtil.getSessionFactory().openSession()) {
-            Query<Order> query = session.createQuery( "FROM Order o "
+            Query<Order> query = session.createQuery("FROM Order o "
                     + "LEFT JOIN FETCH o.tickets t "
                     + "LEFT JOIN FETCH o.user u "
                     + "LEFT JOIN FETCH t.movieSession ms "
