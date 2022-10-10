@@ -17,7 +17,7 @@ public class OrderServiceImpl implements OrderService {
     @Inject
     private OrderDao orderDao;
     @Inject
-    ShoppingCartService shoppingCartService;
+    private ShoppingCartService shoppingCartService;
 
     @Override
     public Order completeOrder(ShoppingCart shoppingCart) {
@@ -31,6 +31,6 @@ public class OrderServiceImpl implements OrderService {
 
     @Override
     public List<Order> getOrdersHistory(User user) {
-        return orderDao.allByUser(user);
+        return orderDao.getAllByUser(user);
     }
 }
