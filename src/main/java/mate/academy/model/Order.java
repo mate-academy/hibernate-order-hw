@@ -31,7 +31,7 @@ public class Order {
     @JoinColumn(name = "user_id")
     private User user;
 
-    public long getId() {
+    public Long getId() {
         return id;
     }
 
