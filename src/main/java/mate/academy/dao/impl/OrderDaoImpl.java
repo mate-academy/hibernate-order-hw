@@ -21,8 +21,8 @@ public class OrderDaoImpl implements OrderDao {
                             + "inner join fetch t.movieSession ms "
                             + "inner join fetch ms.movie "
                             + "inner join fetch ms.cinemaHall "
-                            + "where o.user.id = :userId", Order.class)
-                    .setParameter("userId", user.getId())
+                            + "where o.user = :user", Order.class)
+                    .setParameter("user", user)
                     .getResultList();
         } catch (Exception e) {
             throw new DataProcessingException("Can not get orders by user: " + user, e);
