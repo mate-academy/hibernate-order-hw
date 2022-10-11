@@ -1,15 +1,18 @@
 package mate.academy.model;
 
+import java.time.LocalDateTime;
+import java.util.List;
+import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.JoinColumn;
+import javax.persistence.JoinTable;
 import javax.persistence.ManyToOne;
 import javax.persistence.OneToMany;
 import javax.persistence.Table;
-import java.time.LocalDateTime;
-import java.util.List;
-
 
 @Entity
 @Table(name = "orders")
@@ -18,9 +21,13 @@ public class Order {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
     @OneToMany
+    @JoinTable(name = "orders_tickets",
+            joinColumns = @JoinColumn(name = "order_id"),
+            inverseJoinColumns = @JoinColumn(name = "ticket_id"))
     private List<Ticket> tickets;
-    private LocalDateTime localDateTime;
-    @ManyToOne
+    @Column(name = "order_date")
+    private LocalDateTime orderDate;
+    @ManyToOne(fetch = FetchType.LAZY)
     private User user;
 
     public Long getId() {
@@ -39,12 +46,12 @@ public class Order {
         this.tickets = tickets;
     }
 
-    public LocalDateTime getLocalDateTime() {
-        return localDateTime;
+    public LocalDateTime getOrderDate() {
+        return orderDate;
     }
 
-    public void setLocalDateTime(LocalDateTime localDateTime) {
-        this.localDateTime = localDateTime;
+    public void setOrderDate(LocalDateTime orderDate) {
+        this.orderDate = orderDate;
     }
 
     public User getUser() {
@@ -60,7 +67,7 @@ public class Order {
         return "Order{"
                 + "id=" + id
                 + ", tickets=" + tickets
-                + ", localDateTime=" + localDateTime
+                + ", orderDate=" + orderDate
                 + ", user=" + user
                 + '}';
     }
