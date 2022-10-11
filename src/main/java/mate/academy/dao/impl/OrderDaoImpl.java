@@ -44,8 +44,8 @@ public class OrderDaoImpl implements OrderDao {
                             + " INNER JOIN FETCH t.movieSession ms "
                             + " INNER JOIN FETCH ms.movie  "
                             + " INNER JOIN FETCH ms.cinemaHall "
-                            + " WHERE o.user.id = : userId", Order.class)
-                    .setParameter("userId", user.getId())
+                            + " WHERE o.user = : user", Order.class)
+                    .setParameter("user", user)
                     .getResultList();
         } catch (Exception e) {
             throw new DataProcessingException("Can't get order history by user:" + user, e);
