@@ -2,15 +2,7 @@ package mate.academy.model;
 
 import java.time.LocalDateTime;
 import java.util.List;
-import javax.persistence.Column;
-import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
-import javax.persistence.Id;
-import javax.persistence.JoinColumn;
-import javax.persistence.JoinTable;
-import javax.persistence.ManyToOne;
-import javax.persistence.OneToMany;
+import javax.persistence.*;
 
 @Entity
 public class Order {
@@ -24,7 +16,7 @@ public class Order {
     private List<Ticket> tickets;
     @Column(name = "order_date")
     private LocalDateTime orderDate;
-    @ManyToOne
+    @ManyToOne(fetch = FetchType.LAZY)
     private User user;
 
     public Long getId() {
@@ -62,8 +54,6 @@ public class Order {
     @Override
     public String toString() {
         return "Order{" + "id=" + id
-                + ", tickets=" + tickets
-                + ", orderDate=" + orderDate
-                + ", user=" + user + '}';
+                + ", orderDate=" + orderDate + '}';
     }
 }

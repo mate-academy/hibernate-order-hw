@@ -27,7 +27,7 @@ public class OrderDaoImpl implements OrderDao {
             if (transaction != null) {
                 transaction.rollback();
             }
-            throw new DataProcessingException("Can't create new order: " + order, e);
+            throw new DataProcessingException("Can't insert new order: " + order, e);
         } finally {
             if (session != null) {
                 session.close();
@@ -36,7 +36,7 @@ public class OrderDaoImpl implements OrderDao {
     }
 
     @Override
-    public List<Order> getByUser(User user) {
+    public List<Order> getAllByUser(User user) {
         try (Session session = HibernateUtil.getSessionFactory().openSession()) {
             Query<Order> query = session.createQuery("FROM Order o "
                     + "LEFT JOIN FETCH o.user "
