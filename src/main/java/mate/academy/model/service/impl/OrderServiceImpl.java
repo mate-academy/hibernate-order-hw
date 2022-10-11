@@ -31,6 +31,6 @@ public class OrderServiceImpl implements OrderService {
 
     @Override
     public List<Order> getOrderHistory(User user) {
-        return orderDao.getOrderHistory(user);
+        return orderDao.getAllByUser(user);
     }
 }
