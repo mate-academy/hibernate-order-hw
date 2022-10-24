@@ -12,9 +12,10 @@
             
             List<Order> getOrdersHistory(User user);
         }
-        ```    
+        ``` 
+- In the `mate/academy/Main.main()` method create instance of OrderService using injector and test all methods from it.   
 
-Attention: you can have some problem with naming of the table. Let's use `orders` instead of `order`.
+__Attention!!!__: you can have some problem with naming of the table. Let's use `orders` instead of `order`.
 
 __You can check yourself using this__ [checklist](https://mate-academy.github.io/jv-program-common-mistakes/hibernate/add-order/add-order-hw)  
 
