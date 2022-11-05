@@ -1,7 +1,7 @@
 package mate.academy.model;
 
-import java.util.List;
 import java.time.LocalDateTime;
+import java.util.List;
 import javax.persistence.Entity;
 import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
