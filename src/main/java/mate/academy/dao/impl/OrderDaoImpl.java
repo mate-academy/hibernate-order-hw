@@ -12,7 +12,6 @@ import org.hibernate.Transaction;
 
 @Dao
 public class OrderDaoImpl implements OrderDao {
-
     @Override
     public Order add(Order order) {
         Session session = null;
@@ -26,7 +25,7 @@ public class OrderDaoImpl implements OrderDao {
             if (transaction != null) {
                 transaction.rollback();
             }
-            throw new DataProcessingException("Can't get order from db", e);
+            throw new DataProcessingException("Can't add order to db", e);
         } finally {
             if (session != null) {
                 session.close();
@@ -36,9 +35,11 @@ public class OrderDaoImpl implements OrderDao {
     }
 
     @Override
-    public List<Order> getByUser(User user) {
+    public List<Order> getAllByUser(User user) {
         try (Session session = HibernateUtil.getSessionFactory().openSession()) {
             return session.createQuery("from Order", Order.class).getResultList();
+        } catch (Exception e) {
+            throw new DataProcessingException("Can't get all orders by user " + user, e);
         }
     }
 }
