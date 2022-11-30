@@ -8,6 +8,6 @@ import mate.academy.model.User;
 public interface OrderDao {
     Order add(Order order);
 
-    Optional<List<Order>> getByUser(User user);
+    List<Order> getByUser(User user);
 
 }

@@ -31,8 +31,6 @@ public class OrderServiceImpl implements OrderService {
 
     @Override
     public List<Order> getOrdersHistory(User user) {
-        return orderDao.getByUser(user).orElseThrow(
-                () -> new RuntimeException("User " + user + " doesn't have orders")
-        );
+        return orderDao.getByUser(user);
     }
 }
