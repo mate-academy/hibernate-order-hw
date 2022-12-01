@@ -27,7 +27,8 @@ public class Order {
     public Order() {
     }
 
-    public Order(LocalDateTime orderDate, User user) {
+    public Order(List<Ticket> tickets, LocalDateTime orderDate, User user) {
+        this.tickets = tickets;
         this.orderDate = orderDate;
         this.user = user;
     }
