@@ -11,29 +11,8 @@ import org.hibernate.Transaction;
 import org.hibernate.query.Query;
 
 @Dao
-public class ShoppingCartDaoImpl implements ShoppingCartDao {
-    @Override
-    public ShoppingCart add(ShoppingCart shoppingCart) {
-        Session session = null;
-        Transaction transaction = null;
-        try {
-            session = HibernateUtil.getSessionFactory().openSession();
-            transaction = session.beginTransaction();
-            session.save(shoppingCart);
-            transaction.commit();
-            return shoppingCart;
-        } catch (Exception e) {
-            if (transaction != null) {
-                transaction.rollback();
-            }
-            throw new DataProcessingException("Can't insert a shopping cart: " + shoppingCart, e);
-        } finally {
-            if (session != null) {
-                session.close();
-            }
-        }
-    }
-
+public class ShoppingCartDaoImpl extends GenericDaoImpl<ShoppingCart>
+        implements ShoppingCartDao {
     @Override
     public ShoppingCart getByUser(User user) {
         try (Session session = HibernateUtil.getSessionFactory().openSession()) {

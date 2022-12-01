@@ -9,31 +9,10 @@ import mate.academy.lib.Dao;
 import mate.academy.model.CinemaHall;
 import mate.academy.util.HibernateUtil;
 import org.hibernate.Session;
-import org.hibernate.Transaction;
 
 @Dao
-public class CinemaHallDaoImpl implements CinemaHallDao {
-    @Override
-    public CinemaHall add(CinemaHall cinemaHall) {
-        Session session = null;
-        Transaction transaction = null;
-        try {
-            session = HibernateUtil.getSessionFactory().openSession();
-            transaction = session.beginTransaction();
-            session.save(cinemaHall);
-            transaction.commit();
-            return cinemaHall;
-        } catch (Exception e) {
-            if (transaction != null) {
-                transaction.rollback();
-            }
-            throw new DataProcessingException("Can't insert a cinema hall: " + cinemaHall, e);
-        } finally {
-            if (session != null) {
-                session.close();
-            }
-        }
-    }
+public class CinemaHallDaoImpl extends GenericDaoImpl<CinemaHall>
+        implements CinemaHallDao {
 
     @Override
     public Optional<CinemaHall> get(Long id) {
