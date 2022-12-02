@@ -1,4 +1,4 @@
-<hibernate-configuration xmlns="http://www.hibernate.org/xsd/hibernate-configuration">
+<hibernate-configuration>
     <session-factory>
         <property name="hibernate.dialect">org.hibernate.dialect.MySQL5Dialect</property>
         <property name="connection.url">jdbc:mysql://localhost/ticket_app</property>
@@ -14,5 +14,6 @@
         <mapping class="mate.academy.model.User"/>
         <mapping class="mate.academy.model.Ticket"/>
         <mapping class="mate.academy.model.ShoppingCart"/>
+        <mapping class="mate.academy.model.Order"/>
     </session-factory>
 </hibernate-configuration>
