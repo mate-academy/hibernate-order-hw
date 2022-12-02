@@ -5,12 +5,21 @@ import java.time.LocalDateTime;
 import mate.academy.model.CinemaHall;
 import mate.academy.model.Movie;
 import mate.academy.model.MovieSession;
+import mate.academy.model.Order;
 import mate.academy.service.CinemaHallService;
 import mate.academy.service.MovieService;
 import mate.academy.service.MovieSessionService;
 
 public class Main {
     public static void main(String[] args) {
+
+        Order order = new Order();
+        order.setOrderDate(LocalDateTime.now());
+        System.out.println(order);
+        if (1 == 1) {
+            return;
+        }
+
         MovieService movieService = null;
 
         Movie fastAndFurious = new Movie("Fast and Furious");
