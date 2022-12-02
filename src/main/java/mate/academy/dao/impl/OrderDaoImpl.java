@@ -10,8 +10,6 @@ import mate.academy.util.HibernateUtil;
 import org.hibernate.Session;
 import org.hibernate.query.Query;
 
-import javax.persistence.EntityManager;
-
 @Dao
 public class OrderDaoImpl extends AbstractDaoImpl<Order> implements OrderDao {
     @Override
