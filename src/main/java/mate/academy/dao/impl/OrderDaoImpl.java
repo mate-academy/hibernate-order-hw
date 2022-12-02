@@ -8,6 +8,7 @@ import javax.persistence.criteria.JoinType;
 import javax.persistence.criteria.Root;
 import mate.academy.dao.OrderDao;
 import mate.academy.exception.DataProcessingException;
+import mate.academy.lib.Dao;
 import mate.academy.model.CinemaHall;
 import mate.academy.model.Movie;
 import mate.academy.model.MovieSession;
@@ -18,6 +19,7 @@ import mate.academy.util.HibernateUtil;
 import org.hibernate.Session;
 import org.hibernate.Transaction;
 
+@Dao
 public class OrderDaoImpl implements OrderDao {
     @Override
     public Order add(Order order) {
