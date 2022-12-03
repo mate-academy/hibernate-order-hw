@@ -12,7 +12,6 @@ import org.hibernate.query.Query;
 @Dao
 public class UserDaoImpl extends GenericDaoImpl<User>
         implements UserDao {
-
     @Override
     public Optional<User> findByEmail(String email) {
         try (Session session = HibernateUtil.getSessionFactory().openSession()) {

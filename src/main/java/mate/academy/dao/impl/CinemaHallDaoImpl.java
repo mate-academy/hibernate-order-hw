@@ -13,7 +13,6 @@ import org.hibernate.Session;
 @Dao
 public class CinemaHallDaoImpl extends GenericDaoImpl<CinemaHall>
         implements CinemaHallDao {
-
     @Override
     public Optional<CinemaHall> get(Long id) {
         try (Session session = HibernateUtil.getSessionFactory().openSession()) {
