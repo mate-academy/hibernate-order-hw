@@ -2,6 +2,9 @@ package mate.academy.model;
 
 import java.util.List;
 import javax.persistence.Entity;
+import javax.persistence.FetchType;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.JoinTable;
@@ -19,13 +22,14 @@ import lombok.RequiredArgsConstructor;
 @RequiredArgsConstructor
 public class ShoppingCart {
     @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
     @OneToMany
     @JoinTable(name = "shoppingCart_ticket",
             joinColumns = @JoinColumn(name = "shoppingCart_user_id"),
             inverseJoinColumns = @JoinColumn(name = "tickets_id"))
     private List<Ticket> tickets;
-    @OneToOne
+    @OneToOne(fetch = FetchType.LAZY)
     @MapsId
     @JoinColumn(name = "user_id")
     @NonNull

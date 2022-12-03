@@ -21,6 +21,7 @@ public class ShoppingCartDaoImpl extends GenericDaoImpl<ShoppingCart>
                     + "LEFT JOIN FETCH t.movieSession ms "
                     + "LEFT JOIN FETCH ms.movie "
                     + "LEFT JOIN FETCH ms.cinemaHall "
+                    + "LEFT JOIN FETCH sc.user "
                     + "WHERE sc.user =:user", ShoppingCart.class);
             query.setParameter("user", user);
             return query.uniqueResult();

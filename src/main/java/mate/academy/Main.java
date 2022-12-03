@@ -65,8 +65,8 @@ public class Main {
 
         AuthenticationService authenticationService
                 = (AuthenticationService) injector.getInstance(AuthenticationService.class);
-        authenticationService.register("user@email11", "password");
-        User user = authenticationService.login("user@email11", "password");
+        authenticationService.register("user@email", "password");
+        User user = authenticationService.login("user@email", "password");
         ShoppingCartService shoppingCartService
                 = (ShoppingCartService) injector.getInstance(ShoppingCartService.class);
         shoppingCartService.addSession(tomorrowMovieSession, user);
