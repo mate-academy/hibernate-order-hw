@@ -65,20 +65,21 @@ public class Main {
 
         AuthenticationService authenticationService =
                 (AuthenticationService) injector.getInstance(AuthenticationService.class);
+        User user = null;
         try {
-            User user = authenticationService.register("email@gmail.com", "1111111");
-            ShoppingCartService cartService =
-                    (ShoppingCartService) injector.getInstance(ShoppingCartService.class);
-            cartService.addSession(tomorrowMovieSession, user);
-            ShoppingCart shoppingCart = cartService.getByUser(user);
-            System.out.println(shoppingCart);
-            OrderService orderService = (OrderService) injector.getInstance(OrderService.class);
-            orderService.completeOrder(shoppingCart);
-            orderService.getOrdersHistory(user).forEach(System.out::println);
-            cartService.clearShoppingCart(shoppingCart);
+            user = authenticationService.register("email@gmail.com", "1111111");
         } catch (RegistrationException e) {
             throw new RuntimeException("Can't register new user", e);
         }
+        ShoppingCartService cartService =
+                (ShoppingCartService) injector.getInstance(ShoppingCartService.class);
+        cartService.addSession(tomorrowMovieSession, user);
+        ShoppingCart shoppingCart = cartService.getByUser(user);
+        System.out.println(shoppingCart);
+        OrderService orderService = (OrderService) injector.getInstance(OrderService.class);
+        orderService.completeOrder(shoppingCart);
+        orderService.getOrdersHistory(user).forEach(System.out::println);
+        cartService.clearShoppingCart(shoppingCart);
 
     }
 }
