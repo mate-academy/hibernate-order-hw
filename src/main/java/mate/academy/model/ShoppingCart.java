@@ -11,12 +11,14 @@ import javax.persistence.JoinTable;
 import javax.persistence.MapsId;
 import javax.persistence.OneToMany;
 import javax.persistence.OneToOne;
+import javax.persistence.Table;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 import lombok.NonNull;
 import lombok.RequiredArgsConstructor;
 
 @Entity
+@Table(name = "shopping_carts")
 @Data
 @NoArgsConstructor
 @RequiredArgsConstructor
@@ -25,9 +27,9 @@ public class ShoppingCart {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
     @OneToMany
-    @JoinTable(name = "shoppingCart_ticket",
-            joinColumns = @JoinColumn(name = "shoppingCart_user_id"),
-            inverseJoinColumns = @JoinColumn(name = "tickets_id"))
+    @JoinTable(name = "shopping_carts_tickets",
+            joinColumns = @JoinColumn(name = "shopping_cart_id"),
+            inverseJoinColumns = @JoinColumn(name = "ticket_id"))
     private List<Ticket> tickets;
     @OneToOne(fetch = FetchType.LAZY)
     @MapsId

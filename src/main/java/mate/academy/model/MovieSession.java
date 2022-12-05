@@ -9,12 +9,14 @@ import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
+import javax.persistence.Table;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 import lombok.NonNull;
 import lombok.RequiredArgsConstructor;
 
 @Entity
+@Table(name = "movie_sessions")
 @Data
 @NoArgsConstructor
 @RequiredArgsConstructor
@@ -26,10 +28,9 @@ public class MovieSession {
     @NonNull
     private Movie movie;
     @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "cinemaHall_id")
+    @JoinColumn(name = "cinema_hall_id")
     @NonNull
     private CinemaHall cinemaHall;
-    @Column(name = "showTime")
     @NonNull
     private LocalDateTime showTime;
 }

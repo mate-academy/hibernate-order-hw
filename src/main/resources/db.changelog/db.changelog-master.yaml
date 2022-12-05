@@ -3,3 +3,5 @@ databaseChangeLog:
       file: /db.changelog/changes/create-order-table.sql
   - include:
       file: /db.changelog/changes/creare-order-ticket-table.sql
+  - include:
+      file: /db.changelog/changes/rename-tables.sql
