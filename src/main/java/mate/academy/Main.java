@@ -70,28 +70,20 @@ public class Main {
         AuthenticationService authenticationService = (AuthenticationService) injector
                 .getInstance(AuthenticationService.class);
         User casualUser = null;
-        boolean registrationSuccess = false;
-        while (!registrationSuccess) {
-            try {
-                casualUser = authenticationService.register("user@gmail.com", "userPass1234");
-                registrationSuccess = true;
-            } catch (RegistrationException e) {
-                throw new RuntimeException("Can't complete registration. Try again.", e);
-            }
+        try {
+            casualUser = authenticationService.register("user@gmail.com", "userPass1234");
+        } catch (RegistrationException e) {
+            throw new RuntimeException("Ooops. Something went wrong", e);
         }
         System.out.println(casualUser);
-        boolean loginSuccess = false;
-        while (!loginSuccess) {
-            try {
-                User authenticatedUser = authenticationService.login("user@gmail.com",
-                        "userPass1234");
-                loginSuccess = true;
-                System.out.println(authenticatedUser);
-            } catch (AuthenticationException e) {
-                throw new RuntimeException("Login error. Try again", e);
-            }
+        User authenticatedUser = null;
+        try {
+            authenticatedUser = authenticationService.login("user@gmail.com",
+                            "userPass1234");
+        } catch (AuthenticationException e) {
+            throw new RuntimeException("Ooops. Something went wrong", e);
         }
-
+        System.out.println(authenticatedUser);
         ShoppingCartService shoppingCartService = (ShoppingCartService) injector
                 .getInstance(ShoppingCartService.class);
 
