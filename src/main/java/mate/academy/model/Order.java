@@ -19,16 +19,13 @@ public class Order {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
-
     @OneToMany
     @JoinTable(name = "orders_tickets",
             joinColumns = @JoinColumn(name = "order_id"),
             inverseJoinColumns = @JoinColumn(name = "ticket_id"))
     private List<Ticket> tickets;
-
     @JoinColumn(name = "order_date")
     private LocalDateTime orderDate;
-
     @ManyToOne(fetch = FetchType.LAZY)
     private User user;
 
