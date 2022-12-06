@@ -20,7 +20,7 @@ import mate.academy.service.ShoppingCartService;
 public class Main {
     private static final Injector injector = Injector.getInstance("mate.academy");
 
-    public static void main(String[] args) throws RegistrationException {
+    public static void main(String[] args) {
         MovieService movieService = (MovieService) injector.getInstance(MovieService.class);
 
         Movie fastAndFurious = new Movie("Fast and Furious");
@@ -66,7 +66,12 @@ public class Main {
 
         AuthenticationService authenticationService =
                 (AuthenticationService) injector.getInstance(AuthenticationService.class);
-        User registeredUser = authenticationService.register("someEmail@gmail.com", "somePassword");
+        User registeredUser = new User();
+        try {
+            registeredUser = authenticationService.register("someNewEmail@gmail.com", "someNewPassword");
+        } catch (RegistrationException e) {
+            throw new RuntimeException("Can't register, such email already exists", e);
+        }
         ShoppingCartService shoppingCartService =
                 (ShoppingCartService) injector.getInstance(ShoppingCartService.class);
         shoppingCartService.addSession(tomorrowMovieSession, registeredUser);
