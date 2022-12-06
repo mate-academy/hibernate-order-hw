@@ -17,12 +17,12 @@ public class OrderDaoImpl extends GenericDaoImpl<Order> implements OrderDao {
         try (Session session = HibernateUtil.getSessionFactory().openSession()) {
             Query<Order> query = session.createQuery(
                     "SELECT DISTINCT o FROM Order o "
-                            + "INNER JOIN FETCH o.user "
+                            + "LEFT JOIN FETCH o.user "
                             + "LEFT JOIN FETCH o.tickets t "
-                            + "JOIN FETCH t.movieSession ms "
-                            + "JOIN FETCH t.user "
-                            + "JOIN FETCH ms.cinemaHall "
-                            + "JOIN FETCH ms.movie "
+                            + "LEFT JOIN FETCH t.movieSession ms "
+                            + "LEFT JOIN FETCH t.user "
+                            + "LEFT JOIN FETCH ms.cinemaHall "
+                            + "LEFT JOIN FETCH ms.movie "
                             + "WHERE o.user = :user", Order.class);
             query.setParameter("user", user);
             return query.getResultList();

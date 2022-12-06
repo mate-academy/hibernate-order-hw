@@ -47,8 +47,8 @@ public class MovieSessionDaoImpl extends GenericDaoImpl<MovieSession>
         try (Session session = HibernateUtil.getSessionFactory().openSession()) {
             Query<MovieSession> getMovieSessionByIdQuery =
                     session.createQuery("FROM MovieSession ms "
-                            + "JOIN FETCH ms.movie "
-                            + "JOIN FETCH ms.cinemaHall "
+                            + "LEFT JOIN FETCH ms.movie "
+                            + "LEFT JOIN FETCH ms.cinemaHall "
                             + "WHERE ms.id = :id ", MovieSession.class);
             getMovieSessionByIdQuery.setParameter("id", id);
             return getMovieSessionByIdQuery.uniqueResultOptional();
