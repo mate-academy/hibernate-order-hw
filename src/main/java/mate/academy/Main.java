@@ -72,7 +72,7 @@ public class Main {
         try {
             user = authenticationService.register(EMAIL, PASSWORD);
         } catch (RegistrationException e) {
-            throw new RuntimeException("Can't register an user");
+            throw new RuntimeException("Can't register an user", e);
         }
 
         ShoppingCartService shoppingCartService
