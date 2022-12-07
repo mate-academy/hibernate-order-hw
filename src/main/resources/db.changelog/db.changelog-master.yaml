@@ -1,7 +1,0 @@
-databaseChangeLog:
-  - include:
-      file: /db.changelog/changes/create-cinema-db.sql
-  - include:
-      file: /db.changelog/changes/create-orders-table.sql
-  - include:
-      file: /db.changelog/changes/alter-shopping_carts-table.sql
