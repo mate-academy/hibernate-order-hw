@@ -68,7 +68,8 @@ public class Main {
                 (AuthenticationService) injector.getInstance(AuthenticationService.class);
         User registeredUser = new User();
         try {
-            registeredUser = authenticationService.register("someNewEmail@gmail.com", "someNewPassword");
+            registeredUser =
+                    authenticationService.register("someNewEmail@gmail.com", "someNewPassword");
         } catch (RegistrationException e) {
             throw new RuntimeException("Can't register, such email already exists", e);
         }
