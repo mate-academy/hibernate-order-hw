@@ -21,3 +21,4 @@
         <mapping class="mate.academy.model.Order"/>
     </session-factory>
 </hibernate-configuration>
+
