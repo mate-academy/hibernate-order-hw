@@ -1,6 +1,5 @@
 package mate.academy.dao.impl;
 
-import java.util.ArrayList;
 import java.util.List;
 import javax.persistence.criteria.CriteriaBuilder;
 import javax.persistence.criteria.CriteriaQuery;
@@ -11,8 +10,6 @@ import mate.academy.dao.OrderDao;
 import mate.academy.exception.DataProcessingException;
 import mate.academy.lib.Dao;
 import mate.academy.model.Order;
-import mate.academy.model.ShoppingCart;
-import mate.academy.model.Ticket;
 import mate.academy.model.User;
 import mate.academy.util.HibernateUtil;
 import org.hibernate.Session;
@@ -21,14 +18,10 @@ import org.hibernate.Transaction;
 @Dao
 public class OrderDaoImpl implements OrderDao {
     @Override
-    public Order add(ShoppingCart shoppingCart) {
+    public Order add(Order order) {
         Session session = null;
         Transaction transaction = null;
         try {
-            Order order = new Order();
-            List<Ticket> tickets = new ArrayList<>(shoppingCart.getTickets());
-            order.setTickets(tickets);
-            order.setUser(shoppingCart.getUser());
             session = HibernateUtil.getSessionFactory().openSession();
             transaction = session.beginTransaction();
             session.save(order);
@@ -39,13 +32,12 @@ public class OrderDaoImpl implements OrderDao {
                 transaction.rollback();
             }
             throw new DataProcessingException(
-                    "Can't complete order by shopping cart=" + shoppingCart, e);
+                    "Can't complete order=" + order, e);
         } finally {
             if (session != null) {
                 session.close();
             }
         }
-
     }
 
     @Override
