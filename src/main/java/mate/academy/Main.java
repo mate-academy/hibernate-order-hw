@@ -3,7 +3,6 @@ package mate.academy;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.util.List;
-
 import mate.academy.exception.AuthenticationException;
 import mate.academy.exception.RegistrationException;
 import mate.academy.lib.Injector;
@@ -67,8 +66,6 @@ public class Main {
         System.out.println(movieSessionService.get(yesterdayMovieSession.getId()));
         System.out.println(movieSessionService.findAvailableSessions(
                         fastAndFurious.getId(), LocalDate.now().plusDays(1)));
-
-        System.out.println("----------------------------------------------------------------------------------------");
 
         AuthenticationService auth
                 = (AuthenticationService) injector.getInstance(AuthenticationService.class);
