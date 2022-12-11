@@ -25,7 +25,7 @@ public class OrderDaoImpl implements OrderDao {
             if (transaction != null) {
                 transaction.rollback();
             }
-            throw new RuntimeException("Couldn't create order " + order);
+            throw new DataProcessingException("Couldn't create order " + order,e);
         } finally {
             if (session != null) {
                 session.close();
@@ -47,8 +47,7 @@ public class OrderDaoImpl implements OrderDao {
                     .setParameter("userId", user.getId())
                     .getResultList();
         } catch (DataProcessingException e) {
-            throw new RuntimeException("Couldn't find order by user " + user, e);
+            throw new DataProcessingException("Couldn't find order by user " + user, e);
         }
     }
 }
-
