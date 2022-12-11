@@ -21,7 +21,7 @@ public class OrderDaoImpl implements OrderDao {
             transaction = session.beginTransaction();
             session.save(order);
             transaction.commit();
-        } catch (DataProcessingException e) {
+        } catch (Exception e) {
             if (transaction != null) {
                 transaction.rollback();
             }
@@ -46,7 +46,7 @@ public class OrderDaoImpl implements OrderDao {
                             + "WHERE o.user.id = :userId", Order.class)
                     .setParameter("userId", user.getId())
                     .getResultList();
-        } catch (DataProcessingException e) {
+        } catch (Exception e) {
             throw new DataProcessingException("Couldn't find order by user " + user, e);
         }
     }
