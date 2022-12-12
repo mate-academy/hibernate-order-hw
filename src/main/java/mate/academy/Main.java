@@ -4,7 +4,6 @@ import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.time.Month;
 import java.util.List;
-
 import mate.academy.exception.AuthenticationException;
 import mate.academy.exception.RegistrationException;
 import mate.academy.lib.Injector;
@@ -13,24 +12,27 @@ import mate.academy.model.Movie;
 import mate.academy.model.MovieSession;
 import mate.academy.model.User;
 import mate.academy.security.AuthenticationService;
-import mate.academy.service.*;
-import mate.academy.service.impl.CinemaHallServiceImpl;
+import mate.academy.service.CinemaHallService;
+import mate.academy.service.MovieService;
+import mate.academy.service.MovieSessionService;
+import mate.academy.service.OrderService;
+import mate.academy.service.ShoppingCartService;
 
 public class Main {
     public static void main(String[] args) {
         Injector injector = Injector.getInstance("mate.academy");
 
-        MovieService movieService
+        final MovieService movieService
                 = (MovieService) injector.getInstance(MovieService.class);
-        MovieSessionService movieSessionService
+        final MovieSessionService movieSessionService
                 = (MovieSessionService) injector.getInstance(MovieSessionService.class);
-        CinemaHallService cinemaHallService
+        final CinemaHallService cinemaHallService
                 = (CinemaHallService) injector.getInstance(CinemaHallService.class);
-        AuthenticationService authenticationService
+        final AuthenticationService authenticationService
                 = (AuthenticationService) injector.getInstance(AuthenticationService.class);
-        ShoppingCartService shoppingCartService
+        final ShoppingCartService shoppingCartService
                 = (ShoppingCartService) injector.getInstance(ShoppingCartService.class);
-        OrderService orderService
+        final OrderService orderService
                 = (OrderService) injector.getInstance(OrderService.class);
 
         Movie fastAndFurious = new Movie("Fast and Furious");
