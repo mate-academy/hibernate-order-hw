@@ -18,7 +18,7 @@ import mate.academy.service.ShoppingCartService;
 public class Main {
     private static final Injector injector = Injector.getInstance("mate.academy");
 
-    public static void main(String[] args) throws RegistrationException {
+    public static void main(String[] args) {
         MovieService movieService = (MovieService) injector.getInstance(MovieService.class);
 
         Movie fastAndFurious = new Movie("Fast and Furious");
@@ -63,7 +63,12 @@ public class Main {
                         fastAndFurious.getId(), LocalDate.now()));
         AuthenticationService authenticationService =
                 (AuthenticationService) injector.getInstance(AuthenticationService.class);
-        User den = authenticationService.register("yuliaTsariv", "password1234");
+        User den = null;
+        try {
+            den = authenticationService.register("yuliaTsariv", "password1234");
+        } catch (RegistrationException e) {
+            e.printStackTrace();
+        }
         ShoppingCartService shoppingCartService =
                 (ShoppingCartService) injector.getInstance(ShoppingCartService.class);
         shoppingCartService.addSession(tomorrowMovieSession, den);
