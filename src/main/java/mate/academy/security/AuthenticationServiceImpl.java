@@ -6,7 +6,6 @@ import mate.academy.exception.RegistrationException;
 import mate.academy.lib.Inject;
 import mate.academy.lib.Service;
 import mate.academy.model.User;
-import mate.academy.service.ShoppingCartService;
 import mate.academy.service.UserService;
 import mate.academy.util.HashUtil;
 
@@ -14,33 +13,30 @@ import mate.academy.util.HashUtil;
 public class AuthenticationServiceImpl implements AuthenticationService {
     @Inject
     private UserService userService;
-    @Inject
-    private ShoppingCartService shoppingCartService;
 
     @Override
     public User login(String email, String password) throws AuthenticationException {
-        Optional<User> userFromDb = userService.findByEmail(email);
-        if (userFromDb.isPresent() && matchPasswords(password, userFromDb.get())) {
-            return userFromDb.get();
+        Optional<User> userFromDB = userService.findByEmail(email);
+        if (userFromDB.isEmpty() || !userFromDB.get()
+                .getPassword().equals(HashUtil.hashPassword(password,
+                        userFromDB.get().getSalt()))) {
+            throw new AuthenticationException("Can't authenticate user. "
+                    + "Login or password are wrong");
         }
-        throw new AuthenticationException("Incorrect email or password!");
+        return userFromDB.get();
     }
 
     @Override
     public User register(String email, String password) throws RegistrationException {
         if (userService.findByEmail(email).isPresent()) {
-            throw new RegistrationException("User with this email is already registered!");
+            throw new RegistrationException("User with email: " + email + " already exist");
+        }
+        if (password.isBlank()) {
+            throw new RegistrationException("Password should be min 6 letters length");
         }
         User user = new User();
         user.setEmail(email);
         user.setPassword(password);
-        userService.add(user);
-        shoppingCartService.registerNewShoppingCart(user);
-        return user;
-    }
-
-    private boolean matchPasswords(String rawPassword, User userFromDb) {
-        String hashedPassword = HashUtil.hashPassword(rawPassword, userFromDb.getSalt());
-        return hashedPassword.equals(userFromDb.getPassword());
+        return userService.add(user);
     }
 }
