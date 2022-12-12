@@ -1,6 +1,5 @@
 package mate.academy.dao.impl;
 
-import java.util.Collections;
 import java.util.List;
 import mate.academy.dao.OrderDao;
 import mate.academy.exception.DataProcessingException;
@@ -47,9 +46,6 @@ public class OrderDaoImpl implements OrderDao {
                             + "WHERE o.user.id = :userId", Order.class)
                     .setParameter("userId", user.getId())
                     .getResultList();
-            if (ordersByUser.isEmpty()) {
-                return Collections.emptyList();
-            }
             return ordersByUser;
         } catch (DataProcessingException e) {
             throw new RuntimeException("Couldn't find order by user " + user, e);
