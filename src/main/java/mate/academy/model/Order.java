@@ -33,8 +33,8 @@ public class Order {
     private Long id;
     @OneToMany
     @JoinTable(name = "orders_tickets",
-        joinColumns = @JoinColumn(name = "order_id"),
-        inverseJoinColumns = @JoinColumn(name = "ticket_id"))
+            joinColumns = @JoinColumn(name = "order_id"),
+            inverseJoinColumns = @JoinColumn(name = "ticket_id"))
     @NonNull
     private List<Ticket> tickets;
     @Column(name = "order_date")
