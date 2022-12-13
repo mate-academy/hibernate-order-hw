@@ -13,7 +13,6 @@ import org.hibernate.query.Query;
 
 @Dao
 public class OrderDaoImpl implements OrderDao {
-
     @Override
     public Order add(Order order) {
         Transaction transaction = null;
@@ -39,7 +38,7 @@ public class OrderDaoImpl implements OrderDao {
     @Override
     public List<Order> getOrdersHistory(User user) {
         try (Session session = HibernateUtil.getSessionFactory().openSession()) {
-            Query<Order> query = session.createQuery("from Order o "
+            Query<Order> query = session.createQuery("select distinct o from Order o "
                     + "join fetch o.tickets t "
                     + "join fetch o.user u "
                     + "join fetch t.movieSession ms "
