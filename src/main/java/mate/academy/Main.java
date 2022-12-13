@@ -87,6 +87,5 @@ public class Main {
         System.out.println("Order created from shopping cart " + completedOrder);
         System.out.println("All user's " + user + " orders: "
                 + orderService.getOrdersHistory(user));
-
     }
 }
