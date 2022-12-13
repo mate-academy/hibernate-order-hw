@@ -21,11 +21,11 @@ public class OrderDaoImpl implements OrderDao {
             transaction = session.beginTransaction();
             session.save(order);
             transaction.commit();
-        } catch (DataProcessingException e) {
+        } catch (RuntimeException e) {
             if (transaction != null) {
                 transaction.rollback();
             }
-            throw new RuntimeException("Couldn't create order " + order);
+            throw new DataProcessingException("Couldn't create order " + order, e);
         } finally {
             if (session != null) {
                 session.close();
@@ -47,8 +47,8 @@ public class OrderDaoImpl implements OrderDao {
                     .setParameter("userId", user.getId())
                     .getResultList();
             return ordersByUser;
-        } catch (DataProcessingException e) {
-            throw new RuntimeException("Couldn't find order by user " + user, e);
+        } catch (RuntimeException e) {
+            throw new DataProcessingException("Couldn't find order by user " + user, e);
         }
     }
 }
