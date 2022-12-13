@@ -98,7 +98,7 @@ public class Main {
         OrderService orderService =
                 (OrderService) INJECTOR.getInstance(OrderService.class);
 
-       orderService.getOrdersHistory(regiteredUser).forEach(System.out::println);
+        orderService.getOrdersHistory(regiteredUser).forEach(System.out::println);
         shoppingCartService.addSession(tomorrowMovieSession, regiteredUser);
         System.out.println(orderService.completeOrder(filledShoppingCart));
         orderService.getOrdersHistory(regiteredUser).forEach(System.out::println);
