@@ -90,10 +90,15 @@ public class Main {
         shoppingCartService.addSession(tomorrowMovieSession, bob);
         shoppingCartService.addSession(yesterdayMovieSession, bob);
         ShoppingCart shoppingCart = shoppingCartService.getByUser(bob);
+        System.out.println(shoppingCart);
         List<Ticket> tickets = shoppingCart.getTickets();
+        for (Ticket ticket : tickets) {
+            System.out.println(ticket);
+        }
 
         OrderService orderService = (OrderService) injector.getInstance(OrderService.class);
         Order order = orderService.completeOrder(shoppingCart);
         orderService.getOrdersHistory(bob);
+        System.out.println(orderService.getOrdersHistory(bob));
     }
 }
