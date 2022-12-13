@@ -22,7 +22,7 @@ public class Order {
     @OneToMany
     @JoinTable(name = "orders_tickets",
             joinColumns = @JoinColumn(name = "order_id"),
-            inverseJoinColumns = @JoinColumn(name = "tickets_id"))
+            inverseJoinColumns = @JoinColumn(name = "ticket_id"))
     private List<Ticket> tickets;
     private LocalDateTime orderDate;
     @ManyToOne(fetch = FetchType.LAZY)
