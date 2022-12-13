@@ -20,7 +20,8 @@ public class Main {
     private static Injector injector = Injector.getInstance("mate.academy");
 
     public static void main(String[] args) {
-        DataGenerator dataGenerator;
+        DataGenerator dataGenerator = new DataGenerator();
+        dataGenerator.init();
         MovieService movieService
                 = (MovieService) injector.getInstance(MovieService.class);
         List<Movie> movieList = movieService.getAll();
@@ -44,7 +45,7 @@ public class Main {
             movieSessionList.forEach(System.out::println);
         }
         System.out.println();
-        List<String> emails = DataGenerator.getUsersEmails();
+        List<String> emails = dataGenerator.getUsersEmails();
         List<User> users = new ArrayList<>();
         UserService userService = (UserService) injector.getInstance(UserService.class);
         for (String email : emails) {

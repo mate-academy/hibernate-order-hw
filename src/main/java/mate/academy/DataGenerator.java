@@ -20,33 +20,30 @@ import mate.academy.service.ShoppingCartService;
 
 public class DataGenerator {
     private static Injector injector = Injector.getInstance("mate.academy");
-    private static Movie casinoRoyale;
-    private static Movie bulletTrain;
-    private static Movie maverick;
-    private static CinemaHall imaxHall;
-    private static CinemaHall hallWith4D;
-    private static MovieSession bulletTrainSession;
-    private static MovieSession bulletTrainSession1;
-    private static MovieSession bulletTrainSession2;
-    private static MovieSession maverickSession;
-    private static MovieSession maverickSession1;
-    private static MovieSession maverickSession2;
-    private static MovieSession casinoRoyaleSession;
-    private static MovieSession casinoRoyaleSession1;
-    private static MovieSession casinoRoyaleSession2;
-    private static User maxine;
-    private static User danice;
-    private static MovieService movieService;
-    private static CinemaHallService cinemaHallService;
-    private static MovieSessionService movieSessionService;
-    private static AuthenticationService authenticationService;
-    private static ShoppingCartService shoppingCartService;
-    private static OrderService orderService;
+    private Movie casinoRoyale;
+    private Movie bulletTrain;
+    private Movie maverick;
+    private CinemaHall imaxHall;
+    private CinemaHall hallWith4D;
+    private MovieSession bulletTrainSession;
+    private MovieSession bulletTrainSession1;
+    private MovieSession bulletTrainSession2;
+    private MovieSession maverickSession;
+    private MovieSession maverickSession1;
+    private MovieSession maverickSession2;
+    private MovieSession casinoRoyaleSession;
+    private MovieSession casinoRoyaleSession1;
+    private MovieSession casinoRoyaleSession2;
+    private User maxine;
+    private User danice;
+    private MovieService movieService;
+    private CinemaHallService cinemaHallService;
+    private MovieSessionService movieSessionService;
+    private AuthenticationService authenticationService;
+    private ShoppingCartService shoppingCartService;
+    private OrderService orderService;
 
-    static {
-        movieGenerator();
-        cinemaHallGenerator();
-        movieSessionGenerator();
+    public void init() {
         movieServiceGenerator();
         cinemaHallServiceGenerator();
         getUsersEmails();
@@ -61,7 +58,7 @@ public class DataGenerator {
         orderGenerator();
     }
 
-    public static List<String> getUsersEmails() {
+    public List<String> getUsersEmails() {
         maxine = new User();
         maxine.setEmail("maxine@gmail.com");
         maxine.setPassword("nothingPassword");
@@ -74,7 +71,7 @@ public class DataGenerator {
         return emails;
     }
 
-    private static void movieGenerator() {
+    private void movieGenerator() {
         casinoRoyale = new Movie();
         casinoRoyale.setTitle("007:Casino Royale");
         casinoRoyale.setDescription("First mission of James Bond");
@@ -90,7 +87,7 @@ public class DataGenerator {
                 "Film about test pilot Captain Pete Mitchell nicknamed \"Maverick\"");
     }
 
-    private static void cinemaHallGenerator() {
+    private void cinemaHallGenerator() {
         imaxHall = new CinemaHall();
         imaxHall.setCapacity(100);
         imaxHall.setDescription(
@@ -102,7 +99,7 @@ public class DataGenerator {
                 "hall where you can believe that you are in a movie as main hero");
     }
 
-    private static void movieSessionGenerator() {
+    private void movieSessionGenerator() {
         bulletTrainSession = new MovieSession();
         bulletTrainSession.setMovie(bulletTrain);
         bulletTrainSession.setCinemaHall(imaxHall);
@@ -194,7 +191,8 @@ public class DataGenerator {
                 15));
     }
 
-    private static void movieServiceGenerator() {
+    private void movieServiceGenerator() {
+        movieGenerator();
         movieService
                 = (MovieService) injector.getInstance(MovieService.class);
 
@@ -203,7 +201,8 @@ public class DataGenerator {
         movieService.add(maverick);
     }
 
-    private static void cinemaHallServiceGenerator() {
+    private void cinemaHallServiceGenerator() {
+        cinemaHallGenerator();
         cinemaHallService
                 = (CinemaHallService) injector.getInstance(CinemaHallService.class);
 
@@ -211,7 +210,8 @@ public class DataGenerator {
         cinemaHallService.add(hallWith4D);
     }
 
-    private static void movieSessionServiceGenerator() {
+    private void movieSessionServiceGenerator() {
+        movieSessionGenerator();
         movieSessionService
                 = (MovieSessionService) injector.getInstance(MovieSessionService.class);
         movieSessionService.add(maverickSession);
@@ -225,7 +225,7 @@ public class DataGenerator {
         movieSessionService.add(casinoRoyaleSession2);
     }
 
-    private static void registerUsers() throws RegistrationException {
+    private void registerUsers() throws RegistrationException {
         authenticationService
                 = (AuthenticationService) injector.getInstance(AuthenticationService.class);
         try {
@@ -240,7 +240,7 @@ public class DataGenerator {
         }
     }
 
-    private static void loginUsers() throws AuthenticationException {
+    private void loginUsers() throws AuthenticationException {
         try {
             maxine = authenticationService.login(maxine.getEmail(), maxine.getPassword());
         } catch (Exception e) {
@@ -253,7 +253,7 @@ public class DataGenerator {
         }
     }
 
-    private static void shoppingCartGenerator() {
+    private void shoppingCartGenerator() {
         shoppingCartService
                 = (ShoppingCartService) injector.getInstance(ShoppingCartService.class);
 
@@ -263,7 +263,7 @@ public class DataGenerator {
         shoppingCartService.addSession(bulletTrainSession2, danice);
     }
 
-    private static void orderGenerator() {
+    private void orderGenerator() {
         orderService = (OrderService) injector.getInstance(OrderService.class);
         orderService.completeOrder(shoppingCartService.getByUser(maxine));
         orderService.completeOrder(shoppingCartService.getByUser(danice));

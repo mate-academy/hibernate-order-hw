@@ -22,11 +22,12 @@ public class Order {
     @OneToMany
     @JoinTable(name = "orders_tickets",
             joinColumns = @JoinColumn(name = "order_id"),
-            inverseJoinColumns = @JoinColumn(name = "user_id"))
+            inverseJoinColumns = @JoinColumn(name = "ticket_id"))
     private List<Ticket> tickets;
     @Column(name = "order_date")
     private LocalDateTime orderDate;
     @OneToOne
+    @JoinColumn(name = "user_id")
     private User user;
 
     public Long getId() {
