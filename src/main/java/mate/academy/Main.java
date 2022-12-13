@@ -84,7 +84,6 @@ public class Main {
                 (OrderService) injector.getInstance(OrderService.class);
         Order order = orderService.completeOrder(aliceShoppingCart);
         System.out.println(order);
-        shoppingCartService.clearShoppingCart(aliceShoppingCart);
         List<Order> aliceOrdersHistory = orderService.getOrdersHistory(userAlice);
         System.out.println(aliceOrdersHistory);
     }
