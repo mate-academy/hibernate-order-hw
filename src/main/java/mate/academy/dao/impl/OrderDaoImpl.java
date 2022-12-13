@@ -9,7 +9,6 @@ import mate.academy.model.User;
 import mate.academy.util.HibernateUtil;
 import org.hibernate.Session;
 import org.hibernate.Transaction;
-import org.hibernate.query.Query;
 
 @Dao
 public class OrderDaoImpl implements OrderDao {
@@ -38,18 +37,17 @@ public class OrderDaoImpl implements OrderDao {
     @Override
     public List<Order> getOrdersHistory(User user) {
         try (Session session = HibernateUtil.getSessionFactory().openSession()) {
-            Query<Order> getOrdersHistoryQuery =
-                    session.createQuery(
+            return session.createQuery(
                             "FROM Order o "
-                            + "LEFT JOIN FETCH o.user "
-                            + "LEFT JOIN FETCH o.tickets t "
-                            + "LEFT JOIN FETCH t.movieSession ms "
-                            + "LEFT JOIN FETCH ms.cinemaHall "
-                            + "LEFT JOIN FETCH ms.movie "
-                            + "WHERE o.user = :user "
-                            + "ORDER BY o.orderDate DESC", Order.class)
-                            .setParameter("user", user);
-            return getOrdersHistoryQuery.getResultList();
+                                    + "LEFT JOIN FETCH o.user "
+                                    + "LEFT JOIN FETCH o.tickets t "
+                                    + "LEFT JOIN FETCH t.movieSession ms "
+                                    + "LEFT JOIN FETCH ms.cinemaHall "
+                                    + "LEFT JOIN FETCH ms.movie "
+                                    + "WHERE o.user = :user "
+                                    + "ORDER BY o.orderDate DESC", Order.class)
+                    .setParameter("user", user)
+                    .getResultList();
         } catch (Exception e) {
             throw new DataProcessingException("Can't get orders history for user " + user, e);
         }
