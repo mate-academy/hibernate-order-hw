@@ -45,6 +45,7 @@ public class OrderDaoImpl implements OrderDao {
         try (Session session = HibernateUtil.getSessionFactory().openSession()) {
             CriteriaBuilder criteriaBuilder = session.getCriteriaBuilder();
             CriteriaQuery<Order> query = criteriaBuilder.createQuery(Order.class);
+            query.distinct(true);
             Root<Order> root = query.from(Order.class);
             Fetch<Object, Object> getTickets = root.fetch("tickets", JoinType.LEFT);
             Fetch<Object, Object> getMovieSession = getTickets.fetch("movieSession", JoinType.LEFT);
