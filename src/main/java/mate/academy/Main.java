@@ -71,7 +71,7 @@ public class Main {
             user = authenticationService.register(
                     "user@gmail.com", "qwerty12345");
         } catch (RegistrationException e) {
-            throw new RuntimeException(e);
+            throw new RuntimeException("Can't register user ", e);
         }
         ShoppingCartService shoppingCartService =
                 (ShoppingCartService) INJECTOR.getInstance(ShoppingCartService.class);
