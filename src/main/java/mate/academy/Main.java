@@ -71,6 +71,7 @@ public class Main {
                 = (AuthenticationService) injector.getInstance(AuthenticationService.class);
         auth.register("123@com", "qwe");
         User bob = auth.login("123@com", "qwe");
+        System.out.println(bob);
 
         ShoppingCartService shoppingCartService
                 = (ShoppingCartService) injector.getInstance(ShoppingCartService.class);

@@ -2,7 +2,9 @@ package mate.academy.service.impl;
 
 import java.time.LocalDateTime;
 import java.util.ArrayList;
+import java.util.Comparator;
 import java.util.List;
+import java.util.stream.Collectors;
 import mate.academy.dao.OrderDao;
 import mate.academy.lib.Inject;
 import mate.academy.lib.Service;
@@ -32,6 +34,8 @@ public class OrderServiceImpl implements OrderService {
 
     @Override
     public List<Order> getOrderHistory(User user) {
-        return orderDao.getByUser(user);
+        return orderDao.getByUser(user).stream()
+                .sorted(Comparator.comparing(Order::getId))
+                .collect(Collectors.toList());
     }
 }
