@@ -48,7 +48,7 @@ public class OrdersDaoImpl implements OrdersDao {
                     .setParameter("user", user)
                     .getResultList();
         } catch (Exception e) {
-            throw new DataProcessingException("Can't get order list for user:" + user, e);
+            throw new DataProcessingException("Can't get orders list for user:" + user, e);
         }
 
     }
