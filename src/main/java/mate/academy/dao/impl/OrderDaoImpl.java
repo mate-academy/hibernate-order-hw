@@ -1,7 +1,6 @@
 package mate.academy.dao.impl;
 
 import java.util.List;
-import java.util.Optional;
 import mate.academy.dao.OrderDao;
 import mate.academy.exception.DataProcessingException;
 import mate.academy.lib.Dao;
@@ -37,13 +36,14 @@ public class OrderDaoImpl implements OrderDao {
     }
 
     @Override
-    public Optional<List<Order>> getByUser(User user) {
+    public List<Order> getByUser(User user) {
         try (Session session = HibernateUtil.getSessionFactory().openSession()) {
             Query<Order> getOrderByUserQuery = session.createQuery("from Order o"
                     + " left join fetch o.user"
+                    + " left join fetch o.tickets"
                     + " where o.user = :user");
             getOrderByUserQuery.setParameter("user", user);
-            return Optional.ofNullable(getOrderByUserQuery.getResultList());
+            return getOrderByUserQuery.getResultList();
         } catch (Exception e) {
             throw new DataProcessingException("Can't get order by user: " + user, e);
         }

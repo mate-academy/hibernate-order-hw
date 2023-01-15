@@ -6,6 +6,7 @@ import mate.academy.lib.Injector;
 import mate.academy.model.CinemaHall;
 import mate.academy.model.Movie;
 import mate.academy.model.MovieSession;
+import mate.academy.model.Order;
 import mate.academy.model.ShoppingCart;
 import mate.academy.model.User;
 import mate.academy.service.CinemaHallService;
@@ -77,10 +78,12 @@ public class Main {
         final OrderService orderService = (OrderService)
                 injector.getInstance(OrderService.class);
         ShoppingCart bobCart = shoppingCartService.getByUser(bob);
-        orderService.completeOrder(bobCart);
+        Order bobOrder = orderService.completeOrder(bobCart);
+        System.out.println(bobOrder);
         shoppingCartService.clearShoppingCart(bobCart);
         ShoppingCart aliceCart = shoppingCartService.getByUser(alice);
-        orderService.completeOrder(aliceCart);
+        Order aliceOrder = orderService.completeOrder(aliceCart);
+        System.out.println(aliceOrder);
         shoppingCartService.clearShoppingCart(aliceCart);
     }
 }

@@ -29,7 +29,6 @@ public class OrderServiceImpl implements OrderService {
 
     @Override
     public List<Order> getOrdersHistory(User user) {
-        Optional<List<Order>> ordersByUser = orderDao.getByUser(user);
-        return ordersByUser.orElse(Collections.emptyList());
+        return orderDao.getByUser(user);
     }
 }
