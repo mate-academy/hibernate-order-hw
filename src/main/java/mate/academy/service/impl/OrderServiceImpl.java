@@ -4,7 +4,6 @@ import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
-
 import mate.academy.dao.OrderDao;
 import mate.academy.lib.Inject;
 import mate.academy.lib.Service;
@@ -16,7 +15,7 @@ import mate.academy.service.OrderService;
 @Service
 public class OrderServiceImpl implements OrderService {
     @Inject
-    OrderDao orderDao;
+    private OrderDao orderDao;
 
     @Override
     public Order completeOrder(ShoppingCart shoppingCart) {

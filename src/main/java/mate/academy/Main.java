@@ -2,7 +2,6 @@ package mate.academy;
 
 import java.time.LocalDate;
 import java.time.LocalDateTime;
-
 import mate.academy.lib.Injector;
 import mate.academy.model.CinemaHall;
 import mate.academy.model.Movie;
@@ -20,7 +19,7 @@ public class Main {
     private static Injector injector = Injector.getInstance("mate");
 
     public static void main(String[] args) {
-        MovieService movieService = (MovieService)
+        final MovieService movieService = (MovieService)
                 injector.getInstance(MovieService.class);
         Movie fastAndFurious = new Movie("Fast and Furious");
         fastAndFurious.setDescription("An action film about street racing, heists, and spies.");
@@ -28,7 +27,7 @@ public class Main {
         System.out.println(movieService.get(fastAndFurious.getId()));
         movieService.getAll().forEach(System.out::println);
 
-        CinemaHallService cinemaHallService = (CinemaHallService)
+        final CinemaHallService cinemaHallService = (CinemaHallService)
                 injector.getInstance(CinemaHallService.class);
         CinemaHall firstCinemaHall = new CinemaHall();
         firstCinemaHall.setCapacity(100);
@@ -41,7 +40,7 @@ public class Main {
         System.out.println(cinemaHallService.getAll());
         System.out.println(cinemaHallService.get(firstCinemaHall.getId()));
 
-        MovieSessionService movieSessionService = (MovieSessionService)
+        final MovieSessionService movieSessionService = (MovieSessionService)
                 injector.getInstance(MovieSessionService.class);
         MovieSession tomorrowMovieSession = new MovieSession();
         tomorrowMovieSession.setCinemaHall(firstCinemaHall);
@@ -57,7 +56,7 @@ public class Main {
         System.out.println(movieSessionService.findAvailableSessions(
                         fastAndFurious.getId(), LocalDate.now()));
 
-        UserService userService = (UserService)
+        final UserService userService = (UserService)
                 injector.getInstance(UserService.class);
         User bob = new User();
         bob.setEmail("bob@gm.com");
@@ -68,14 +67,14 @@ public class Main {
         userService.add(bob);
         userService.add(alice);
 
-        ShoppingCartService shoppingCartService = (ShoppingCartService)
+        final ShoppingCartService shoppingCartService = (ShoppingCartService)
                 injector.getInstance(ShoppingCartService.class);
         shoppingCartService.registerNewShoppingCart(bob);
         shoppingCartService.registerNewShoppingCart(alice);
         shoppingCartService.addSession(yesterdayMovieSession, bob);
         shoppingCartService.addSession(tomorrowMovieSession, alice);
 
-        OrderService orderService = (OrderService)
+        final OrderService orderService = (OrderService)
                 injector.getInstance(OrderService.class);
         ShoppingCart bobCart = shoppingCartService.getByUser(bob);
         orderService.completeOrder(bobCart);

@@ -1,5 +1,7 @@
 package mate.academy.model;
 
+import java.time.LocalDateTime;
+import java.util.List;
 import javax.persistence.Entity;
 import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
@@ -8,8 +10,6 @@ import javax.persistence.Id;
 import javax.persistence.OneToMany;
 import javax.persistence.OneToOne;
 import javax.persistence.Table;
-import java.time.LocalDateTime;
-import java.util.List;
 
 @Entity
 @Table(name = "orders")
@@ -60,11 +60,10 @@ public class Order {
 
     @Override
     public String toString() {
-        return "Order{" +
-                "id=" + id +
-                ", tickets=" + tickets +
-                ", orderDate=" + orderDate +
-                ", user=" + user +
-                '}';
+        return "Order{"
+                + "id=" + id
+                + ", tickets=" + tickets
+                + ", orderDate=" + orderDate
+                + ", user=" + user + '}';
     }
 }
