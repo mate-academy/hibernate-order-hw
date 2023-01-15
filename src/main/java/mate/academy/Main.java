@@ -80,10 +80,8 @@ public class Main {
         ShoppingCart bobCart = shoppingCartService.getByUser(bob);
         Order bobOrder = orderService.completeOrder(bobCart);
         System.out.println(bobOrder);
-        shoppingCartService.clearShoppingCart(bobCart);
         ShoppingCart aliceCart = shoppingCartService.getByUser(alice);
         Order aliceOrder = orderService.completeOrder(aliceCart);
         System.out.println(aliceOrder);
-        shoppingCartService.clearShoppingCart(aliceCart);
     }
 }
