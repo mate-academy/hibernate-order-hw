@@ -15,7 +15,7 @@ public class OrderDaoImpl implements OrderDao {
     public List<Order> getAllByUser(User user) {
         try (Session session = HibernateUtil.getSessionFactory().openSession()) {
             String queryHql ="SELECT DISTINCT o FROM Order o"
-                    + " INNER JOIN fetch o.ticket t INNER JOIN fetch t.user u"
+                    + " INNER JOIN fetch o.tickets t INNER JOIN fetch t.user u"
                     + " INNER JOIN fetch t.movieSession ms INNER JOIN fetch ms.movie m"
                     + " INNER JOIN fetch ms.cinemaHall c"
                     + " WHERE o.user= :user";

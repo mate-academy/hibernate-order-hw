@@ -24,7 +24,7 @@ public class Order {
     @JoinTable(name = "orders_tickets",
             joinColumns = @JoinColumn(name = "order_id"),
             inverseJoinColumns = @JoinColumn(name = "ticket_id"))
-    private List<Ticket> ticket;
+    private List<Ticket> tickets;
     @Column(name = "order_date")
     private LocalDateTime orderDate;
     @ManyToOne(fetch = FetchType.LAZY)
@@ -41,12 +41,12 @@ public class Order {
         this.id = id;
     }
 
-    public List<Ticket> getTicket() {
-        return ticket;
+    public List<Ticket> getTickets() {
+        return tickets;
     }
 
-    public void setTicket(List<Ticket> ticket) {
-        this.ticket = ticket;
+    public void setTickets(List<Ticket> tickets) {
+        this.tickets = tickets;
     }
 
     public LocalDateTime getOrderDate() {
@@ -69,7 +69,7 @@ public class Order {
     public String toString() {
         return "Order{"
                 + "id=" + id
-                + ", ticket=" + ticket
+                + ", ticket=" + tickets
                 + ", orderDate=" + orderDate
                 + ", user=" + user
                 + '}';
