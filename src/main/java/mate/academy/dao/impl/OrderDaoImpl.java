@@ -14,7 +14,7 @@ public class OrderDaoImpl implements OrderDao {
     @Override
     public List<Order> getAllByUser(User user) {
         try (Session session = HibernateUtil.getSessionFactory().openSession()) {
-            String queryHql ="SELECT DISTINCT o FROM Order o"
+            String queryHql = "SELECT DISTINCT o FROM Order o"
                     + " INNER JOIN fetch o.tickets t INNER JOIN fetch t.user u"
                     + " INNER JOIN fetch t.movieSession ms INNER JOIN fetch ms.movie m"
                     + " INNER JOIN fetch ms.cinemaHall c"
@@ -41,11 +41,10 @@ public class OrderDaoImpl implements OrderDao {
                 transaction.rollback();
             }
             throw new DataProcessingException("Can't add order : " + order + " to DB. ", e);
-
         } finally {
-           if (session != null) {
-               session.close();
-           }
+            if (session != null) {
+                session.close();
+            }
         }
         return order;
     }
