@@ -40,7 +40,9 @@ public class OrderDaoImpl implements OrderDao {
     @Override
     public List<Order> getByUser(User user) {
         try (Session session = getSession()) {
-            return session.createQuery("from Order o join fetch o.tickets t "
+            return session.createQuery("select distinct o "
+                            + "from Order o "
+                            + "join fetch o.tickets t "
                             + "join fetch o.user "
                             + "join fetch t.movieSession ms "
                             + "join fetch ms.cinemaHall "

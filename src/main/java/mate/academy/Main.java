@@ -8,8 +8,6 @@ import mate.academy.lib.Injector;
 import mate.academy.model.CinemaHall;
 import mate.academy.model.Movie;
 import mate.academy.model.MovieSession;
-import mate.academy.model.Order;
-import mate.academy.model.ShoppingCart;
 import mate.academy.model.User;
 import mate.academy.security.AuthenticationService;
 import mate.academy.service.CinemaHallService;
@@ -64,15 +62,18 @@ public class Main {
 
         System.out.println(movieSessionService.get(yesterdayMovieSession.getId()));
         System.out.println(movieSessionService.findAvailableSessions(
-                        fastAndFurious.getId(), LocalDate.now()));
+                fastAndFurious.getId(), LocalDate.now()));
 
         AuthenticationService authenticationService
                 = (AuthenticationService) injector.getInstance(AuthenticationService.class);
 
         User bob = null;
+        User alice = null;
         try {
             bob = authenticationService.register("bob@gmail.com", "1234");
+            alice = authenticationService.register("alice@gmail.com", "5678");
             authenticationService.login("bob@gmail.com", "1234");
+            authenticationService.login("alice@gmail.com", "5678");
         } catch (RegistrationException | AuthenticationException e) {
             System.out.println(e.getMessage());
         }
@@ -80,22 +81,56 @@ public class Main {
         ShoppingCartService shoppingCartService
                 = (ShoppingCartService) injector.getInstance(ShoppingCartService.class);
 
-        ShoppingCart bobShoppingCart = shoppingCartService.getByUser(bob);
-        System.out.println("Bob's shopping cart after registration: " + bobShoppingCart);
+        System.out.println("Bob's shopping cart after registration: "
+                + shoppingCartService.getByUser(bob));
+        System.out.println("Alice's shopping cart after registration: "
+                + shoppingCartService.getByUser(alice));
 
         shoppingCartService.addSession(tomorrowMovieSession, bob);
-        ShoppingCart bobShoppingCartAfterAddingSession = shoppingCartService.getByUser(bob);
-        System.out.println("Bob's shopping cart after adding session: "
-                + bobShoppingCartAfterAddingSession);
+        shoppingCartService.addSession(tomorrowMovieSession, bob);
+        System.out.println("Bob's shopping cart after adding tomorrow session: "
+                + shoppingCartService.getByUser(bob));
+        shoppingCartService.addSession(tomorrowMovieSession, alice);
+        shoppingCartService.addSession(tomorrowMovieSession, alice);
+        System.out.println("Alice's shopping cart after adding tomorrow session: "
+                + shoppingCartService.getByUser(alice));
 
         OrderService orderService
                 = (OrderService) injector.getInstance(OrderService.class);
 
-        Order bobOrder = orderService.completeOrder(shoppingCartService.getByUser(bob));
-        System.out.println("Bob's order: " + bobOrder);
+        System.out.println("Bob's first order: "
+                + orderService.completeOrder(shoppingCartService.getByUser(bob)));
         System.out.println("Bob's shopping cart after completed order: "
                 + shoppingCartService.getByUser(bob));
+        System.out.println("Alice's first order: "
+                + orderService.completeOrder(shoppingCartService.getByUser(alice)));
+        System.out.println("Alice's shopping cart after completed order: "
+                + shoppingCartService.getByUser(alice));
+
+        shoppingCartService.addSession(yesterdayMovieSession, bob);
+        shoppingCartService.addSession(yesterdayMovieSession, bob);
+        System.out.println("Bob's shopping cart after adding yesterday session: "
+                + shoppingCartService.getByUser(bob));
+        shoppingCartService.addSession(yesterdayMovieSession, alice);
+        shoppingCartService.addSession(yesterdayMovieSession, alice);
+        System.out.println("Alice's shopping cart after adding yesterday session: "
+                + shoppingCartService.getByUser(alice));
+
+        System.out.println("Bob's second order: "
+                + orderService.completeOrder(shoppingCartService.getByUser(bob)));
+        System.out.println("Bob's shopping cart after completed order: "
+                + shoppingCartService.getByUser(bob));
+        System.out.println("Bob's second order: "
+                + orderService.completeOrder(shoppingCartService.getByUser(alice)));
+        System.out.println("Bob's shopping cart after completed order: "
+                + shoppingCartService.getByUser(alice));
+
         System.out.println("Bob's all orders "
                 + orderService.getOrdersHistory(bob));
+        System.out.println("Alice's all orders "
+                + orderService.getOrdersHistory(alice));
+
+        orderService.getOrdersHistory(bob).forEach(System.out::println);
+        orderService.getOrdersHistory(alice).forEach(System.out::println);
     }
 }
