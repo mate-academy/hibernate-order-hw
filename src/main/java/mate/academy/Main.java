@@ -1,15 +1,18 @@
 package mate.academy;
 
-import java.time.LocalDate;
 import java.time.LocalDateTime;
-
 import mate.academy.exception.RegistrationException;
 import mate.academy.lib.Injector;
-import mate.academy.model.*;
+import mate.academy.model.CinemaHall;
+import mate.academy.model.Movie;
+import mate.academy.model.MovieSession;
+import mate.academy.model.ShoppingCart;
+import mate.academy.model.User;
 import mate.academy.security.AuthenticationService;
 import mate.academy.service.CinemaHallService;
 import mate.academy.service.MovieService;
 import mate.academy.service.MovieSessionService;
+import mate.academy.service.OrderService;
 import mate.academy.service.ShoppingCartService;
 
 public class Main {
@@ -60,15 +63,17 @@ public class Main {
 
         AuthenticationService authService =
                 (AuthenticationService) injector.getInstance(AuthenticationService.class);
-        User registeredUser = authService.register(borysenko.getEmail(), borysenko.getPassword());
+        User userBorysenkoFromDb
+                = authService.register(borysenko.getEmail(), borysenko.getPassword());
 
         ShoppingCartService shoppingCartService =
                 (ShoppingCartService) injector.getInstance(ShoppingCartService.class);
-        shoppingCartService.addSession(tomorrowMovieSession, registeredUser);
+        shoppingCartService.addSession(tomorrowMovieSession, userBorysenkoFromDb);
+        ShoppingCart shoppingCartOfUserBorysenko
+                = shoppingCartService.getByUser(userBorysenkoFromDb);
 
-        ShoppingCart shoppingCartOfUserBorysenko = shoppingCartService.getByUser(registeredUser);
-
-
-
+        OrderService orderService = (OrderService) injector.getInstance(OrderService.class);
+        orderService.completeOrder(shoppingCartOfUserBorysenko);
+        System.out.println(orderService.getOrdersHistory(userBorysenkoFromDb));
     }
 }
