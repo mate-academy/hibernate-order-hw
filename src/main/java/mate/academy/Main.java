@@ -2,17 +2,23 @@ package mate.academy;
 
 import java.time.LocalDate;
 import java.time.LocalDateTime;
-
+import mate.academy.exception.RegistrationException;
 import mate.academy.lib.Injector;
 import mate.academy.model.CinemaHall;
 import mate.academy.model.Movie;
 import mate.academy.model.MovieSession;
+import mate.academy.model.ShoppingCart;
+import mate.academy.model.User;
+import mate.academy.security.AuthenticationService;
 import mate.academy.service.CinemaHallService;
 import mate.academy.service.MovieService;
 import mate.academy.service.MovieSessionService;
 import mate.academy.service.OrderService;
+import mate.academy.service.ShoppingCartService;
 
 public class Main {
+    public static final String EMAIL_ONE = "emailNewOne12";
+    public static final String PASSWORD_ONE = "passwordOne";
     private static final Injector injector = Injector.getInstance("mate.academy");
 
     public static void main(String[] args) {
@@ -60,8 +66,31 @@ public class Main {
         System.out.println(movieSessionService.findAvailableSessions(
                         fastAndFurious.getId(), LocalDate.now()));
 
+        AuthenticationService authenticationService
+                = (AuthenticationService) injector.getInstance(AuthenticationService.class);
+        User userOne;
+        try {
+            userOne = authenticationService.register(EMAIL_ONE, PASSWORD_ONE);
+        } catch (RegistrationException e) {
+            throw new RuntimeException("Couldn't login user with such login and password");
+        }
+
+        ShoppingCartService shoppingCartService
+                = (ShoppingCartService) injector.getInstance(ShoppingCartService.class);
+        shoppingCartService.addSession(yesterdayMovieSession, userOne);
+        System.out.println("Yesterday MovieSession with "
+                + "ticket one added");
+        shoppingCartService.addSession(tomorrowMovieSession, userOne);
+        System.out.println("Tomorrow MovieSession with "
+                + "ticket two added to");
+        ShoppingCart usersOneShoppingCart = shoppingCartService.getByUser(userOne);
+        System.out.println("Shopping cart values: " + usersOneShoppingCart);
+
         OrderService orderService
                 = (OrderService) injector.getInstance(OrderService.class);
-
+        System.out.println("Completing order by shopping cart: "
+                + orderService.completeOrder(usersOneShoppingCart));
+        System.out.println("Getting order history by user: "
+                + orderService.getOrdersHistory(userOne));
     }
 }
