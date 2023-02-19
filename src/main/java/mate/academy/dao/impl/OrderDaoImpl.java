@@ -25,6 +25,7 @@ public class OrderDaoImpl implements OrderDao {
                             + "join fetch ms.movie "
                             + "join fetch ms.cinemaHall "
                             + "where u.id = :id", Order.class);
+            query.setParameter("id", user.getId());
             return query.getResultList();
         } catch (Exception e) {
             throw new DataProcessingException("Can't get List<Order> by user: " + user, e);

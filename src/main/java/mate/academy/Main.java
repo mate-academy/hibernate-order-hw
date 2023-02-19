@@ -3,7 +3,6 @@ package mate.academy;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
 import mate.academy.exception.RegistrationException;
-import mate.academy.lib.Inject;
 import mate.academy.lib.Injector;
 import mate.academy.model.CinemaHall;
 import mate.academy.model.Movie;
@@ -79,6 +78,6 @@ public class Main {
         shoppingCartService.addSession(yesterdayMovieSession, ali);
         System.out.println(orderService.completeOrder(shoppingCartService.getByUser(ali)));
 
-        System.out.println(orderService.getOrdersHistory(ali));
+        orderService.getOrdersHistory(ali).forEach(System.out::println);
     }
 }
