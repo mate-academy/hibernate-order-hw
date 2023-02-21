@@ -73,7 +73,7 @@ public class Main {
         try {
             user = authenticationService.register(email, password);
         } catch (RegistrationException e) {
-            System.out.println("Can't register user " + user);
+            System.out.println("Can't register user with email " + email);
         }
         ShoppingCartService shoppingCartService =
                 (ShoppingCartService) injector.getInstance(ShoppingCartService.class);
