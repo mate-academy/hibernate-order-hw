@@ -29,7 +29,6 @@ public class OrderDaoImpl implements OrderDao {
         } catch (Exception e) {
             throw new DataProcessingException("Can't find a orders by user: " + user, e);
         }
-
     }
 
     @Override
