@@ -20,20 +20,21 @@ import mate.academy.service.ShoppingCartService;
 
 public class Main {
 
-    static final Injector injector = Injector.getInstance("mate.academy");
-    static final MovieService movieService = (MovieService) injector
-            .getInstance(MovieService.class);
-    static final MovieSessionService movieSessionService = (MovieSessionService) injector
-            .getInstance(MovieSessionService.class);
-    static final CinemaHallService cinemaHallService = (CinemaHallService) injector
-            .getInstance(CinemaHallService.class);
-    static final AuthenticationService authenticationService = (AuthenticationService) injector
-            .getInstance(AuthenticationService.class);
-    static final ShoppingCartService shoppingCartService = (ShoppingCartService) injector
-            .getInstance(ShoppingCartService.class);
+    private static final Injector injector =
+            Injector.getInstance("mate.academy");
+    private static final MovieService movieService =
+            (MovieService) injector.getInstance(MovieService.class);
+    private static final MovieSessionService movieSessionService =
+            (MovieSessionService) injector.getInstance(MovieSessionService.class);
+    private static final CinemaHallService cinemaHallService =
+            (CinemaHallService) injector.getInstance(CinemaHallService.class);
+    private static final AuthenticationService authenticationService =
+            (AuthenticationService) injector.getInstance(AuthenticationService.class);
+    private static final ShoppingCartService shoppingCartService =
+            (ShoppingCartService) injector.getInstance(ShoppingCartService.class);
 
-    static final OrderService orderService = (OrderService) injector
-            .getInstance(OrderService.class);
+    private static final OrderService orderService =
+            (OrderService) injector.getInstance(OrderService.class);
 
     public static void main(String[] args) throws RegistrationException {
 
