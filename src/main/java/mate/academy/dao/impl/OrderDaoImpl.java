@@ -43,6 +43,8 @@ public class OrderDaoImpl implements OrderDao {
                     + "where o.user = :user ", Order.class);
             query.setParameter("user", user);
             return query.uniqueResult();
+        } catch (Exception e) {
+            throw new DataProcessingException("Can't get order by user: " + user, e);
         }
     }
 
