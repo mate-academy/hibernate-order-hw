@@ -11,7 +11,7 @@ import javax.persistence.Table;
 
 @Entity
 @Table(name = "tickets")
-public class Ticket {
+public class Ticket implements Cloneable {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
@@ -54,4 +54,12 @@ public class Ticket {
             + '}';
     }
 
+    @Override
+    public Ticket clone() {
+        try {
+            return (Ticket) super.clone();
+        } catch (CloneNotSupportedException e) {
+            throw new RuntimeException("Couldn't create clone of Ticket object", e);
+        }
+    }
 }
