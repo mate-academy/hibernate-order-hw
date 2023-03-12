@@ -53,13 +53,4 @@ public class Ticket implements Cloneable {
             + ", user=" + user
             + '}';
     }
-
-    @Override
-    public Ticket clone() {
-        try {
-            return (Ticket) super.clone();
-        } catch (CloneNotSupportedException e) {
-            throw new RuntimeException("Couldn't create clone of Ticket object", e);
-        }
-    }
 }
