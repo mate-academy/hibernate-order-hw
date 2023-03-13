@@ -19,5 +19,6 @@ __Attention!!!__: you can have some problem with naming of the table. Let's use 
 
 __You can check yourself using this__ [checklist](https://mate-academy.github.io/jv-program-common-mistakes/hibernate/add-order/add-order-hw)  
 
-### Model structure 
+### Model structure
+
 ![pic](Hibernate_Cinema_Uml.png)

@@ -67,7 +67,7 @@ public class Main {
                 .getInstance(AuthenticationService.class);
         User user;
         try {
-            user = authenticationService.register("t111est@gmail.comm", "123456768");
+            user = authenticationService.register("t111111211est@gmail.comm", "123456768");
         } catch (RegistrationException e) {
             throw new RuntimeException("Could not register", e);
         }
@@ -84,5 +84,6 @@ public class Main {
 
         orderService.completeOrder(shoppingCart);
         System.out.println(orderService.getOrdersHistory(user));
+        shoppingCartService.clearShoppingCart(shoppingCart);
     }
 }
