@@ -12,7 +12,6 @@ import org.hibernate.Transaction;
 
 @Dao
 public class OrderDaoImpl implements OrderDao {
-
     @Override
     public Order add(Order order) {
         Session session = null;
@@ -47,6 +46,9 @@ public class OrderDaoImpl implements OrderDao {
                             + "WHERE o.user = :value", Order.class)
                     .setParameter("value", user)
                     .getResultList();
+        } catch (Exception e) {
+            throw new DataProcessingException("Can't get list of orders for user " + user
+            + " from DB", e);
         }
     }
 }
