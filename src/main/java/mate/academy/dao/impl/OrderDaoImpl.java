@@ -12,7 +12,6 @@ import org.hibernate.Transaction;
 
 @Dao
 public class OrderDaoImpl implements OrderDao {
-
     @Override
     public Order add(Order order) {
         Transaction transaction = null;
@@ -38,13 +37,13 @@ public class OrderDaoImpl implements OrderDao {
     @Override
     public List<Order> getByUser(User user) {
         try (Session session = HibernateUtil.getSessionFactory().openSession()) {
-            return session.createQuery("from Order o "
-                    + "left join fetch o.tickets t "
-                    + "left join fetch t.user "
-                    + "left join fetch t.movieSession ms "
-                    + "left join fetch ms.cinemaHall ch "
-                    + "left join fetch ms.movie "
-                    + "where o.user.id = :id", Order.class)
+            return session.createQuery("FROM Order o "
+                    + "LEFT JOIN FETCH o.tickets t "
+                    + "LEFT JOIN FETCH t.user "
+                    + "LEFT JOIN FETCH t.movieSession ms "
+                    + "LEFT JOIN FETCH ms.cinemaHall ch "
+                    + "LEFT JOIN FETCH ms.movie "
+                    + "WHERE o.user.id = :id", Order.class)
                         .setParameter("id", user.getId())
                         .getResultList();
         } catch (Exception e) {
