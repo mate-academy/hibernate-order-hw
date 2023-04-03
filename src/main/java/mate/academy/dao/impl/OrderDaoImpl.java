@@ -13,7 +13,6 @@ import org.hibernate.query.Query;
 
 @Dao
 public class OrderDaoImpl implements OrderDao {
-
     @Override
     public Order add(Order order) {
         Session session = null;
@@ -27,7 +26,7 @@ public class OrderDaoImpl implements OrderDao {
             if (transaction != null) {
                 transaction.rollback();
             }
-            throw new DataProcessingException("Can't add order", e);
+            throw new DataProcessingException("Can't add order " + order, e);
         } finally {
             if (session != null) {
                 session.close();
