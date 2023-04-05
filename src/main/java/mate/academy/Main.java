@@ -23,6 +23,7 @@ public class Main {
         Movie fastAndFurious = new Movie("Fast and Furious");
         fastAndFurious.setDescription("An action film about street racing, heists, and spies.");
         movieService.add(fastAndFurious);
+
         System.out.println(movieService.get(fastAndFurious.getId()));
         movieService.getAll().forEach(System.out::println);
 
@@ -65,10 +66,11 @@ public class Main {
                 injector.getInstance(ShoppingCartService.class);
         OrderService orderService = (OrderService) injector.getInstance(OrderService.class);
         UserService userService = (UserService) injector.getInstance(UserService.class);
+
         shoppingCartService.addSession(movieSessionService.get(1L),
-                userService.findByEmail("bob123").get());
+                userService.findByEmail("login2").get());
         orderService.completeOrder(shoppingCartService
-                .getByUser(userService.findByEmail("bob123").get()));
-        System.out.println(orderService.getOrdersHistory(userService.findByEmail("bob123").get()));
+                .getByUser(userService.findByEmail("login2").get()));
+        System.out.println(orderService.getOrdersHistory(userService.findByEmail("login2").get()));
     }
 }
