@@ -26,8 +26,8 @@ public class OrderDaoImpl implements OrderDao {
             if (transaction != null) {
                 transaction.rollback();
             }
-            throw new DataProcessingException("Can't save order with tickets:"
-                    + order.getTickets(), e);
+            throw new DataProcessingException("Can't save order:"
+                    + order, e);
         } finally {
             if (session != null) {
                 session.close();
@@ -48,7 +48,7 @@ public class OrderDaoImpl implements OrderDao {
                     .setParameter("user", user)
                     .getResultList();
         } catch (Exception e) {
-            throw new DataProcessingException("Can't get orders by User", e);
+            throw new DataProcessingException("Can't get orders by User" + user, e);
         }
     }
 }
