@@ -20,7 +20,7 @@ public class OrderDaoImpl implements OrderDao {
         try {
             session = HibernateUtil.getSessionFactory().openSession();
             transaction = session.beginTransaction();
-            session.persist(order);
+            session.save(order);
             transaction.commit();
             return order;
         } catch (Exception e) {
@@ -40,7 +40,7 @@ public class OrderDaoImpl implements OrderDao {
         try (Session session = HibernateUtil.getSessionFactory().openSession()) {
             Query<Order> query = session.createQuery("SELECT o FROM Order o "
                     + "JOIN FETCH o.tickets t "
-                    + "LEFT JOIN FETCH t.movieSession ms "
+                    + "JOIN FETCH t.movieSession ms "
                     + "LEFT JOIN FETCH ms.movie "
                     + "LEFT JOIN FETCH ms.cinemaHall "
                     + "WHERE o.user =:user", Order.class);
