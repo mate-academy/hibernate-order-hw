@@ -22,7 +22,7 @@ public class Order {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
     @OneToMany(cascade = CascadeType.ALL, orphanRemoval = true)
-    @JoinColumn(name = "ticket_id")
+    @JoinColumn(name = "order_id")
     private List<Ticket> tickets;
     @Column(name = "order_date")
     private LocalDateTime orderDate;
