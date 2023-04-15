@@ -1,6 +1,6 @@
 package mate.academy.model;
 
-import java.time.LocalDate;
+import java.time.LocalDateTime;
 import java.util.List;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
@@ -19,15 +19,15 @@ public class Order {
     private Long id;
     @ManyToOne
     private User user;
-    private LocalDate orderDate;
+    private LocalDateTime orderDate;
     @OneToMany
     @JoinColumn(name = "ticket_id")
-    List<Ticket> tickets;
+    private List<Ticket> tickets;
 
     public Order() {
     }
 
-    public Order(User user, LocalDate orderDate, List<Ticket> tickets) {
+    public Order(User user, LocalDateTime orderDate, List<Ticket> tickets) {
         this.user = user;
         this.orderDate = orderDate;
         this.tickets = tickets;
@@ -49,11 +49,11 @@ public class Order {
         this.user = user;
     }
 
-    public LocalDate getOrderDate() {
+    public LocalDateTime getOrderDate() {
         return orderDate;
     }
 
-    public void setOrderDate(LocalDate orderDate) {
+    public void setOrderDate(LocalDateTime orderDate) {
         this.orderDate = orderDate;
     }
 
