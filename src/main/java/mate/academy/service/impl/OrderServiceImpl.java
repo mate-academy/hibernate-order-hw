@@ -5,12 +5,14 @@ import java.util.List;
 import mate.academy.dao.OrderDao;
 import mate.academy.dao.ShoppingCartDao;
 import mate.academy.lib.Inject;
+import mate.academy.lib.Service;
 import mate.academy.model.Order;
 import mate.academy.model.ShoppingCart;
 import mate.academy.model.Ticket;
 import mate.academy.model.User;
 import mate.academy.service.OrderService;
 
+@Service
 public class OrderServiceImpl implements OrderService {
     @Inject
     private OrderDao orderDao;
@@ -24,7 +26,11 @@ public class OrderServiceImpl implements OrderService {
                 .getByUser(user).getTickets();
         LocalDateTime orderDate = LocalDateTime.now();
         Order order = new Order(user, orderDate, tickets);
-        return orderDao.add(order);
+        order = orderDao.add(order);
+        tickets.clear();
+        shoppingCart.setTickets(tickets);
+        shoppingCartDao.update(shoppingCart);
+        return order;
     }
 
     @Override
