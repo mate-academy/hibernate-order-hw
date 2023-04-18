@@ -1,8 +1,8 @@
 package mate.academy.dao.impl;
 
+import jakarta.persistence.criteria.CriteriaQuery;
 import java.util.List;
 import java.util.Optional;
-import javax.persistence.criteria.CriteriaQuery;
 import mate.academy.dao.CinemaHallDao;
 import mate.academy.exception.DataProcessingException;
 import mate.academy.lib.Dao;
@@ -27,7 +27,7 @@ public class CinemaHallDaoImpl implements CinemaHallDao {
             if (transaction != null) {
                 transaction.rollback();
             }
-            throw new DataProcessingException("Can't insert a cinema hall: " + cinemaHall, e);
+            throw new DataProcessingException("Can't insert cinema hall: " + cinemaHall, e);
         } finally {
             if (session != null) {
                 session.close();
