@@ -73,7 +73,7 @@ public class Main {
         try {
             user = authenticationService.register("test@email.com", "qwerty");
         } catch (RegistrationException e) {
-            throw new RuntimeException(e);
+            throw new RuntimeException("Can`t register. This user is already registered.");
         }
         shoppingCartService.addSession(yesterdayMovieSession, user);
         shoppingCartService.addSession(tomorrowMovieSession, user);
