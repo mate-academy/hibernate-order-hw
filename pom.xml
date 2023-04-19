@@ -36,22 +36,9 @@
             <version>6.2.0.CR3</version>
         </dependency>
         <dependency>
-            <groupId>junit</groupId>
-            <artifactId>junit</artifactId>
-            <version>4.13.1</version>
-            <scope>test</scope>
-        </dependency>
-        <dependency>
-            <groupId>org.mockito</groupId>
-            <artifactId>mockito-inline</artifactId>
-            <version>3.8.0</version>
-            <scope>test</scope>
-        </dependency>
-        <dependency>
-            <groupId>org.mockito</groupId>
-            <artifactId>mockito-core</artifactId>
-            <version>4.4.0</version>
-            <scope>test</scope>
+            <groupId>org.hibernate.orm</groupId>
+            <artifactId>hibernate-entitymanager</artifactId>
+            <version>6.0.0.Alpha7</version>
         </dependency>
         <dependency>
             <groupId>org.hsqldb</groupId>
@@ -63,24 +50,8 @@
         <plugins>
             <plugin>
                 <groupId>org.apache.maven.plugins</groupId>
-                <artifactId>maven-war-plugin</artifactId>
-                <version>2.6</version>
-                <configuration>
-                    <warName>${project.artifactId}</warName>
-                    <webResources>
-                        <resource>
-                            <filtering>true</filtering>
-                            <includes>
-                                <include>src/test/resources/hibernate.cfg.xml</include>
-                            </includes>
-                        </resource>
-                    </webResources>
-                </configuration>
-            </plugin>
-            <plugin>
-                <groupId>org.apache.maven.plugins</groupId>
                 <artifactId>maven-checkstyle-plugin</artifactId>
-                <version>${maven.checkstyle.plugin.version}</version>
+                <version>3.1.1</version>
                 <executions>
                     <execution>
                         <phase>compile</phase>
@@ -104,18 +75,6 @@
                     <groupId>org.apache.maven.plugins</groupId>
                     <artifactId>maven-compiler-plugin</artifactId>
                     <version>3.8.0</version>
-                    <executions>
-                        <execution>
-                            <id>default-testCompile</id>
-                            <phase>test-compile</phase>
-                            <goals>
-                                <goal>testCompile</goal>
-                            </goals>
-                            <configuration>
-                                <skip>${skipTests}</skip>
-                            </configuration>
-                        </execution>
-                    </executions>
                     <configuration>
                         <source>${jdk.version}</source>
                         <target>${jdk.version}</target>
