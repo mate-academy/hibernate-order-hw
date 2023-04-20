@@ -72,7 +72,7 @@ public class Main {
 
         User user;
         try {
-            user = authenticationService.register("aaa", "1234");
+            user = authenticationService.register("bbb", "1234");
         } catch (RegistrationException e) {
             throw new RuntimeException("Can't register user", e);
         }
