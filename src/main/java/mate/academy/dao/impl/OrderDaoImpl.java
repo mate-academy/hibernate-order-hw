@@ -43,6 +43,7 @@ public class OrderDaoImpl implements OrderDao {
                     + "LEFT JOIN FETCH t.movieSession ms "
                     + "LEFT JOIN FETCH ms.movie "
                     + "LEFT JOIN FETCH ms.cinemaHall "
+                    + "LEFT JOIN FETCH o.user "
                     + "WHERE o.user =:user", Order.class);
             query.setParameter("user", user);
             return query.getResultList();
