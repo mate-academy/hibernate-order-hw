@@ -35,7 +35,7 @@ public class Main {
             (OrderService) injector.getInstance(OrderService.class);
     private static final Long firstIndex = 1L;
 
-    public static void main(String[] args) throws RegistrationException, AuthenticationException {
+    public static void main(String[] args) {
 
         Movie fastAndFurious = new Movie("Fast and Furious");
         fastAndFurious.setDescription("An action film about street racing, heists, and spies.");
@@ -74,8 +74,17 @@ public class Main {
 
         String email = "email@email.com";
         String password = "PPBus1304";
-        authenticationService.register(email, password);
-        User user = authenticationService.login(email, password);
+        try {
+            authenticationService.register(email, password);
+        } catch (RegistrationException e) {
+            throw new RuntimeException("Can't register with email: " + email, e);
+        }
+        User user;
+        try {
+            user = authenticationService.login(email, password);
+        } catch (AuthenticationException e) {
+            throw new RuntimeException("Can't login, check email and/or password", e);
+        }
         System.out.println(user);
 
         shoppingCartService.addSession(movieSessionService.get(firstIndex), user);
