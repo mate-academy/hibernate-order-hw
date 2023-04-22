@@ -39,6 +39,11 @@ public class AuthenticationServiceImpl implements AuthenticationService {
         return user;
     }
 
+    @Override
+    public ShoppingCartService getShoppingCartService() {
+        return shoppingCartService;
+    }
+
     private boolean matchPasswords(String rawPassword, User userFromDb) {
         String hashedPassword = HashUtil.hashPassword(rawPassword, userFromDb.getSalt());
         return hashedPassword.equals(userFromDb.getPassword());
