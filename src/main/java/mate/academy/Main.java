@@ -8,7 +8,6 @@ import mate.academy.model.Movie;
 import mate.academy.model.MovieSession;
 import mate.academy.model.ShoppingCart;
 import mate.academy.model.User;
-import mate.academy.security.AuthenticationService;
 import mate.academy.service.CinemaHallService;
 import mate.academy.service.MovieService;
 import mate.academy.service.MovieSessionService;
