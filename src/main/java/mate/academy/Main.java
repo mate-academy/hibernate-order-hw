@@ -28,7 +28,6 @@ public class Main {
             injector.getInstance(OrderService.class);
     private static final ShoppingCartService shoppingCartService =
             (ShoppingCartService)injector.getInstance(ShoppingCartService.class);
-
     private static final AuthenticationService authenticationService =
             (AuthenticationService)injector.getInstance(AuthenticationService.class);
 
