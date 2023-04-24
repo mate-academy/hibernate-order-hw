@@ -9,4 +9,3 @@ public interface OrderDao {
 
     Order add(Order order);
 }
-
