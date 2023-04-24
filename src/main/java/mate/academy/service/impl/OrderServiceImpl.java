@@ -22,7 +22,9 @@ public class OrderServiceImpl implements OrderService {
 
     @Override
     public Order completeOrder(ShoppingCart shoppingCart) {
-        if (shoppingCart != null && !shoppingCart.getTickets().isEmpty()) {
+        if (shoppingCart != null
+                && shoppingCart.getTickets() != null
+                && !shoppingCart.getTickets().isEmpty()) {
             Order order = new Order();
             order.setOrderDate(LocalDateTime.now());
             order.setUser(shoppingCart.getUser());
