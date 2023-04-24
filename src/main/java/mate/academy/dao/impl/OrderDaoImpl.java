@@ -8,20 +8,17 @@ import mate.academy.model.Order;
 import mate.academy.model.User;
 import mate.academy.util.HibernateUtil;
 import org.hibernate.Session;
-import org.hibernate.SessionFactory;
 import org.hibernate.Transaction;
 import org.hibernate.query.Query;
 
 @Dao
 public class OrderDaoImpl implements OrderDao {
-    private final SessionFactory factory = HibernateUtil.getSessionFactory();
-
     @Override
     public Order add(Order order) {
         Session session = null;
         Transaction transaction = null;
         try {
-            session = factory.openSession();
+            session = HibernateUtil.getSessionFactory().openSession();
             transaction = session.beginTransaction();
             session.persist(order);
             transaction.commit();
@@ -40,7 +37,7 @@ public class OrderDaoImpl implements OrderDao {
 
     @Override
     public List<Order> getByUser(User user) {
-        try (Session session = factory.openSession()) {
+        try (Session session = HibernateUtil.getSessionFactory().openSession()) {
             Query<Order> getOrderByUserQuery =
                     session.createQuery("from Order where user = :user", Order.class);
             return getOrderByUserQuery.getResultList();
