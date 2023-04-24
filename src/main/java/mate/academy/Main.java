@@ -85,11 +85,12 @@ public class Main {
         } catch (AuthenticationException e) {
             System.out.println("Can't login user email " + EMAIL + " password " + PASSWORD);
         }
-        ShoppingCart shoppingCartFromDB = shoppingCartService.getByUser(userFromDB);
-        System.out.println("Shopping cart by user: " + shoppingCartFromDB);
         shoppingCartService.addSession(movieSessionService
                 .get(tomorrowMovieSession.getId()), userFromDB);
-
+        shoppingCartService.addSession(movieSessionService
+                .get(yesterdayMovieSession.getId()), userFromDB);
+        ShoppingCart shoppingCartFromDB = shoppingCartService.getByUser(userFromDB);
+        System.out.println("Shopping cart by user: " + shoppingCartFromDB);
         Order order = orderService.completeOrder(shoppingCartFromDB);
         System.out.println("Order by user: " + order);
         System.out.println("\nOrders by user :");
