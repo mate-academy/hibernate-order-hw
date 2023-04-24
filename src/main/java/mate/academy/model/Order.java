@@ -21,7 +21,7 @@ public class Order {
     @OneToMany
     @JoinColumn(name = "order_id")
     private List<Ticket> tickets;
-    private LocalDateTime localDateTime;
+    private LocalDateTime orderTime;
     @ManyToOne(fetch = FetchType.LAZY)
     private User user;
 
@@ -44,12 +44,12 @@ public class Order {
         this.tickets = tickets;
     }
 
-    public LocalDateTime getLocalDateTime() {
-        return localDateTime;
+    public LocalDateTime getOrderTime() {
+        return orderTime;
     }
 
-    public void setLocalDateTime(LocalDateTime localDateTime) {
-        this.localDateTime = localDateTime;
+    public void setOrderTime(LocalDateTime orderTime) {
+        this.orderTime = orderTime;
     }
 
     public User getUser() {
@@ -64,9 +64,7 @@ public class Order {
     public String toString() {
         return "Order{"
                 + "id=" + id
-                + ", tickets=" + tickets
-                + ", localDateTime=" + localDateTime
-                + ", user=" + user
+                + ", localDateTime=" + orderTime
                 + '}';
     }
 }

@@ -2,7 +2,6 @@ package mate.academy.service.impl;
 
 import java.time.LocalDateTime;
 import java.util.ArrayList;
-import java.util.Comparator;
 import java.util.List;
 import mate.academy.dao.OrderDao;
 import mate.academy.lib.Inject;
@@ -22,18 +21,21 @@ public class OrderServiceImpl implements OrderService {
 
     @Override
     public Order completeOrder(ShoppingCart shoppingCart) {
+        if (shoppingCart == null
+                || shoppingCart.getTickets() == null
+                || shoppingCart.getTickets().isEmpty()) {
+            throw new IllegalStateException("Can't create order, shopping cart is empty");
+        }
         Order order = new Order();
         order.setTickets(new ArrayList<>(shoppingCart.getTickets()));
         order.setUser(shoppingCart.getUser());
-        order.setLocalDateTime(LocalDateTime.now());
+        order.setOrderTime(LocalDateTime.now());
         shoppingCartService.clearShoppingCart(shoppingCart);
         return orderDao.add(order);
     }
 
     @Override
     public List<Order> getOrdersHistory(User user) {
-        List<Order> orders = orderDao.getUserOrders(user);
-        orders.sort(Comparator.comparing(Order::getLocalDateTime, Comparator.reverseOrder()));
-        return orders;
+        return orderDao.getUserOrders(user);
     }
 }
