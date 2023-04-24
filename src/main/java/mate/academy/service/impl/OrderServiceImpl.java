@@ -9,7 +9,6 @@ import mate.academy.lib.Inject;
 import mate.academy.lib.Service;
 import mate.academy.model.Order;
 import mate.academy.model.ShoppingCart;
-import mate.academy.model.Ticket;
 import mate.academy.model.User;
 import mate.academy.service.OrderService;
 import mate.academy.service.ShoppingCartService;
@@ -28,11 +27,10 @@ public class OrderServiceImpl implements OrderService {
         }
         Order order = new Order();
         order.setOrderDate(LocalDateTime.now());
-        List<Ticket> ticketList = new ArrayList<>(shoppingCart.getTickets());
-        if (ticketList.isEmpty()) {
+        if (shoppingCart.getTickets().isEmpty()) {
             throw new DataProcessingException("There is no tickets!");
         }
-        order.setTickets(ticketList);
+        order.setTickets(new ArrayList<>(shoppingCart.getTickets()));
         order.setUser(shoppingCart.getUser());
         shoppingCartService.clearShoppingCart(shoppingCart);
         return orderDao.add(order);
