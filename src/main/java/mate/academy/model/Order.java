@@ -23,6 +23,7 @@ public class Order {
             joinColumns = @JoinColumn(name = "order_id"),
             inverseJoinColumns = @JoinColumn(name = "ticket_id"))
     private List<Ticket> tickets;
+    @JoinColumn(name = "order_date")
     private LocalDateTime orderDate;
     @ManyToOne
     @JoinColumn(name = "user_id")
