@@ -21,11 +21,11 @@ public class OrderServiceImpl implements OrderService {
 
     @Override
     public Order completeOrder(ShoppingCart shoppingCart) {
-        Order order = new Order();
         if (shoppingCart == null || shoppingCart.getTickets() == null
                 || shoppingCart.getTickets().isEmpty()) {
             throw new RuntimeException("Your shopping cart is empty");
         }
+        Order order = new Order();
         order.setTickets(new ArrayList<>(shoppingCart.getTickets()));
         order.setUser(shoppingCart.getUser());
         order.setOrderDate(LocalDateTime.now());
