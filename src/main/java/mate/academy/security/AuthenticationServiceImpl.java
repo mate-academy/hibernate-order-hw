@@ -19,28 +19,35 @@ public class AuthenticationServiceImpl implements AuthenticationService {
 
     @Override
     public User login(String email, String password) throws AuthenticationException {
-        Optional<User> userFromDb = userService.findByEmail(email);
-        if (userFromDb.isPresent() && matchPasswords(password, userFromDb.get())) {
-            return userFromDb.get();
+        Optional<User> user = userService.findByEmail(email);
+        if (password == null
+                || password.isEmpty()
+                || user.isEmpty()
+                || !HashUtil.getInstance().hash(password, user.get().getSalt())
+                .equals(user.get().getPassword())) {
+            throw new AuthenticationException("User or password does not exist.");
         }
-        throw new AuthenticationException("Incorrect email or password!");
+        return user.get();
     }
 
     @Override
     public User register(String email, String password) throws RegistrationException {
-        if (userService.findByEmail(email).isPresent()) {
-            throw new RegistrationException("User with this email is already registered!");
-        }
-        User user = new User();
-        user.setEmail(email);
-        user.setPassword(password);
-        userService.add(user);
-        shoppingCartService.registerNewShoppingCart(user);
-        return user;
+        validateEmail(email);
+        validatePassword(password);
+        User registeredUser = userService.add(new User(email, password));
+        shoppingCartService.registerNewShoppingCart(registeredUser);
+        return registeredUser;
     }
 
-    private boolean matchPasswords(String rawPassword, User userFromDb) {
-        String hashedPassword = HashUtil.hashPassword(rawPassword, userFromDb.getSalt());
-        return hashedPassword.equals(userFromDb.getPassword());
+    private void validateEmail(String email) throws RegistrationException {
+        if (userService.findByEmail(email).isPresent()) {
+            throw new RegistrationException("Email " + email + " is already registered.");
+        }
+    }
+
+    private void validatePassword(String password) throws RegistrationException {
+        if (password == null || password.isEmpty()) {
+            throw new RegistrationException("Entered password is null or empty.");
+        }
     }
 }
