@@ -20,16 +20,13 @@ public class Order {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
     @OneToMany(fetch = FetchType.LAZY)
-    @JoinColumn(name = "order_id")
+    @Column(name = "order_id")
     private List<Ticket> tickets;
     @Column(name = "order_date")
     private LocalDateTime orderDate;
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "user_id")
     private User user;
-
-    public Order() {
-    }
 
     public Long getId() {
         return id;

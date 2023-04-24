@@ -2,6 +2,8 @@ package mate.academy;
 
 import java.time.LocalDate;
 import java.time.LocalDateTime;
+import mate.academy.exception.AuthenticationException;
+import mate.academy.exception.RegistrationException;
 import mate.academy.lib.Injector;
 import mate.academy.model.CinemaHall;
 import mate.academy.model.Movie;
@@ -75,15 +77,17 @@ public class Main {
         User user = new User();
         user.setEmail("test@gmail.com");
         user.setPassword("123456");
-        userService.add(user);
-        System.out.println(userService.findByEmail("test@gmail.com"));
-
-        shoppingCartService.registerNewShoppingCart(user);
+        try {
+            user = authenticationService.register(user.getEmail(), user.getPassword());
+            authenticationService.login("test@gmail.com", "123456");
+        } catch (RegistrationException | AuthenticationException e) {
+            throw new RuntimeException("Invalid email or password ", e);
+        }
+        System.out.println(user);
         shoppingCartService.addSession(tomorrowMovieSession, user);
-        ShoppingCart userShoppingCart = shoppingCartService.getByUser(user);
-        System.out.println(userShoppingCart.getUser());
-        System.out.println(userShoppingCart.getTickets());
-        System.out.println(orderService.completeOrder(userShoppingCart));
+        ShoppingCart byUser = shoppingCartService.getByUser(user);
+
+        orderService.completeOrder(byUser);
         System.out.println(orderService.getOrdersHistory(user));
     }
 }
