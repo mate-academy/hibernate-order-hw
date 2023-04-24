@@ -24,7 +24,6 @@ public class Order {
             joinColumns = @JoinColumn(name = "orders_id"),
             inverseJoinColumns = @JoinColumn(name = "ticket_id"))
     private List<Ticket> tickets;
-    @JoinColumn(name = "order_date")
     private LocalDateTime orderDate;
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "user_id")
@@ -66,9 +65,7 @@ public class Order {
     public String toString() {
         return "Order{"
                 + "id=" + id
-                + ", tickets=" + tickets
                 + ", orderDate=" + orderDate
-                + ", user=" + user
                 + '}';
     }
 }
