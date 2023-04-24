@@ -4,6 +4,7 @@ import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
 import mate.academy.dao.OrderDao;
+import mate.academy.exception.DataProcessingException;
 import mate.academy.lib.Inject;
 import mate.academy.lib.Service;
 import mate.academy.model.Order;
@@ -21,13 +22,17 @@ public class OrderServiceImpl implements OrderService {
 
     @Override
     public Order completeOrder(ShoppingCart shoppingCart) {
-        Order order = new Order();
-        order.setOrderDate(LocalDateTime.now());
-        order.setUser(shoppingCart.getUser());
-        order.setTickets(new ArrayList<>(shoppingCart.getTickets()));
-        orderDao.add(order);
-        shoppingCartService.clearShoppingCart(shoppingCart);
-        return order;
+        if (shoppingCart != null && !shoppingCart.getTickets().isEmpty()) {
+            Order order = new Order();
+            order.setOrderDate(LocalDateTime.now());
+            order.setUser(shoppingCart.getUser());
+            order.setTickets(new ArrayList<>(shoppingCart.getTickets()));
+            orderDao.add(order);
+            shoppingCartService.clearShoppingCart(shoppingCart);
+            return order;
+        }
+        throw new DataProcessingException(
+                "Couldn't complete order for shopping cart: " + shoppingCart);
     }
 
     @Override

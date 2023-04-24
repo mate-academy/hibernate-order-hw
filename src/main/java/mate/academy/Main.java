@@ -91,7 +91,7 @@ public class Main {
 
         shopCartService.addSession(movieSessionService.get(tomorrowMovieSession.getId()), user);
         ShoppingCart shoppingCart = shopCartService.getByUser(user);
-        System.out.println(shoppingCart + "added");
+        System.out.println("Shopping cart: " + shoppingCart);
 
         System.out.println("Order complete - " + orderService.completeOrder(shoppingCart));
         orderService.getOrdersHistory(user).forEach(System.out::println);
