@@ -72,7 +72,7 @@ public class Main {
         ShoppingCart shoppingCart = shoppingCartService.getByUser(user);
         System.out.println(shoppingCart.getTickets());
         //expect two tickets in shopping cart
-        shoppingCartService.clear(shoppingCart);
+        shoppingCartService.clearShoppingCart(shoppingCart);
         System.out.println(shoppingCartService.getByUser(user));
         //expect zero tickets in shopping cart
 
