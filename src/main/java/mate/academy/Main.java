@@ -30,7 +30,7 @@ public class Main {
             = (ShoppingCartService) injector.getInstance(ShoppingCartService.class);
     private static final OrderService orderService
             = (OrderService) injector.getInstance(OrderService.class);
-    private static final String PASSWORD_EXAMPLE = "12345678";
+    private static final String PASSWORD_EXAMPLE = "123456789";
     private static final String LOGIN_EXAMPLE = "maksymPotrap";
 
     public static void main(String[] args) {
