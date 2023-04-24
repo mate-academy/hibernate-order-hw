@@ -2,7 +2,6 @@ package mate.academy;
 
 import java.time.LocalDate;
 import java.time.LocalDateTime;
-
 import mate.academy.exception.RegistrationException;
 import mate.academy.lib.Injector;
 import mate.academy.model.CinemaHall;
@@ -65,15 +64,14 @@ public class Main {
         System.out.println(movieSessionService.findAvailableSessions(
                         fastAndFurious.getId(), LocalDate.now()));
 
-        UserService userService = (UserService) injector.getInstance(UserService.class);
         User oleg = new User();
         oleg.setEmail("12345");
         oleg.setPassword("54321");
-
         AuthenticationService authenticationService =
                 (AuthenticationService) injector.getInstance(AuthenticationService.class);
         authenticationService.register(oleg.getEmail(), oleg.getPassword());
 
+        UserService userService = (UserService) injector.getInstance(UserService.class);
         System.out.println(userService.findByEmail(oleg.getEmail()));
 
         ShoppingCartService shoppingCartService =
