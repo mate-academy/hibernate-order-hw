@@ -20,6 +20,10 @@ public class OrderServiceImpl implements OrderService {
 
     @Override
     public Order completeOrder(ShoppingCart shoppingCart) {
+        if (shoppingCart == null || shoppingCart.getTickets().isEmpty()) {
+            throw new RuntimeException("shopping cart has to be initialized, " +
+                    "tickets have to exist");
+        }
         Order order = new Order();
         order.setTickets(shoppingCart.getTickets());
         order.setUser(shoppingCart.getUser());
