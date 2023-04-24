@@ -29,7 +29,7 @@ public class Order {
     @JoinColumn(name = "user_id")
     private User user;
     @Column(name = "order_date")
-    private LocalDateTime localDateTime;
+    private LocalDateTime orderDate;
 
     public Long getId() {
         return id;
@@ -55,21 +55,19 @@ public class Order {
         this.user = user;
     }
 
-    public LocalDateTime getLocalDateTime() {
-        return localDateTime;
+    public LocalDateTime getOrderDate() {
+        return orderDate;
     }
 
-    public void setLocalDateTime(LocalDateTime localDateTime) {
-        this.localDateTime = localDateTime;
+    public void setOrderDate(LocalDateTime orderDate) {
+        this.orderDate = orderDate;
     }
 
     @Override
     public String toString() {
         return "Order{"
                 + "id=" + id
-                + ", tickets=" + tickets
-                + ", user=" + user
-                + ", localDateTime=" + localDateTime
+                + ", orderDate=" + orderDate
                 + '}';
     }
 }
