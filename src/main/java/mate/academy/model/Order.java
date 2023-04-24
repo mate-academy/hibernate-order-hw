@@ -24,7 +24,7 @@ public class Order {
     private User user;
     private LocalDateTime orderDate;
     @OneToMany
-    @JoinTable(name = "ticket_id")
+    @JoinTable(name = "orders_tickets")
     private List<Ticket> tickets;
 
     public Order() {

@@ -9,7 +9,6 @@ import mate.academy.model.User;
 import mate.academy.util.HibernateUtil;
 import org.hibernate.Session;
 import org.hibernate.Transaction;
-import org.hibernate.query.Query;
 
 @Dao
 public class OrderDaoImpl implements OrderDao {
@@ -38,9 +37,9 @@ public class OrderDaoImpl implements OrderDao {
     @Override
     public List<Order> getByUser(User user) {
         try (Session session = HibernateUtil.getSessionFactory().openSession()) {
-            Query<Order> getOrderByUserQuery =
-                    session.createQuery("from Order where user = :user", Order.class);
-            return getOrderByUserQuery.getResultList();
+            return session
+                    .createQuery("from Order where user = :user", Order.class)
+                    .getResultList();
         } catch (Exception e) {
             throw new DataProcessingException("Can't get order by user: " + user, e);
         }
