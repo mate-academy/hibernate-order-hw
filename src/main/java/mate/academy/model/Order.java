@@ -28,6 +28,7 @@ public class Order {
     @Column(name = "order_date")
     private LocalDateTime orderDate;
     @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "user_id")
     private User user;
 
     public Long getId() {
@@ -66,8 +67,6 @@ public class Order {
     public String toString() {
         return "Order{"
                 + "id=" + id
-                + ", tickets=" + tickets
-                + ", orderDate=" + orderDate
-                + ", user=" + user + '}';
+                + ", orderDate=" + orderDate + '}';
     }
 }
