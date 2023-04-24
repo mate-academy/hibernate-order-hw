@@ -19,7 +19,7 @@ public class Order {
     private Long id;
     @OneToMany(fetch = FetchType.LAZY)
     private List<Ticket> tickets;
-    private LocalDateTime time;
+    private LocalDateTime orderDate;
     @ManyToOne(fetch = FetchType.LAZY)
     private User user;
 
@@ -39,12 +39,12 @@ public class Order {
         this.tickets = tickets;
     }
 
-    public LocalDateTime getTime() {
-        return time;
+    public LocalDateTime getOrderDate() {
+        return orderDate;
     }
 
-    public void setTime(LocalDateTime time) {
-        this.time = time;
+    public void setOrderDate(LocalDateTime orderDate) {
+        this.orderDate = orderDate;
     }
 
     public User getUser() {
@@ -58,10 +58,8 @@ public class Order {
     @Override
     public String toString() {
         return "Order{"
-                + "id=" + id
-                + ", tickets=" + tickets
-                + ", time=" + time
-                + ", user=" + user
-                + '}';
+                + " id = " + id
+                + " order date = " + orderDate
+                + " }";
     }
 }
