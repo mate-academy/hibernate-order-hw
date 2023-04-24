@@ -68,8 +68,6 @@ public class Order {
         return "Order{"
                 + "id=" + id
                 + ", orderDate=" + orderDate
-                + ", tickets=" + tickets
-                + ", user=" + user
-                + '}';
+                + "}";
     }
 }

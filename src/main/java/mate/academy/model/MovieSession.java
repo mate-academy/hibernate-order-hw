@@ -64,6 +64,6 @@ public class MovieSession {
                 + ", movie id=" + movie.getId()
                 + ", cinemaHall id =" + cinemaHall.getId()
                 + ", showTime=" + showTime
-                + '}';
+                + "}";
     }
 }

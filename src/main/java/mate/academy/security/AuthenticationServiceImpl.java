@@ -1,6 +1,5 @@
 package mate.academy.security;
 
-import java.util.Optional;
 import mate.academy.exception.AuthenticationException;
 import mate.academy.exception.RegistrationException;
 import mate.academy.lib.Inject;
@@ -19,21 +18,23 @@ public class AuthenticationServiceImpl implements AuthenticationService {
 
     @Override
     public User login(String email, String password) throws AuthenticationException {
-        Optional<User> user = userService.findByEmail(email);
+        User user = userService.findByEmail(email).orElseThrow(
+                () -> new AuthenticationException("User or password does not exist."));
         if (password == null
                 || password.isEmpty()
-                || user.isEmpty()
-                || !HashUtil.getInstance().hash(password, user.get().getSalt())
-                .equals(user.get().getPassword())) {
+                || !HashUtil.getInstance().hash(password, user.getSalt())
+                    .equals(user.getPassword())) {
             throw new AuthenticationException("User or password does not exist.");
         }
-        return user.get();
+        return user;
     }
 
     @Override
     public User register(String email, String password) throws RegistrationException {
         validateEmail(email);
-        validatePassword(password);
+        if (password == null || password.isEmpty()) {
+            throw new RegistrationException("Entered password is null or empty.");
+        }
         User registeredUser = userService.add(new User(email, password));
         shoppingCartService.registerNewShoppingCart(registeredUser);
         return registeredUser;
@@ -42,12 +43,6 @@ public class AuthenticationServiceImpl implements AuthenticationService {
     private void validateEmail(String email) throws RegistrationException {
         if (userService.findByEmail(email).isPresent()) {
             throw new RegistrationException("Email " + email + " is already registered.");
-        }
-    }
-
-    private void validatePassword(String password) throws RegistrationException {
-        if (password == null || password.isEmpty()) {
-            throw new RegistrationException("Entered password is null or empty.");
         }
     }
 }

@@ -50,7 +50,7 @@ public class ShoppingCartDaoImpl implements ShoppingCartDao {
             getByUserQuery.setParameter("user", user);
             return getByUserQuery.uniqueResultOptional();
         } catch (Exception e) {
-            throw new DataProcessingException("Can't get all cinema halls", e);
+            throw new DataProcessingException("Can't find a shopping cart by user: " + user, e);
         }
     }
 

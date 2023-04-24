@@ -63,6 +63,6 @@ public class ShoppingCart {
                 + "id=" + id
                 + ", tickets=" + tickets
                 + ", user=" + user
-                + '}';
+                + "}";
     }
 }
