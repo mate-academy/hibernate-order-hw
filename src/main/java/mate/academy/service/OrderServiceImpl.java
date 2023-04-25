@@ -25,7 +25,6 @@ public class OrderServiceImpl implements OrderService {
             throw new DataProcessingException("No any ticket in shopping cart "
                     + shoppingCart);
         }
-
         Order order = new Order();
         order.setTickets(tickets);
         order.setUser(shoppingCart.getUser());
