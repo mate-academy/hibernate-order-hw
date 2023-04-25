@@ -19,22 +19,16 @@ public class Order {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
-    @OneToMany(fetch = FetchType.LAZY)
+    @OneToMany
     @JoinColumn(name = "ticket")
     private List<Ticket> tickets;
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "user_id")
     private User user;
-    @Column(name = "date_time")
+    @Column(name = "order_date_time")
     private LocalDateTime dateTime;
 
     public Order() {
-    }
-
-    public Order(List<Ticket> tickets, User user, LocalDateTime dateTime) {
-        this.tickets = tickets;
-        this.user = user;
-        this.dateTime = dateTime;
     }
 
     public Long getId() {
@@ -68,7 +62,6 @@ public class Order {
     @Override
     public String toString() {
         return "Order{"
-                + "tickets=" + tickets
                 + ", user=" + user
                 + ", dateTime=" + dateTime
                 + '}';
