@@ -24,7 +24,9 @@ public class Order {
     private User user;
     private LocalDateTime orderDate;
     @OneToMany
-    @JoinTable(name = "orders_tickets")
+    @JoinTable(name = "orders_tickets",
+    joinColumns = @JoinColumn(name = "order_id"),
+    inverseJoinColumns = @JoinColumn(name = "ticket_id"))
     private List<Ticket> tickets;
 
     public Order() {
@@ -72,9 +74,7 @@ public class Order {
     public String toString() {
         return "Order{"
                 + "id=" + id + '\''
-                + ", user=" + user + '\''
                 + ", orderDate=" + orderDate + '\''
-                + ", tickets=" + tickets + '\''
                 + '}';
     }
 }
