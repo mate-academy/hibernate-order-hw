@@ -1,6 +1,7 @@
 package mate.academy.service;
 
 import java.time.LocalDateTime;
+import java.util.ArrayList;
 import java.util.List;
 import mate.academy.dao.OrderDao;
 import mate.academy.exception.DataProcessingException;
@@ -26,7 +27,7 @@ public class OrderServiceImpl implements OrderService {
                     + shoppingCart);
         }
         Order order = new Order();
-        order.setTickets(tickets);
+        order.setTickets(new ArrayList<>(tickets));
         order.setUser(shoppingCart.getUser());
         order.setOrderDate(LocalDateTime.now());
         orderDao.add(order);
