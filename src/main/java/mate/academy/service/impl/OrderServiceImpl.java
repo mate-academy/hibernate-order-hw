@@ -33,7 +33,7 @@ public class OrderServiceImpl implements OrderService {
         }
         Order toPlace = new Order();
         toPlace.setUser(shoppingCart.getUser());
-        toPlace.setTickets(shoppingCart.getTickets());
+        toPlace.setTickets(tickets);
         toPlace.setDateTime(LocalDateTime.now());
         shoppingCartService.clearShoppingCart(shoppingCart);
         return orderDao.add(toPlace);
