@@ -32,16 +32,16 @@ public class OrderDaoImpl implements OrderDao {
                 session.close();
             }
         }
-        return null;
+        return order;
     }
 
     @Override
-    public List<Order> getByUser(User user) {
+    public List<Order> getAllByUser(User user) {
         try (Session session = HibernateUtil.getSessionFactory().openSession()) {
             Query<Order> query = session.createQuery("FROM Order o "
-                    + "JOIN FETCH o.tickets tkt "
+                    + "JOIN FETCH o.tickets t "
                     + "JOIN FETCH o.user u "
-                    + "JOIN FETCH tkt.movieSession ms "
+                    + "JOIN FETCH t.movieSession ms "
                     + "JOIN FETCH ms.movie "
                     + "JOIN FETCH ms.cinemaHall "
                     + "WHERE o.user.id = :userId ", Order.class);

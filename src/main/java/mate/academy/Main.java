@@ -72,10 +72,11 @@ public class Main {
         try {
             user = authenticationService.register(userEmail, "AMDgovno");
         } catch (RegistrationException e) {
-            throw new RuntimeException(e);
+            throw new RuntimeException("User could not be initialized ", e);
         }
 
-        ShoppingCartService shoppingCartService = authenticationService.getShoppingCartService();
+        ShoppingCartService shoppingCartService =
+                (ShoppingCartService) injector.getInstance(ShoppingCartService.class);
         shoppingCartService.addSession(tomorrowMovieSession, user);
 
         orderService.completeOrder(shoppingCartService.getByUser(user));

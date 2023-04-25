@@ -1,6 +1,7 @@
 package mate.academy.service.impl;
 
 import java.time.LocalDateTime;
+import java.util.ArrayList;
 import java.util.List;
 import mate.academy.dao.OrderDao;
 import mate.academy.exception.DataProcessingException;
@@ -33,7 +34,7 @@ public class OrderServiceImpl implements OrderService {
         }
         Order toPlace = new Order();
         toPlace.setUser(shoppingCart.getUser());
-        toPlace.setTickets(tickets);
+        toPlace.setTickets(new ArrayList<>(tickets));
         toPlace.setDateTime(LocalDateTime.now());
         shoppingCartService.clearShoppingCart(shoppingCart);
         return orderDao.add(toPlace);
@@ -41,6 +42,6 @@ public class OrderServiceImpl implements OrderService {
 
     @Override
     public List<Order> getOrdersHistory(User user) {
-        return orderDao.getByUser(user);
+        return orderDao.getAllByUser(user);
     }
 }
