@@ -68,7 +68,7 @@ public class Main {
                 fastAndFurious.getId(), LocalDate.now()));
 
         User user = new User();
-        user.setEmail("valera@mail.com");
+        user.setEmail("bob@mail.com");
         user.setPassword("1223");
         user.setSalt(new byte[12]);
         UserService userService = (UserService) injector.getInstance(UserService.class);
