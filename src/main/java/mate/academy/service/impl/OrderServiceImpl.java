@@ -6,7 +6,11 @@ import java.util.List;
 import mate.academy.dao.OrderDao;
 import mate.academy.lib.Inject;
 import mate.academy.lib.Service;
-import mate.academy.model.*;
+import mate.academy.model.MovieSession;
+import mate.academy.model.Order;
+import mate.academy.model.ShoppingCart;
+import mate.academy.model.Ticket;
+import mate.academy.model.User;
 import mate.academy.service.OrderService;
 
 @Service
