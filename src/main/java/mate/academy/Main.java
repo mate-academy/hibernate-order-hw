@@ -2,14 +2,28 @@ package mate.academy;
 
 import java.time.LocalDate;
 import java.time.LocalDateTime;
+import mate.academy.lib.Injector;
 import mate.academy.model.CinemaHall;
 import mate.academy.model.Movie;
 import mate.academy.model.MovieSession;
+import mate.academy.model.ShoppingCart;
+import mate.academy.model.User;
 import mate.academy.service.CinemaHallService;
 import mate.academy.service.MovieService;
 import mate.academy.service.MovieSessionService;
+import mate.academy.service.OrderService;
+import mate.academy.service.ShoppingCartService;
+import mate.academy.service.UserService;
 
 public class Main {
+    private static final Injector injector = Injector.getInstance("mate.academy");
+    private static OrderService orderService
+            = (OrderService) injector.getInstance(OrderService.class);
+    private static UserService userService
+            = (UserService) injector.getInstance(UserService.class);
+    private static ShoppingCartService shoppingCartService
+            = (ShoppingCartService) injector.getInstance(ShoppingCartService.class);
+
     public static void main(String[] args) {
         MovieService movieService = null;
 
@@ -51,5 +65,19 @@ public class Main {
         System.out.println(movieSessionService.get(yesterdayMovieSession.getId()));
         System.out.println(movieSessionService.findAvailableSessions(
                         fastAndFurious.getId(), LocalDate.now()));
+
+        User user = new User();
+        user.setEmail("qwqw@gmail.com");
+        user.setPassword("1234567");
+
+        shoppingCartService.registerNewShoppingCart(user);
+
+        shoppingCartService.addSession(tomorrowMovieSession, user);
+
+        ShoppingCart shoppingCartFromDb = shoppingCartService.getByUser(user);
+
+        orderService.completeOrder(shoppingCartFromDb);
+
+        orderService.getOrdersHistory(user);
     }
 }
