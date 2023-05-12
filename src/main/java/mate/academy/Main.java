@@ -2,13 +2,20 @@ package mate.academy;
 
 import java.time.LocalDate;
 import java.time.LocalDateTime;
-
+import java.util.List;
 import mate.academy.lib.Injector;
 import mate.academy.model.CinemaHall;
 import mate.academy.model.Movie;
 import mate.academy.model.MovieSession;
+import mate.academy.model.Order;
+import mate.academy.model.ShoppingCart;
 import mate.academy.model.User;
-import mate.academy.service.*;
+import mate.academy.service.CinemaHallService;
+import mate.academy.service.MovieService;
+import mate.academy.service.MovieSessionService;
+import mate.academy.service.OrderService;
+import mate.academy.service.ShoppingCartService;
+import mate.academy.service.UserService;
 
 public class Main {
     public static void main(String[] args) {
@@ -57,14 +64,23 @@ public class Main {
         System.out.println(movieSessionService.findAvailableSessions(
                         fastAndFurious.getId(), LocalDate.now()));
 
-        OrderService orderService =
-                (OrderService) injector.getInstance(OrderService.class);
         User user = new User();
+        user.setEmail("mail@mail.com");
+        user.setPassword("1234");
         UserService userService = (UserService) injector.getInstance(UserService.class);
         userService.add(user);
-        ShoppingCartService shoppingCartService = (ShoppingCartService) injector.getInstance(ShoppingCartService.class);
+        ShoppingCartService shoppingCartService =
+                (ShoppingCartService) injector.getInstance(ShoppingCartService.class);
         shoppingCartService.registerNewShoppingCart(user);
         shoppingCartService.addSession(tomorrowMovieSession, user);
-        orderService.getOrdersHistory(user);
+        ShoppingCart byUser = shoppingCartService.getByUser(user);
+        System.out.println(byUser);
+
+        OrderService orderService =
+                (OrderService) injector.getInstance(OrderService.class);
+        orderService.completeOrder(byUser);
+        System.out.println(byUser);
+        List<Order> ordersHistory = orderService.getOrdersHistory(user);
+        System.out.println(ordersHistory);
     }
 }
