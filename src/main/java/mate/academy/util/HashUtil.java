@@ -3,32 +3,38 @@ package mate.academy.util;
 import java.security.MessageDigest;
 import java.security.NoSuchAlgorithmException;
 import java.security.SecureRandom;
+import java.util.Base64;
 
 public class HashUtil {
-    private static final String HASH_ALGORITHM = "SHA-512";
+    private static HashUtil instance;
+    private static final int SALT_LENGTH = 16;
+    private static final String ALGORITHM = "SHA-512";
 
     private HashUtil() {
     }
 
-    public static String hashPassword(String password, byte[] salt) {
-        StringBuilder hashedPassword = new StringBuilder();
-        try {
-            MessageDigest messageDigest = MessageDigest.getInstance(HASH_ALGORITHM);
-            messageDigest.update(salt);
-            byte[] digest = messageDigest.digest(password.getBytes());
-            for (byte element : digest) {
-                hashedPassword.append(String.format("%02x", element));
-            }
-            return hashedPassword.toString();
-        } catch (NoSuchAlgorithmException e) {
-            throw new RuntimeException("Can`t hash password!", e);
+    public static HashUtil getInstance() {
+        if (instance == null) {
+            instance = new HashUtil();
         }
+        return instance;
     }
 
-    public static byte[] getSalt() {
-        SecureRandom random = new SecureRandom();
-        byte[] salt = new byte[16];
-        random.nextBytes(salt);
+    public byte[] generateSalt() {
+        byte[] salt = new byte[SALT_LENGTH];
+        new SecureRandom().nextBytes(salt);
         return salt;
+    }
+
+    public String hash(String password, byte[] salt) {
+        MessageDigest messageDigest;
+        try {
+            messageDigest = MessageDigest.getInstance(ALGORITHM);
+        } catch (NoSuchAlgorithmException e) {
+            throw new RuntimeException("Could not find algorithm for hash creation: "
+                    + ALGORITHM, e);
+        }
+        messageDigest.update(salt);
+        return Base64.getEncoder().encodeToString(messageDigest.digest(password.getBytes()));
     }
 }

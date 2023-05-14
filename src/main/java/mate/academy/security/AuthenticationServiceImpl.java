@@ -1,6 +1,5 @@
 package mate.academy.security;
 
-import java.util.Optional;
 import mate.academy.exception.AuthenticationException;
 import mate.academy.exception.RegistrationException;
 import mate.academy.lib.Inject;
@@ -19,28 +18,31 @@ public class AuthenticationServiceImpl implements AuthenticationService {
 
     @Override
     public User login(String email, String password) throws AuthenticationException {
-        Optional<User> userFromDb = userService.findByEmail(email);
-        if (userFromDb.isPresent() && matchPasswords(password, userFromDb.get())) {
-            return userFromDb.get();
+        User user = userService.findByEmail(email).orElseThrow(
+                () -> new AuthenticationException("User or password does not exist."));
+        if (password == null
+                || password.isEmpty()
+                || !HashUtil.getInstance().hash(password, user.getSalt())
+                    .equals(user.getPassword())) {
+            throw new AuthenticationException("User or password does not exist.");
         }
-        throw new AuthenticationException("Incorrect email or password!");
+        return user;
     }
 
     @Override
     public User register(String email, String password) throws RegistrationException {
-        if (userService.findByEmail(email).isPresent()) {
-            throw new RegistrationException("User with this email is already registered!");
+        validateEmail(email);
+        if (password == null || password.isEmpty()) {
+            throw new RegistrationException("Entered password is null or empty.");
         }
-        User user = new User();
-        user.setEmail(email);
-        user.setPassword(password);
-        userService.add(user);
-        shoppingCartService.registerNewShoppingCart(user);
-        return user;
+        User registeredUser = userService.add(new User(email, password));
+        shoppingCartService.registerNewShoppingCart(registeredUser);
+        return registeredUser;
     }
 
-    private boolean matchPasswords(String rawPassword, User userFromDb) {
-        String hashedPassword = HashUtil.hashPassword(rawPassword, userFromDb.getSalt());
-        return hashedPassword.equals(userFromDb.getPassword());
+    private void validateEmail(String email) throws RegistrationException {
+        if (userService.findByEmail(email).isPresent()) {
+            throw new RegistrationException("Email " + email + " is already registered.");
+        }
     }
 }

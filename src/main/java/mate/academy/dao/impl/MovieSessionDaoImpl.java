@@ -1,13 +1,9 @@
 package mate.academy.dao.impl;
 
+import java.sql.Date;
 import java.time.LocalDate;
-import java.time.LocalTime;
 import java.util.List;
 import java.util.Optional;
-import javax.persistence.criteria.CriteriaBuilder;
-import javax.persistence.criteria.CriteriaQuery;
-import javax.persistence.criteria.Predicate;
-import javax.persistence.criteria.Root;
 import mate.academy.dao.MovieSessionDao;
 import mate.academy.exception.DataProcessingException;
 import mate.academy.lib.Dao;
@@ -19,8 +15,6 @@ import org.hibernate.query.Query;
 
 @Dao
 public class MovieSessionDaoImpl implements MovieSessionDao {
-    private static final LocalTime END_OF_DAY = LocalTime.of(23, 59, 59);
-
     @Override
     public MovieSession add(MovieSession movieSession) {
         Transaction transaction = null;
@@ -44,37 +38,36 @@ public class MovieSessionDaoImpl implements MovieSessionDao {
     }
 
     @Override
-    public List<MovieSession> findAvailableSessions(Long movieId, LocalDate date) {
+    public Optional<MovieSession> get(Long id) {
         try (Session session = HibernateUtil.getSessionFactory().openSession()) {
-            CriteriaBuilder criteriaBuilder = session.getCriteriaBuilder();
-            CriteriaQuery<MovieSession> criteriaQuery =
-                    criteriaBuilder.createQuery(MovieSession.class);
-            Root<MovieSession> root = criteriaQuery.from(MovieSession.class);
-            Predicate moviePredicate = criteriaBuilder.equal(root.get("movie"), movieId);
-            Predicate datePredicate = criteriaBuilder.between(root.get("showTime"),
-                    date.atStartOfDay(), date.atTime(END_OF_DAY));
-            Predicate allConditions = criteriaBuilder.and(moviePredicate, datePredicate);
-            criteriaQuery.select(root).where(allConditions);
-            root.fetch("movie");
-            root.fetch("cinemaHall");
-            return session.createQuery(criteriaQuery).getResultList();
+            return session.createQuery("from MovieSession ms "
+                            + "left join fetch ms.movie "
+                            + "left join fetch ms.cinemaHall "
+                            + "where ms.id = :id", MovieSession.class)
+                    .setParameter("id", id)
+                    .uniqueResultOptional();
         } catch (Exception e) {
-            throw new DataProcessingException("Can't get available sessions for movie with id: "
-                    + movieId + " for date: " + date, e);
+            throw new DataProcessingException("Can't get a movie session by id: " + id, e);
         }
     }
 
     @Override
-    public Optional<MovieSession> get(Long id) {
+    public List<MovieSession> findAvailableSessions(Long movieId, LocalDate date) {
         try (Session session = HibernateUtil.getSessionFactory().openSession()) {
-            Query<MovieSession> query = session.createQuery("FROM MovieSession ms "
-                    + "JOIN FETCH ms.movie m "
-                    + "JOIN FETCH ms.cinemaHall ch "
-                    + "WHERE ms.id = :id", MovieSession.class);
-            query.setParameter("id", id);
-            return query.uniqueResultOptional();
+            Query<MovieSession> getSessionsByDateQuery = session.createQuery(
+                    "FROM MovieSession ms "
+                            + "left join fetch ms.movie "
+                            + "left join fetch ms.cinemaHall "
+                            + "WHERE DATE(ms.showTime) = :date "
+                            + "AND ms.movie.id = :movieId",
+                    MovieSession.class);
+            getSessionsByDateQuery.setParameter("date", Date.valueOf(date));
+            getSessionsByDateQuery.setParameter("movieId", movieId);
+            return getSessionsByDateQuery.getResultList();
         } catch (Exception e) {
-            throw new DataProcessingException("Can't get a movie session by id: " + id, e);
+            throw new DataProcessingException(String.format(
+                    "Can't get available sessions for movie with id: %d for date: %s",
+                    movieId, date), e);
         }
     }
 }

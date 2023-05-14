@@ -1,8 +1,8 @@
 package mate.academy.service.impl;
 
-import java.util.ArrayList;
 import mate.academy.dao.ShoppingCartDao;
 import mate.academy.dao.TicketDao;
+import mate.academy.exception.DataProcessingException;
 import mate.academy.lib.Inject;
 import mate.academy.lib.Service;
 import mate.academy.model.MovieSession;
@@ -14,36 +14,32 @@ import mate.academy.service.ShoppingCartService;
 @Service
 public class ShoppingCartServiceImpl implements ShoppingCartService {
     @Inject
-    private ShoppingCartDao shoppingCartDao;
-    @Inject
     private TicketDao ticketDao;
+    @Inject
+    private ShoppingCartDao shoppingCartDao;
 
     @Override
     public void addSession(MovieSession movieSession, User user) {
-        Ticket newTicket = new Ticket();
-        newTicket.setUser(user);
-        newTicket.setMovieSession(movieSession);
-
-        ShoppingCart shoppingCart = shoppingCartDao.getByUser(user);
-        shoppingCart.getTickets().add(ticketDao.add(newTicket));
-        shoppingCartDao.update(shoppingCart);
+        ShoppingCart cart = getByUser(user);
+        cart.getTickets().add(ticketDao.add(new Ticket(movieSession, user)));
+        shoppingCartDao.update(cart);
     }
 
     @Override
     public ShoppingCart getByUser(User user) {
-        return shoppingCartDao.getByUser(user);
+        return shoppingCartDao.getByUser(user).orElseThrow(() -> new DataProcessingException(
+                "Could not find user " + user));
     }
 
     @Override
     public void registerNewShoppingCart(User user) {
-        ShoppingCart shoppingCart = new ShoppingCart();
-        shoppingCart.setUser(user);
-        shoppingCartDao.add(shoppingCart);
+        shoppingCartDao.add(new ShoppingCart(user));
     }
 
     @Override
-    public void clearShoppingCart(ShoppingCart cart) {
-        cart.setTickets(new ArrayList<>());
-        shoppingCartDao.update(cart);
+    public void clearShoppingCart(ShoppingCart shoppingCart) {
+        shoppingCart.getTickets().clear();
+        shoppingCartDao.update(shoppingCart);
+
     }
 }
