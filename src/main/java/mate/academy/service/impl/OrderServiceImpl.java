@@ -1,7 +1,6 @@
 package mate.academy.service.impl;
 
 import java.time.LocalDateTime;
-import java.util.ArrayList;
 import java.util.List;
 import mate.academy.dao.OrderDao;
 import mate.academy.lib.Inject;
@@ -32,14 +31,6 @@ public class OrderServiceImpl implements OrderService {
 
     @Override
     public List<Order> getOrdersHistory(User user) {
-        List<Order> orders = new ArrayList<>();
-        orders.add(orderDao.getByUser(user));
-        for (Order o : orders) {
-            if (!o.getId().equals(orderDao.getByUser(user).getId())) {
-                orders.add(orderDao.getByUser(user));
-            }
-            break;
-        }
-        return orders;
+        return orderDao.getByUser(user);
     }
 }

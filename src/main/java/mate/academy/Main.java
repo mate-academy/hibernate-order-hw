@@ -38,7 +38,7 @@ public class Main {
         secondCinemaHall.setDescription("second hall with capacity 200");
 
         CinemaHallService cinemaHallService =
-                (CinemaHallService) injector.getInstance(CinemaHallService.class);;
+                (CinemaHallService) injector.getInstance(CinemaHallService.class);
         cinemaHallService.add(firstCinemaHall);
         cinemaHallService.add(secondCinemaHall);
 
@@ -58,7 +58,7 @@ public class Main {
         yesterdayMovieSession.setShowTime(LocalDateTime.now().minusDays(1L));
 
         MovieSessionService movieSessionService =
-                (MovieSessionService) injector.getInstance(MovieSessionService.class);;
+                (MovieSessionService) injector.getInstance(MovieSessionService.class);
         movieSessionService.add(tomorrowMovieSession);
         movieSessionService.add(yesterdayMovieSession);
 
