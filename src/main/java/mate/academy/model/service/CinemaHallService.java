@@ -1,4 +1,4 @@
-package mate.academy.service;
+package mate.academy.model.service;
 
 import java.util.List;
 import mate.academy.model.CinemaHall;

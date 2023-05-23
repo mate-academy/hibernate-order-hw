@@ -1,4 +1,4 @@
-package mate.academy.service.impl;
+package mate.academy.model.service.impl;
 
 import java.util.ArrayList;
 import mate.academy.dao.ShoppingCartDao;
@@ -9,7 +9,7 @@ import mate.academy.model.MovieSession;
 import mate.academy.model.ShoppingCart;
 import mate.academy.model.Ticket;
 import mate.academy.model.User;
-import mate.academy.service.ShoppingCartService;
+import mate.academy.model.service.ShoppingCartService;
 
 @Service
 public class ShoppingCartServiceImpl implements ShoppingCartService {

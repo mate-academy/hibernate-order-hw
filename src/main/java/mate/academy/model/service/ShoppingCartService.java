@@ -1,4 +1,4 @@
-package mate.academy.service;
+package mate.academy.model.service;
 
 import mate.academy.model.MovieSession;
 import mate.academy.model.ShoppingCart;
