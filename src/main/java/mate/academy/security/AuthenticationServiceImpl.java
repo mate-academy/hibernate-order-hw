@@ -1,6 +1,5 @@
 package mate.academy.security;
 
-import java.util.Optional;
 import mate.academy.exception.AuthenticationException;
 import mate.academy.exception.RegistrationException;
 import mate.academy.lib.Inject;
@@ -9,6 +8,7 @@ import mate.academy.model.User;
 import mate.academy.service.ShoppingCartService;
 import mate.academy.service.UserService;
 import mate.academy.util.HashUtil;
+import org.apache.commons.lang3.StringUtils;
 
 @Service
 public class AuthenticationServiceImpl implements AuthenticationService {
@@ -19,28 +19,30 @@ public class AuthenticationServiceImpl implements AuthenticationService {
 
     @Override
     public User login(String email, String password) throws AuthenticationException {
-        Optional<User> userFromDb = userService.findByEmail(email);
-        if (userFromDb.isPresent() && matchPasswords(password, userFromDb.get())) {
-            return userFromDb.get();
+        User byEmail = userService.findByEmail(email).orElseThrow(() ->
+                new AuthenticationException("User with : <" + email + "> and <"
+                        + password + "> don't passed authentication process"));
+        if (!byEmail.getPassword()
+                .equals(HashUtil.hashPassword(password, byEmail.getSalt()))) {
+            throw new AuthenticationException(" For User with ID <" + byEmail.getId()
+                    + "> password was inputting incorrectly");
         }
-        throw new AuthenticationException("Incorrect email or password!");
+        return byEmail;
     }
 
     @Override
     public User register(String email, String password) throws RegistrationException {
-        if (userService.findByEmail(email).isPresent()) {
-            throw new RegistrationException("User with this email is already registered!");
+        if (StringUtils.isEmpty(email) || StringUtils.isEmpty(password)) {
+            throw new RegistrationException("Email and password should be not null or empty");
         }
-        User user = new User();
-        user.setEmail(email);
-        user.setPassword(password);
-        userService.add(user);
+        if (userService.findByEmail(email).isPresent()) {
+            throw new RegistrationException("User with this email already exist");
+        }
+        User user = new User(email, password);
+        byte[] salt = HashUtil.getSalt();
+        user.setSalt(salt);
+        user.setPassword(HashUtil.hashPassword(user.getPassword(), salt));
         shoppingCartService.registerNewShoppingCart(user);
-        return user;
-    }
-
-    private boolean matchPasswords(String rawPassword, User userFromDb) {
-        String hashedPassword = HashUtil.hashPassword(rawPassword, userFromDb.getSalt());
-        return hashedPassword.equals(userFromDb.getPassword());
+        return userService.add(user);
     }
 }
