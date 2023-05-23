@@ -1,0 +1,18 @@
+<hibernate-configuration>
+	<session-factory>
+		<property name="hibernate.dialect">org.hibernate.dialect.MySQL8Dialect</property>
+		<property name="hibernate.connection.driver_class">com.mysql.cj.jdbc.Driver</property>
+		<property name="hibernate.connection.url">jdbc:mysql://localhost:3306/movie_db</property>
+		<property name="hibernate.connection.username">root</property>
+		<property name="hibernate.connection.password">56544</property>
+		<property name="hbm2ddl.auto">create-drop</property>
+
+		<mapping class="mate.academy.model.CinemaHall"/>
+		<mapping class="mate.academy.model.Movie"/>
+		<mapping class="mate.academy.model.MovieSession"/>
+		<mapping class="mate.academy.model.Order"/>
+		<mapping class="mate.academy.model.ShoppingCart"/>
+		<mapping class="mate.academy.model.Ticket"/>
+		<mapping class="mate.academy.model.User"/>
+	</session-factory>
+</hibernate-configuration>
