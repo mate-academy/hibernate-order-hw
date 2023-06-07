@@ -7,6 +7,7 @@ import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.JoinTable;
 import javax.persistence.ManyToOne;
 import javax.persistence.OneToMany;
 import javax.persistence.Table;
@@ -18,6 +19,7 @@ public class Order {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
     @OneToMany(fetch = FetchType.LAZY)
+    @JoinTable(name = "orders_tickets")
     private List<Ticket> tickets;
     private LocalDateTime orderTime;
     @ManyToOne
@@ -57,7 +59,6 @@ public class Order {
 
     @Override
     public String toString() {
-        return "Order{" + "id=" + id + ", tickets=" + tickets
-                + ", orderTime=" + orderTime + ", user=" + user + '}';
+        return "Order{" + "id=" + id + ", orderTime=" + orderTime + '}';
     }
 }

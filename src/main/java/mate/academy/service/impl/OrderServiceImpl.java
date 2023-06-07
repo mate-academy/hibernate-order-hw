@@ -21,6 +21,9 @@ public class OrderServiceImpl implements OrderService {
 
     @Override
     public Order completeOrder(ShoppingCart shoppingCart) {
+        if (shoppingCart == null || shoppingCart.getTickets().isEmpty()) {
+            throw new RuntimeException("Invalid shopping cart!" + shoppingCart);
+        }
         Order newOrder = new Order();
         newOrder.setTickets(new ArrayList<>(shoppingCart.getTickets()));
         newOrder.setOrderTime(LocalDateTime.now());
@@ -33,7 +36,7 @@ public class OrderServiceImpl implements OrderService {
 
     @Override
     public List<Order> getOrdersHistory(User user) {
-        List<Order> userOrders = orderDao.getByUser(user);
+        List<Order> userOrders = orderDao.getUserOrders(user);
         return userOrders;
     }
 }
