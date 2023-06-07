@@ -2,6 +2,7 @@ package mate.academy.model;
 
 import java.time.LocalDateTime;
 import java.util.List;
+import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
@@ -17,10 +18,13 @@ import javax.persistence.Table;
 public class Order {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @Column(name = "id")
     private Long id;
     @OneToMany(fetch = FetchType.LAZY)
     @JoinTable(name = "orders_tickets")
+    @Column(name = "ticket_id")
     private List<Ticket> tickets;
+    @Column(name = "order_time")
     private LocalDateTime orderTime;
     @ManyToOne
     private User user;
