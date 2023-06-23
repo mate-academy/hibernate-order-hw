@@ -26,10 +26,10 @@ public class Order {
     public Order() {
     }
 
-    public Order(List<Ticket> tickets, User user, LocalDateTime orderDate) {
+    public Order(List<Ticket> tickets, User user) {
         this.tickets = tickets;
         this.user = user;
-        this.orderDate = orderDate;
+        this.orderDate = LocalDateTime.now();
     }
 
     public Long getId() {
