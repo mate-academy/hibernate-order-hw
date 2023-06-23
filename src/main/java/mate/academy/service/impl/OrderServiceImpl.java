@@ -1,5 +1,7 @@
 package mate.academy.service.impl;
 
+import java.time.LocalDateTime;
+import java.util.ArrayList;
 import java.util.List;
 import mate.academy.dao.OrderDao;
 import mate.academy.lib.Inject;
@@ -19,7 +21,11 @@ public class OrderServiceImpl implements OrderService {
 
     @Override
     public Order completeOrder(ShoppingCart shoppingCart) {
-        Order order = orderDao.add(shoppingCart);
+        Order order = orderDao.add(
+                new Order(new ArrayList<>(shoppingCart.getTickets()),
+                shoppingCart.getUser(),
+                LocalDateTime.now())
+        );
         shoppingCartService.clearShoppingCart(shoppingCart);
         return order;
     }
