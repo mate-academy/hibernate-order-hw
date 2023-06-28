@@ -1,6 +1,7 @@
 package mate.academy.model;
 
 import java.time.LocalDateTime;
+import java.util.ArrayList;
 import java.util.List;
 import javax.persistence.Entity;
 import javax.persistence.FetchType;
@@ -29,6 +30,12 @@ public class Order {
     private LocalDateTime localDateTime;
 
     public Order() {
+    }
+
+    public Order(ArrayList<Ticket> tickets, User user, LocalDateTime localDateTime) {
+        this.tickets = tickets;
+        this.user = user;
+        this.localDateTime = localDateTime;
     }
 
     public Long getId() {
