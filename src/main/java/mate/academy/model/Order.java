@@ -8,8 +8,6 @@ import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
-import javax.persistence.JoinColumn;
-import javax.persistence.JoinTable;
 import javax.persistence.ManyToOne;
 import javax.persistence.OneToMany;
 import javax.persistence.Table;
@@ -21,21 +19,18 @@ public class Order {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
     @OneToMany
-    @JoinTable(name = "orders_tickets",
-            joinColumns = @JoinColumn(name = "order_id"),
-            inverseJoinColumns = @JoinColumn(name = "ticket_id"))
     private List<Ticket> tickets;
     @ManyToOne(fetch = FetchType.LAZY)
     private User user;
-    private LocalDateTime localDateTime;
+    private LocalDateTime orderDate;
 
     public Order() {
     }
 
-    public Order(ArrayList<Ticket> tickets, User user, LocalDateTime localDateTime) {
+    public Order(ArrayList<Ticket> tickets, User user, LocalDateTime orderDate) {
         this.tickets = tickets;
         this.user = user;
-        this.localDateTime = localDateTime;
+        this.orderDate = orderDate;
     }
 
     public Long getId() {
@@ -62,12 +57,12 @@ public class Order {
         this.user = user;
     }
 
-    public LocalDateTime getLocalDateTime() {
-        return localDateTime;
+    public LocalDateTime getOrderDate() {
+        return orderDate;
     }
 
-    public void setLocalDateTime(LocalDateTime localDateTime) {
-        this.localDateTime = localDateTime;
+    public void setOrderDate(LocalDateTime localDateTime) {
+        this.orderDate = localDateTime;
     }
 
     @Override
@@ -76,7 +71,7 @@ public class Order {
                 + "id=" + id
                 + ", tickets=" + tickets
                 + ", user=" + user
-                + ", localDateTime=" + localDateTime
+                + ", localDateTime=" + orderDate
                 + '}';
     }
 }
