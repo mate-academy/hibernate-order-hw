@@ -16,7 +16,7 @@ public class OrderServiceImpl implements OrderService {
 
     @Override
     public Order completeOrder(ShoppingCart shoppingCart) {
-        return orderDao.completeOrder(shoppingCart);
+        return orderDao.add(shoppingCart);
     }
 
     @Override
