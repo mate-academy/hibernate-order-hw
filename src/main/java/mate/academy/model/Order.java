@@ -29,6 +29,7 @@ public class Order {
     public Order(List<Ticket> tickets, User user) {
         this.tickets = tickets;
         this.user = user;
+        this.orderDate = LocalDateTime.now();
     }
 
     public Long getId() {
