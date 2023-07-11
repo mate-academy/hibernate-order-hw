@@ -17,7 +17,7 @@ public class Order {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
-    @OneToMany()
+    @OneToMany
     private List<Ticket> tickets;
     private LocalDateTime orderDate;
     @ManyToOne(fetch = FetchType.LAZY)
@@ -61,9 +61,9 @@ public class Order {
     @Override
     public String toString() {
         return "Order{"
-                + "id=" + id
-                + ", tickets=" + tickets
-                + ", user=" + user
-                + '}';
+               + "id=" + id
+               + ", tickets=" + tickets
+               + ", user=" + user
+               + '}';
     }
 }

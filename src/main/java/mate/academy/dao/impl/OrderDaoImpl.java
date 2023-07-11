@@ -1,7 +1,6 @@
 package mate.academy.dao.impl;
 
 import java.util.List;
-import java.util.Optional;
 import mate.academy.dao.OrderDao;
 import mate.academy.exception.DataProcessingException;
 import mate.academy.lib.Dao;
@@ -15,38 +14,19 @@ import org.hibernate.query.Query;
 @Dao
 public class OrderDaoImpl implements OrderDao {
     @Override
-    public Optional<List<Order>> getByUser(User user) {
+    public List<Order> getByUser(User user) {
         try (Session session = HibernateUtil.getSessionFactory().openSession()) {
             Query<Order> getByUserQuery = session.createQuery("FROM Order o "
                                                               + "LEFT JOIN FETCH o.tickets t "
                                                               + "LEFT JOIN FETCH t.movieSession ms "
                                                               + "LEFT JOIN FETCH ms.movie m"
                                                               + "LEFT JOIN FETCH ms.cinemaHall ch"
-                                                              + "LEFT JOIN FETCH t.user tu "
                                                               + "LEFT JOIN FETCH o.user u "
                                                               + "WHERE u = :user", Order.class);
             getByUserQuery.setParameter("user", user);
-            return Optional.ofNullable(getByUserQuery.getResultList());
+            return getByUserQuery.getResultList();
         } catch (Exception e) {
             throw new DataProcessingException("Can't get Order by User: " + user, e);
-        }
-    }
-
-    @Override
-    public Optional<List<Order>> get(Long id) {
-        try (Session session = HibernateUtil.getSessionFactory().openSession()) {
-            Query<Order> getByUserQuery = session.createQuery("FROM Order o "
-                                                              + "LEFT JOIN FETCH o.tickets t "
-                                                              + "LEFT JOIN FETCH t.movieSession ms "
-                                                              + "LEFT JOIN FETCH ms.movie m"
-                                                              + "LEFT JOIN FETCH ms.cinemaHall ch"
-                                                              + "LEFT JOIN FETCH t.user tu "
-                                                              + "LEFT JOIN FETCH o.user u "
-                                                              + "WHERE o.id = :id", Order.class);
-            getByUserQuery.setParameter("id", id);
-            return Optional.ofNullable(getByUserQuery.getResultList());
-        } catch (Exception e) {
-            throw new DataProcessingException("Can't get Order by ID: " + id, e);
         }
     }
 
