@@ -75,18 +75,17 @@ public class Main {
         ShoppingCartService shoppingCartService = (ShoppingCartService) injector
                 .getInstance(ShoppingCartService.class);
         shoppingCartService.addSession(tomorrowMovieSession, alice);
-        ShoppingCart shoppingCartAlice = shoppingCartService.getByUser(alice);
+        ShoppingCart aliceShoppingCart = shoppingCartService.getByUser(alice);
+        System.out.println(aliceShoppingCart);
 
         OrderService orderService = (OrderService) injector
                 .getInstance(OrderService.class);
-        Order completeOrder1 = orderService.completeOrder(shoppingCartAlice);
-        System.out.println(completeOrder1);
-
+        orderService.completeOrder(aliceShoppingCart);
         shoppingCartService.addSession(yesterdayMovieSession, alice);
-        ShoppingCart shoppingCart1 = shoppingCartService.getByUser(alice);
+        aliceShoppingCart = shoppingCartService.getByUser(alice);
+        System.out.println(aliceShoppingCart);
 
-        Order completeOrder2 = orderService.completeOrder(shoppingCart1);
-        System.out.println(completeOrder2);
+        System.out.println(orderService.completeOrder(aliceShoppingCart));
 
         List<Order> ordersHistory = orderService.getOrdersHistory(alice);
         ordersHistory.forEach(System.out::println);

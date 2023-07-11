@@ -44,8 +44,8 @@ public class OrderDaoImpl implements OrderDao {
                     + "LEFT JOIN FETCH t.movieSession ms "
                     + "LEFT JOIN FETCH ms.movie m "
                     + "LEFT JOIN FETCH ms.cinemaHall ch "
-                    + "WHERE o.user.id = :userId", Order.class);
-            query.setParameter("userId", user.getId());
+                    + "WHERE o.user = :user", Order.class);
+            query.setParameter("user", user);
             return query.getResultList();
         } catch (Exception e) {
             throw new DataProcessingException("Can't get order by user: " + user, e);

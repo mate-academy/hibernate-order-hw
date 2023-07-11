@@ -1,6 +1,7 @@
 package mate.academy.model;
 
 import java.time.LocalDateTime;
+import java.util.ArrayList;
 import java.util.List;
 import javax.persistence.Entity;
 import javax.persistence.FetchType;
@@ -27,7 +28,7 @@ public class Order {
     }
 
     public Order(ShoppingCart shoppingCart) {
-        tickets = shoppingCart.getTickets();
+        tickets = new ArrayList<>(shoppingCart.getTickets());
         orderDate = LocalDateTime.now();
         user = shoppingCart.getUser();
     }
