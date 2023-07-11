@@ -3,13 +3,15 @@ package mate.academy.dao.impl;
 import java.util.List;
 import mate.academy.dao.OrderDao;
 import mate.academy.exception.DataProcessingException;
+import mate.academy.lib.Dao;
 import mate.academy.model.Order;
-import mate.academy.model.Ticket;
 import mate.academy.model.User;
 import mate.academy.util.HibernateUtil;
+import org.hibernate.HibernateException;
 import org.hibernate.Session;
 import org.hibernate.Transaction;
 
+@Dao
 public class OrderDaoImpl implements OrderDao {
     @Override
     public Order add(Order order) {
@@ -32,17 +34,21 @@ public class OrderDaoImpl implements OrderDao {
         }
         return order;
     }
+
     @Override
     public List<Order> getByUser(User user) {
         try (Session session = HibernateUtil.getSessionFactory().openSession()) {
             return session.createQuery("FROM Order o "
-                            + "LEFT JOIN FETCH o.id "
-                            + "LEFT JOIN FETCH o.tickets t "
-                            + "LEFT JOIN FETCH t.movieSession ms "
-                            + "LEFT JOIN FETCH ms.cinemaHall cm "
-                            + "WHERE o.user = :user", Order.class)
+                    + "LEFT JOIN FETCH o.user u "
+                    + "LEFT JOIN FETCH o.tickets t "
+                    + "LEFT JOIN FETCH t.movieSession ms "
+                    + "LEFT JOIN FETCH ms.movie "
+                    + "LEFT JOIN FETCH ms.cinemaHall "
+                    + "WHERE o.user = :user", Order.class)
                     .setParameter("user", user)
                     .getResultList();
+        } catch (HibernateException e) {
+            throw new DataProcessingException("Can't get order by user: " + user, e);
         }
     }
 }

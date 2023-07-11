@@ -7,7 +7,6 @@ import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
-import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.persistence.OneToMany;
 import javax.persistence.Table;
@@ -15,15 +14,22 @@ import javax.persistence.Table;
 @Entity
 @Table(name = "orders")
 public class Order {
-   @Id
-   @GeneratedValue(strategy = GenerationType.IDENTITY)
-   private Long id;
-   @OneToMany
-   private List<Ticket> tickets;
-   private LocalDateTime orderDate;
-   @ManyToOne
-   @JoinColumn(name = "user_id")
-   private User user;
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    private Long id;
+    @OneToMany
+    private List<Ticket> tickets;
+    private LocalDateTime orderDate;
+    @ManyToOne(fetch = FetchType.LAZY)
+    private User user;
+
+    public Order() {
+    }
+
+    public Order(List<Ticket> tickets, User user) {
+        this.tickets = tickets;
+        this.user = user;
+    }
 
     public Long getId() {
         return id;
