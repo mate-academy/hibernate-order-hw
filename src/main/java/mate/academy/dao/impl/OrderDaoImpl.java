@@ -24,7 +24,7 @@ public class OrderDaoImpl implements OrderDao {
                             + " where o.user.id = :id", Order.class)
                     .setParameter("id",user.getId()).getResultList();
         } catch (Exception e) {
-            throw new DataProcessingException("Can't find a order by user: " + user, e);
+            throw new DataProcessingException("Can't find orders by user: " + user, e);
         }
     }
 
