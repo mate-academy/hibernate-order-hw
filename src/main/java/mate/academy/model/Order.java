@@ -23,6 +23,15 @@ public class Order {
     @ManyToOne (fetch = FetchType.LAZY)
     private User user;
 
+    public Order() {
+    }
+
+    public Order(List<Ticket> tickets, User user) {
+        this.tickets = tickets;
+        this.user = user;
+        this.orderDate = LocalDateTime.now();
+    }
+
     public Long getId() {
         return id;
     }
