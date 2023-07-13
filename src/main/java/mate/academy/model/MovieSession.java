@@ -25,6 +25,9 @@ public class MovieSession {
     @Column(name = "show_time")
     private LocalDateTime showTime;
 
+    public MovieSession() {
+    }
+
     public Long getId() {
         return id;
     }
