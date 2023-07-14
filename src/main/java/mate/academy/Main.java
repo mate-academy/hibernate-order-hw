@@ -66,19 +66,19 @@ public class Main {
 
         AuthenticationService authenticationService =
                 (AuthenticationService) injector.getInstance(AuthenticationService.class);
-        authenticationService.register("bobyk@example.com", "1234");
-        User loginedBobyk = authenticationService.login("bobyk@example.com", "1234");
+        authenticationService.register("test12@example.com", "1234");
+        User testVova = authenticationService.login("test12@example.com", "1234");
         ShoppingCartService shoppingCartService =
                 (ShoppingCartService) injector.getInstance(ShoppingCartService.class);
-        shoppingCartService.addSession(tomorrowMovieSession, loginedBobyk);
-        shoppingCartService.addSession(yesterdayMovieSession, loginedBobyk);
-        ShoppingCart shoppingCart = shoppingCartService.getByUser(loginedBobyk);
+        shoppingCartService.addSession(tomorrowMovieSession, testVova);
+        shoppingCartService.addSession(yesterdayMovieSession, testVova);
+        ShoppingCart shoppingCart = shoppingCartService.getByUser(testVova);
 
         OrderService orderService =
                 (OrderService) injector.getInstance(OrderService.class);
         Order order = orderService.completeOrder(shoppingCart);
         System.out.println(order);
-        List<Order> ordersHistory = orderService.getOrdersHistory(loginedBobyk);
+        List<Order> ordersHistory = orderService.getOrdersHistory(testVova);
         System.out.println(ordersHistory);
 
     }
