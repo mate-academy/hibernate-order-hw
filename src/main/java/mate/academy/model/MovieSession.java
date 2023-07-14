@@ -34,7 +34,6 @@ public class MovieSession {
         this.showTime = showTime;
     }
 
-
     public Long getId() {
         return id;
     }

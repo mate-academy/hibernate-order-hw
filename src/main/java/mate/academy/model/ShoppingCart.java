@@ -33,7 +33,6 @@ public class ShoppingCart {
         this.user = user;
     }
 
-
     public Long getId() {
         return id;
     }

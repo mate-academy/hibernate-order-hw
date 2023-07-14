@@ -30,6 +30,7 @@ public class Main {
             (AuthenticationService) injector.getInstance(AuthenticationService.class);
     private static final OrderService orderService =
             (OrderService) injector.getInstance(OrderService.class);
+
     public static void main(String[] args) throws RegistrationException, AuthenticationException {
 
         Movie fastAndFurious = new Movie("Fast and Furious");
