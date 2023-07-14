@@ -20,9 +20,7 @@ public class Order {
     private Long id;
     @OneToMany
     private List<Ticket> tickets;
-
     private LocalDateTime orderDate;
-
     @ManyToOne(fetch = FetchType.LAZY)
     private User user;
 
