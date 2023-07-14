@@ -30,7 +30,6 @@ public class Main {
             (AuthenticationService) injector.getInstance(AuthenticationService.class);
     private static final OrderService orderService =
             (OrderService) injector.getInstance(OrderService.class);
-
     public static void main(String[] args) throws RegistrationException, AuthenticationException {
 
         Movie fastAndFurious = new Movie("Fast and Furious");
@@ -70,7 +69,7 @@ public class Main {
         System.out.println(movieSessionService.findAvailableSessions(
                         fastAndFurious.getId(), LocalDate.now()));
 
-        User authAlice = authenticationService.register("Alice@gmail.com", "123");
+        authenticationService.register("Alice@gmail.com", "123");
         User loginAlice = authenticationService.login("Alice@gmail.com", "123");
         shoppingCartService.addSession(yesterdayMovieSession, loginAlice);
         System.out.println(shoppingCartService.getByUser(loginAlice));
