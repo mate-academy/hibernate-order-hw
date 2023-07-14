@@ -17,6 +17,7 @@ import mate.academy.service.MovieService;
 import mate.academy.service.MovieSessionService;
 import mate.academy.service.OrderService;
 import mate.academy.service.ShoppingCartService;
+
 public class Main {
     private static final Injector injector = Injector.getInstance("mate.academy");
     private static final MovieService movieService =
@@ -33,7 +34,6 @@ public class Main {
             (OrderService) injector.getInstance(OrderService.class);
 
     public static void main(String[] args) throws RegistrationException {
-
         Movie fastAndFurious = new Movie("Fast and Furious");
         fastAndFurious.setDescription("An action film about street racing, heists, and spies.");
         movieService.add(fastAndFurious);
