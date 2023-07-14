@@ -21,6 +21,14 @@ public class Ticket {
     @ManyToOne(fetch = FetchType.LAZY)
     private User user;
 
+    public Ticket() {
+    }
+
+    public Ticket(MovieSession movieSession, User user) {
+        this.movieSession = movieSession;
+        this.user = user;
+    }
+
     public Long getId() {
         return id;
     }
@@ -47,11 +55,12 @@ public class Ticket {
 
     @Override
     public String toString() {
-        return "Ticket{"
-            + "id=" + id
-            + ", movieSession=" + movieSession
-            + ", user=" + user
-            + '}';
+        return System.lineSeparator()
+                + "Ticket{"
+                + "id=" + id
+                + ", movieSession=" + movieSession
+                + ", user=" + user
+                + '}';
     }
 
 }
