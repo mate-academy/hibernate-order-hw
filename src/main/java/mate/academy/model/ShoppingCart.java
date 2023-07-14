@@ -28,9 +28,6 @@ public class ShoppingCart {
     @JoinColumn(name = "id")
     private User user;
 
-    public ShoppingCart() {
-    }
-
     public Long getId() {
         return id;
     }

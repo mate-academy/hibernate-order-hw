@@ -18,10 +18,11 @@ public class Order {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
-
     @OneToMany
     private List<Ticket> tickets;
+
     private LocalDateTime orderDate;
+
     @ManyToOne(fetch = FetchType.LAZY)
     private User user;
 
@@ -37,6 +38,7 @@ public class Order {
     public Order(List<Ticket> tickets, User user) {
         this.tickets = tickets;
         this.user = user;
+        this.orderDate = LocalDateTime.now();
     }
 
     public Long getId() {
