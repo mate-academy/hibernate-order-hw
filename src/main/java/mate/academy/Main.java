@@ -2,17 +2,38 @@ package mate.academy;
 
 import java.time.LocalDate;
 import java.time.LocalDateTime;
+import mate.academy.exception.AuthenticationException;
+import mate.academy.exception.RegistrationException;
+import mate.academy.lib.Injector;
 import mate.academy.model.CinemaHall;
 import mate.academy.model.Movie;
 import mate.academy.model.MovieSession;
+import mate.academy.model.Order;
+import mate.academy.model.ShoppingCart;
+import mate.academy.model.User;
+import mate.academy.security.AuthenticationService;
 import mate.academy.service.CinemaHallService;
 import mate.academy.service.MovieService;
 import mate.academy.service.MovieSessionService;
+import mate.academy.service.OrderService;
+import mate.academy.service.ShoppingCartService;
 
 public class Main {
-    public static void main(String[] args) {
-        MovieService movieService = null;
+    private static final Injector injector = Injector.getInstance("mate.academy");
+    private static final MovieService movieService =
+            (MovieService) injector.getInstance(MovieService.class);
+    private static final MovieSessionService movieSessionService =
+            (MovieSessionService) injector.getInstance(MovieSessionService.class);
+    private static final CinemaHallService cinemaHallService =
+            (CinemaHallService) injector.getInstance(CinemaHallService.class);
+    private static final AuthenticationService authenticationService =
+            (AuthenticationService) injector.getInstance(AuthenticationService.class);
+    private static final ShoppingCartService shoppingCartService =
+            (ShoppingCartService) injector.getInstance(ShoppingCartService.class);
+    private static final OrderService orderService =
+            (OrderService) injector.getInstance(OrderService.class);
 
+    public static void main(String[] args) {
         Movie fastAndFurious = new Movie("Fast and Furious");
         fastAndFurious.setDescription("An action film about street racing, heists, and spies.");
         movieService.add(fastAndFurious);
@@ -27,7 +48,6 @@ public class Main {
         secondCinemaHall.setCapacity(200);
         secondCinemaHall.setDescription("second hall with capacity 200");
 
-        CinemaHallService cinemaHallService = null;
         cinemaHallService.add(firstCinemaHall);
         cinemaHallService.add(secondCinemaHall);
 
@@ -44,12 +64,57 @@ public class Main {
         yesterdayMovieSession.setMovie(fastAndFurious);
         yesterdayMovieSession.setShowTime(LocalDateTime.now().minusDays(1L));
 
-        MovieSessionService movieSessionService = null;
         movieSessionService.add(tomorrowMovieSession);
         movieSessionService.add(yesterdayMovieSession);
 
         System.out.println(movieSessionService.get(yesterdayMovieSession.getId()));
         System.out.println(movieSessionService.findAvailableSessions(
-                        fastAndFurious.getId(), LocalDate.now()));
+                fastAndFurious.getId(), LocalDate.now()));
+        User userBob = null;
+        String bobPassword = "123Qwerty";
+        try {
+            userBob = authenticationService.register("bob@test.com", bobPassword);
+        } catch (RegistrationException e) {
+            System.out.println(e.getMessage());
+        }
+
+        if (userBob != null) {
+            try {
+                User userBobFromDB = authenticationService.login(userBob.getEmail(), bobPassword);
+                System.out.println(userBobFromDB);
+            } catch (AuthenticationException e) {
+                System.out.println(e.getMessage());
+            }
+        }
+
+        User userAlice = null;
+        String alicePassword = "154Qwertyuio";
+        try {
+            userAlice = authenticationService.register("alice@test.com", alicePassword);
+        } catch (RegistrationException e) {
+            System.out.println(e.getMessage());
+        }
+
+        if (userAlice != null) {
+            try {
+                User userAliceFromDB = authenticationService.login(
+                        userAlice.getEmail(), alicePassword);
+                System.out.println(userAliceFromDB);
+            } catch (AuthenticationException e) {
+                System.out.println(e.getMessage());
+            }
+        }
+
+        shoppingCartService.addSession(tomorrowMovieSession, userBob);
+        ShoppingCart bobShoppingCart = shoppingCartService.getByUser(userBob);
+        System.out.println(bobShoppingCart);
+
+        Order bobOrder = orderService.completeOrder(bobShoppingCart);
+        System.out.println(shoppingCartService.getByUser(userBob));
+
+        shoppingCartService.addSession(yesterdayMovieSession, userBob);
+        bobOrder = orderService.completeOrder(shoppingCartService.getByUser(userBob));
+        System.out.println(orderService.getOrdersHistory(userBob));
+
     }
 }
