@@ -47,7 +47,7 @@ public class OrderDaoImp implements OrderDao {
             findByUser.setParameter("user", user);
             return findByUser.getResultList();
         } catch (Exception e) {
-            throw new DataProcessingException("can`t get order by user" + user, e);
+            throw new DataProcessingException("Can't get order by user: " + user, e);
         }
     }
 }
