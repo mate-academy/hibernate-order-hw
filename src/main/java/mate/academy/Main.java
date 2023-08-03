@@ -6,15 +6,9 @@ import java.time.LocalDateTime;
 import mate.academy.exception.AuthenticationException;
 import mate.academy.exception.RegistrationException;
 import mate.academy.lib.Injector;
-import mate.academy.model.CinemaHall;
-import mate.academy.model.Movie;
-import mate.academy.model.MovieSession;
-import mate.academy.model.User;
+import mate.academy.model.*;
 import mate.academy.security.AuthenticationService;
-import mate.academy.service.CinemaHallService;
-import mate.academy.service.MovieService;
-import mate.academy.service.MovieSessionService;
-import mate.academy.service.ShoppingCartService;
+import mate.academy.service.*;
 
 public class Main {
     public static void main(String[] args) throws RegistrationException, AuthenticationException {
@@ -28,6 +22,7 @@ public class Main {
                 (AuthenticationService) injector.getInstance(AuthenticationService.class);
         final ShoppingCartService shoppingCartService =
                 (ShoppingCartService) injector.getInstance(ShoppingCartService.class);
+        final OrderService orderService = (OrderService) injector.getInstance(OrderService.class);
 
         Movie fastAndFurious = new Movie("Fast and Furious");
         fastAndFurious.setDescription("An action film about street racing, heists, and spies.");
@@ -54,12 +49,19 @@ public class Main {
         tomorrowMovieSession.setMovie(fastAndFurious);
         tomorrowMovieSession.setShowTime(LocalDateTime.now().plusDays(1L));
 
+        MovieSession dayAfterTomorrowMovieSession = new MovieSession();
+        dayAfterTomorrowMovieSession.setCinemaHall(secondCinemaHall);
+        dayAfterTomorrowMovieSession.setMovie(fastAndFurious);
+        dayAfterTomorrowMovieSession.setShowTime(LocalDateTime.now().minusDays(2L));
+
         MovieSession yesterdayMovieSession = new MovieSession();
         yesterdayMovieSession.setCinemaHall(firstCinemaHall);
         yesterdayMovieSession.setMovie(fastAndFurious);
         yesterdayMovieSession.setShowTime(LocalDateTime.now().minusDays(1L));
 
         MovieSession tomorrowMovieSessionFromDb = movieSessionService.add(tomorrowMovieSession);
+        MovieSession dayAfterTomorrowMovieSessionFromDb =
+                movieSessionService.add(dayAfterTomorrowMovieSession);
         movieSessionService.add(yesterdayMovieSession);
 
         System.out.println(movieSessionService.get(yesterdayMovieSession.getId()));
@@ -76,6 +78,14 @@ public class Main {
 
         shoppingCartService.addSession(tomorrowMovieSessionFromDb, registeredUser);
 
-        shoppingCartService.clearShoppingCart(shoppingCartService.getByUser(registeredUser));
+        orderService.completeOrder(shoppingCartService.getByUser(registeredUser));
+
+        shoppingCartService.addSession(dayAfterTomorrowMovieSessionFromDb, registeredUser);
+
+        orderService.completeOrder(shoppingCartService.getByUser(registeredUser));
+
+        for (Order order : orderService.getOrdersHistory(registeredUser)) {
+            System.out.println(order);
+        }
     }
 }
