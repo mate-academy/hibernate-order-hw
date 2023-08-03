@@ -1,7 +1,7 @@
 package mate.academy.model;
 
-import java.util.List;
 import java.time.LocalDateTime;
+import java.util.List;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.FetchType;
@@ -17,16 +17,16 @@ import javax.persistence.Table;
 @Entity
 @Table(name = "orders")
 public class Order {
-@Id
-@GeneratedValue(strategy = GenerationType.IDENTITY)
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
 private Long id;
-@OneToMany
-@JoinTable(joinColumns = @JoinColumn(name = "order_id"),
-        inverseJoinColumns = @JoinColumn(name = "ticket_id"))
+    @OneToMany
+    @JoinTable(joinColumns = @JoinColumn(name = "order_id"),
+            inverseJoinColumns = @JoinColumn(name = "ticket_id"))
 private List<Ticket> tickets;
-@Column(name = "order_date")
+    @Column(name = "order_date")
 private LocalDateTime orderDate;
-@ManyToOne(fetch = FetchType.LAZY)
+    @ManyToOne(fetch = FetchType.LAZY)
 private User user;
 
     public Order() {

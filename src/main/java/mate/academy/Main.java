@@ -2,13 +2,20 @@ package mate.academy;
 
 import java.time.LocalDate;
 import java.time.LocalDateTime;
-
 import mate.academy.exception.AuthenticationException;
 import mate.academy.exception.RegistrationException;
 import mate.academy.lib.Injector;
-import mate.academy.model.*;
+import mate.academy.model.CinemaHall;
+import mate.academy.model.Movie;
+import mate.academy.model.MovieSession;
+import mate.academy.model.Order;
+import mate.academy.model.User;
 import mate.academy.security.AuthenticationService;
-import mate.academy.service.*;
+import mate.academy.service.CinemaHallService;
+import mate.academy.service.MovieService;
+import mate.academy.service.MovieSessionService;
+import mate.academy.service.OrderService;
+import mate.academy.service.ShoppingCartService;
 
 public class Main {
     public static void main(String[] args) throws RegistrationException, AuthenticationException {
@@ -54,13 +61,14 @@ public class Main {
         dayAfterTomorrowMovieSession.setMovie(fastAndFurious);
         dayAfterTomorrowMovieSession.setShowTime(LocalDateTime.now().minusDays(2L));
 
-        MovieSession yesterdayMovieSession = new MovieSession();
+        final MovieSession yesterdayMovieSession = new MovieSession();
         yesterdayMovieSession.setCinemaHall(firstCinemaHall);
         yesterdayMovieSession.setMovie(fastAndFurious);
         yesterdayMovieSession.setShowTime(LocalDateTime.now().minusDays(1L));
 
-        MovieSession tomorrowMovieSessionFromDb = movieSessionService.add(tomorrowMovieSession);
-        MovieSession dayAfterTomorrowMovieSessionFromDb =
+        final MovieSession tomorrowMovieSessionFromDb =
+                movieSessionService.add(tomorrowMovieSession);
+        final MovieSession dayAfterTomorrowMovieSessionFromDb =
                 movieSessionService.add(dayAfterTomorrowMovieSession);
         movieSessionService.add(yesterdayMovieSession);
 
