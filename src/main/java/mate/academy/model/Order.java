@@ -6,6 +6,7 @@ import javax.persistence.Entity;
 import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
+import javax.persistence.JoinColumn;
 import javax.persistence.JoinTable;
 import javax.persistence.ManyToOne;
 import javax.persistence.OneToMany;
@@ -18,7 +19,9 @@ public class Order {
     @GeneratedValue
     private Long id;
     @OneToMany
-    @JoinTable(name = "orders_tickets")
+    @JoinTable(name = "orders_tickets",
+            joinColumns = @JoinColumn(name = "order_id"),
+            inverseJoinColumns = @JoinColumn(name = "ticket_id"))
     private List<Ticket> tickets;
     private LocalDateTime localDateTime;
     @ManyToOne(fetch = FetchType.LAZY)
