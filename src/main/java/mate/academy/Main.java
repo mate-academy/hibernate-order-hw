@@ -72,10 +72,11 @@ public class Main {
                 .getInstance(ShoppingCartService.class);
         shoppingCartService.registerNewShoppingCart(user);
         shoppingCartService.addSession(tomorrowMovieSession, user);
+
         OrderService orderService = (OrderService) injector.getInstance(OrderService.class);
-        orderService.completeOrder(shoppingCartService.getByUser(user));
+        orderService.createOrder(shoppingCartService.getByUser(user));
         shoppingCartService.addSession(yesterdayMovieSession, user);
-        orderService.completeOrder(shoppingCartService.getByUser(user));
+        orderService.createOrder(shoppingCartService.getByUser(user));
         orderService.getOrdersHistory(user).forEach(System.out::println);
     }
 }
