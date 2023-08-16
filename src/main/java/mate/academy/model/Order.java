@@ -25,6 +25,7 @@ public class Order {
     private List<Ticket> tickets;
     private LocalDateTime localDateTime;
     @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "user_id")
     private User user;
 
     public Long getId() {
