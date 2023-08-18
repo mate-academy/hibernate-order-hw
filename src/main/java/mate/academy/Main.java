@@ -2,14 +2,17 @@ package mate.academy;
 
 import java.time.LocalDate;
 import java.time.LocalDateTime;
+import mate.academy.exception.RegistrationException;
 import mate.academy.lib.Injector;
 import mate.academy.model.CinemaHall;
 import mate.academy.model.Movie;
 import mate.academy.model.MovieSession;
+import mate.academy.model.User;
 import mate.academy.security.AuthenticationService;
 import mate.academy.service.CinemaHallService;
 import mate.academy.service.MovieService;
 import mate.academy.service.MovieSessionService;
+import mate.academy.service.OrderService;
 import mate.academy.service.ShoppingCartService;
 
 public class Main {
@@ -24,6 +27,8 @@ public class Main {
             (AuthenticationService) injector.getInstance(AuthenticationService.class);
     private static final ShoppingCartService cartService =
             (ShoppingCartService) injector.getInstance(ShoppingCartService.class);
+    private static final OrderService orderService =
+            (OrderService) injector.getInstance(OrderService.class);
 
     public static void main(String[] args) {
         Movie fastAndFurious = new Movie("Fast and Furious");
@@ -63,6 +68,25 @@ public class Main {
         System.out.println(movieSessionService.findAvailableSessions(
                         fastAndFurious.getId(), LocalDate.now()));
 
+        User bob = null;
+        User jack = null;
+        try {
+            bob = authenticationService.register("bob@gmail.com", "hardPassword");
+            jack = authenticationService.register("jack@gmail.com", "Password");
+        } catch (RegistrationException e) {
+            System.out.println(e.getMessage());
+        }
 
+        cartService.addSession(tomorrowMovieSession, bob);
+        cartService.addSession(yesterdayMovieSession, jack);
+
+        System.out.println(cartService.getByUser(bob));
+        System.out.println(cartService.getByUser(jack));
+
+        System.out.println(orderService.completeOrder(cartService.getByUser(bob)));
+        System.out.println(orderService.completeOrder((cartService.getByUser(jack))));
+
+        System.out.println(orderService.getOrdersHistory(jack));
+        System.out.println(orderService.getOrdersHistory(bob));
     }
 }
