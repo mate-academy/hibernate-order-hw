@@ -20,7 +20,7 @@ public class CinemaHallDaoImpl implements CinemaHallDao {
         try {
             session = HibernateUtil.getSessionFactory().openSession();
             transaction = session.beginTransaction();
-            session.save(cinemaHall);
+            session.persist(cinemaHall);
             transaction.commit();
             return cinemaHall;
         } catch (Exception e) {
