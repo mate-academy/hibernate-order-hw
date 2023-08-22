@@ -1,6 +1,6 @@
 package mate.academy.dao.impl;
 
-import jakarta.persistence.criteria.CriteriaQuery;
+import javax.persistence.criteria.CriteriaQuery;
 import java.util.List;
 import java.util.Optional;
 import mate.academy.dao.CinemaHallDao;
@@ -20,7 +20,7 @@ public class CinemaHallDaoImpl implements CinemaHallDao {
         try {
             session = HibernateUtil.getSessionFactory().openSession();
             transaction = session.beginTransaction();
-            session.persist(cinemaHall);
+            session.save(cinemaHall);
             transaction.commit();
             return cinemaHall;
         } catch (Exception e) {
