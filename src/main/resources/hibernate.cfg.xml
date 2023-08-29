@@ -16,6 +16,7 @@
         <mapping class="mate.academy.model.CinemaHall"/>
         <mapping class="mate.academy.model.Movie"/>
         <mapping class="mate.academy.model.MovieSession"/>
+        <mapping class="mate.academy.model.Order"/>
         <mapping class="mate.academy.model.ShoppingCart"/>
         <mapping class="mate.academy.model.Ticket"/>
         <mapping class="mate.academy.model.User"/>
