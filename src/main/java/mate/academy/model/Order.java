@@ -23,7 +23,7 @@ public class Order {
     @OneToMany
     @JoinColumn(name = "order_id")
     private List<Ticket> tickets;
-    @Column(name = "order_time")
+    @Column(name = "date_time")
     private LocalDateTime orderTime;
 
     @ManyToOne(fetch = FetchType.LAZY)
