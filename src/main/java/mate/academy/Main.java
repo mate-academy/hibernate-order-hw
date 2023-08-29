@@ -72,13 +72,16 @@ public class Main {
         } catch (RegistrationException e) {
             throw new RuntimeException("Registration failed", e);
         }
+        
         ShoppingCartService shoppingCartService =
                 (ShoppingCartService) INJECTOR.getInstance(ShoppingCartService.class);
         ShoppingCart shoppingCart = shoppingCartService.getByUser(user);
         System.out.println(shoppingCart);
         shoppingCartService.addSession(tomorrowMovieSession, user);
         System.out.println((shoppingCart = shoppingCartService.getByUser(user)));
-        OrderService orderService = (OrderService) INJECTOR.getInstance(OrderService.class);
+        
+        OrderService orderService = 
+                (OrderService) INJECTOR.getInstance(OrderService.class);
         System.out.println(orderService.completeOrder(shoppingCart));
         System.out.println(shoppingCartService.getByUser(user));
         shoppingCartService.addSession(yesterdayMovieSession, user);
