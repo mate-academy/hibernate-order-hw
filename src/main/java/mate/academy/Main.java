@@ -80,6 +80,6 @@ public class Main {
         shoppingCartService.addSession(yesterdayMovieSession, bob);
 
         System.out.println(orderService.completeOrder(shoppingCartService.getByUser(bob)));
-        System.out.println(orderService.getOrdersHistory(bob));
+        System.out.println(orderService.getHistory(bob));
     }
 }
