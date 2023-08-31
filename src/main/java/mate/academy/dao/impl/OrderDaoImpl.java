@@ -1,9 +1,10 @@
 package mate.academy.dao.impl;
 
-import java.util.Optional;
-import mate.academy.dao.UserDao;
+import java.util.List;
+import mate.academy.dao.OrderDao;
 import mate.academy.exception.DataProcessingException;
 import mate.academy.lib.Dao;
+import mate.academy.model.Order;
 import mate.academy.model.User;
 import mate.academy.util.HibernateUtil;
 import org.hibernate.Session;
@@ -11,38 +12,43 @@ import org.hibernate.Transaction;
 import org.hibernate.query.Query;
 
 @Dao
-public class UserDaoImpl implements UserDao {
+public class OrderDaoImpl implements OrderDao {
     @Override
-    public User add(User user) {
+    public Order add(Order order) {
         Session session = null;
         Transaction transaction = null;
         try {
             session = HibernateUtil.getSessionFactory().openSession();
             transaction = session.beginTransaction();
-            session.save(user);
+            session.save(order);
             transaction.commit();
-            return user;
         } catch (Exception e) {
             if (transaction != null) {
                 transaction.rollback();
             }
-            throw new DataProcessingException("Can't insert a user: " + user, e);
+            throw new DataProcessingException("Cannot add order to DB: " + order, e);
         } finally {
             if (session != null) {
                 session.close();
             }
         }
+        return order;
     }
 
     @Override
-    public Optional<User> findByEmail(String email) {
+    public List<Order> getByUser(User user) {
         try (Session session = HibernateUtil.getSessionFactory().openSession()) {
-            Query<User> query = session.createQuery("FROM User u "
-                    + "WHERE u.email = :email", User.class);
-            query.setParameter("email", email);
-            return query.uniqueResultOptional();
+            Query<Order> query = session.createQuery("SELECT DISTINCT o FROM Order o"
+                    + "LEFT JOIN FETCH o.user u"
+                    + "JOIN FETCH o.tickets t"
+                    + "LEFT JOIN FETCH t.movieSession ms"
+                    + "LEFT JOIN FETCH ms.movieHall"
+                    + "LEFT JOIN FETCH ms.movie"
+                    + "WHERE o.user = :user", Order.class);
+            query.setParameter("user", user);
+            return query.getResultList();
         } catch (Exception e) {
-            throw new DataProcessingException("Can't find a user by email: " + email, e);
+            throw new DataProcessingException("Cannot find user`s orders: " + user, e);
         }
     }
 }

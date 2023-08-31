@@ -1,26 +1,30 @@
 package mate.academy.model;
 
+import java.time.LocalDateTime;
 import java.util.List;
+import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.JoinTable;
+import javax.persistence.ManyToOne;
 import javax.persistence.MapsId;
 import javax.persistence.OneToMany;
-import javax.persistence.OneToOne;
 import javax.persistence.Table;
 
 @Entity
-@Table (name = "shopping_carts")
-public class ShoppingCart {
+@Table(name = "orders")
+public class Order {
     @Id
     private Long id;
     @OneToMany
-    @JoinTable(name = "shopping_carts_tickets",
-            joinColumns = @JoinColumn(name = "shopping_cart_id"),
+    @JoinTable(name = "orders_tickets",
+            joinColumns = @JoinColumn(name = "order_id"),
             inverseJoinColumns = @JoinColumn(name = "ticket_id"))
     private List<Ticket> tickets;
-    @OneToOne
+    @Column(name = "order_date")
+    private LocalDateTime dateTime;
+    @ManyToOne
     @MapsId
     @JoinColumn(name = "id")
     private User user;
@@ -41,6 +45,14 @@ public class ShoppingCart {
         this.tickets = tickets;
     }
 
+    public LocalDateTime getDateTime() {
+        return dateTime;
+    }
+
+    public void setDateTime(LocalDateTime dateTime) {
+        this.dateTime = dateTime;
+    }
+
     public User getUser() {
         return user;
     }
@@ -51,10 +63,11 @@ public class ShoppingCart {
 
     @Override
     public String toString() {
-        return "ShoppingCart{"
-            + "id=" + id
-            + ", tickets=" + tickets
-            + ", user=" + user
-            + '}';
+        return "Order{"
+                + "id=" + id
+                + ", tickets=" + tickets
+                + ", dateTime=" + dateTime
+                + ", user=" + user
+                + '}';
     }
 }
