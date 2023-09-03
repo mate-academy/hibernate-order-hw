@@ -65,7 +65,7 @@ public class Main {
                         fastAndFurious.getId(), LocalDate.now()));
         User user = new User();
         user.setEmail("ulia@gmail.com");
-        user.setPassword("1234");
+        user.setPassword("123456789");
         ShoppingCart shoppingCart = new ShoppingCart();
         List<Ticket> tickets = new ArrayList<>();
         shoppingCart.setTickets(tickets);
