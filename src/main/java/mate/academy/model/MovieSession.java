@@ -61,8 +61,6 @@ public class MovieSession {
     public String toString() {
         return "MovieSession{"
                 + "id=" + id
-                + ", movie=" + movie
-                + ", cinemaHall=" + cinemaHall
                 + ", showTime=" + showTime
                 + '}';
     }
