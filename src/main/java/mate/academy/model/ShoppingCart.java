@@ -11,7 +11,7 @@ import jakarta.persistence.Table;
 import java.util.List;
 
 @Entity
-@Table (name = "shopping_carts")
+@Table(name = "shopping_carts")
 public class ShoppingCart {
     @Id
     private Long id;
@@ -52,9 +52,9 @@ public class ShoppingCart {
     @Override
     public String toString() {
         return "ShoppingCart{"
-            + "id=" + id
-            + ", tickets=" + tickets
-            + ", user=" + user
-            + '}';
+               + "id=" + id
+               + ", tickets=" + tickets
+               + ", user=" + user
+               + '}';
     }
 }
