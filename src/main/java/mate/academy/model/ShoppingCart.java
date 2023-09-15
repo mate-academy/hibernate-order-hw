@@ -25,6 +25,14 @@ public class ShoppingCart {
     @JoinColumn(name = "id")
     private User user;
 
+    public ShoppingCart() {
+    }
+
+    public ShoppingCart(List<Ticket> tickets, User user) {
+        this.tickets = tickets;
+        this.user = user;
+    }
+
     public Long getId() {
         return id;
     }
