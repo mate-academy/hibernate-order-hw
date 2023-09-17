@@ -2,7 +2,6 @@ package mate.academy;
 
 import java.time.LocalDate;
 import java.time.LocalDateTime;
-
 import mate.academy.lib.Injector;
 import mate.academy.model.CinemaHall;
 import mate.academy.model.Movie;
@@ -18,14 +17,13 @@ public class Main {
     public static void main(String[] args) {
         final Injector injector = Injector.getInstance("mate.academy");
 
-        MovieService movieService = (MovieService) injector.getInstance(MovieService.class);
-
         OrderService orderService = (OrderService) injector.getInstance(OrderService.class);
         ShoppingCart shoppingCart = new ShoppingCart();
         orderService.completeOrder(shoppingCart);
         User user = new User();
         orderService.getOrdersHistory(user);
 
+        MovieService movieService = (MovieService) injector.getInstance(MovieService.class);
         Movie fastAndFurious = new Movie("Fast and Furious");
         fastAndFurious.setDescription("An action film about street racing, heists, and spies.");
         movieService.add(fastAndFurious);
