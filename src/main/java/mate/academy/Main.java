@@ -24,7 +24,7 @@ public class Main {
     private static final Injector INJECTOR = Injector.getInstance("mate.academy");
 
     @Inject
-    private static final mate.academy.service.ShoppingCartService SHOPPINGCARTSERVICE
+    private static final ShoppingCartService SHOPPINGCARTSERVICE
             = (ShoppingCartService) INJECTOR.getInstance(ShoppingCartService.class);
 
     private static final MovieService MOVIESERVICE
@@ -74,7 +74,7 @@ public class Main {
         System.out.println(cinemaHallService.get(firstCinemaHall.getId()));
 
         MovieSession tomorrowMovieSession = new MovieSession();
-        tomorrowMovieSession.setCinemaHall(firstCinemaHall);
+        tomorrowMovieSession.setCinemaHall(secondCinemaHall);
         tomorrowMovieSession.setMovie(fastAndFurious);
         tomorrowMovieSession.setShowTime(LocalDateTime.now().plusDays(1L));
 
@@ -107,7 +107,5 @@ public class Main {
         OrderService orderService = ORDERSERVICE;
         orderService.completeOrder(shoppingCart);
         System.out.println(orderService.getOrdersHistory(userBob));
-
-        SHOPPINGCARTSERVICE.clearShoppingCart(shoppingCart);
     }
 }
