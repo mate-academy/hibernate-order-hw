@@ -1,5 +1,6 @@
 package mate.academy.dao.impl;
 
+import java.util.List;
 import mate.academy.dao.OrderDao;
 import mate.academy.exception.DataProcessingException;
 import mate.academy.lib.Dao;
@@ -9,8 +10,6 @@ import mate.academy.util.HibernateUtil;
 import org.hibernate.Session;
 import org.hibernate.Transaction;
 import org.hibernate.query.Query;
-
-import java.util.List;
 
 @Dao
 public class OrderDaoImpl implements OrderDao {
@@ -44,7 +43,7 @@ public class OrderDaoImpl implements OrderDao {
             session = HibernateUtil.getSessionFactory().openSession();
             transaction = session.beginTransaction();
             Query<Order> query = session.createQuery("FROM Order "
-                    + "LEFT JOIN Order.user u "
+                    + "JOIN Order.user u "
                     + "WHERE u.id = :user", Order.class);
             query.setParameter("user", user.getId());
             List<Order> resultList = query.getResultList();
