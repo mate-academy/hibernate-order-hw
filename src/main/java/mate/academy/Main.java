@@ -76,6 +76,7 @@ public class Main {
 
         shService.addSession(yesterdayMovieSession, yelena);
         ShoppingCart yelenaShCart = shService.getByUser(yelena);
+        System.out.println("First complete order");
         Order yelenaOrder = orderService.completeOrder(yelenaShCart);
 
         shService.addSession(tomorrowMovieSession, yelena);
