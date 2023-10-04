@@ -49,10 +49,10 @@ public class OrderDaoImpl implements OrderDao {
     private String byUserQuery() {
         return "FROM Order o "
                 + "LEFT JOIN FETCH o.tickets t "
-                + "LEFT JOIN FETCH o.user u "
-                + "LEFT JOIN FETCH t.movieSession ms "
-                + "LEFT JOIN FETCH ms.movie m "
-                + "LEFT JOIN FETCH ms.cinemaHall c "
+                + "JOIN FETCH o.user u "
+                + "JOIN FETCH t.movieSession ms "
+                + "JOIN FETCH ms.movie m "
+                + "JOIN FETCH ms.cinemaHall c "
                 + "WHERE o.user = :user";
     }
 }
