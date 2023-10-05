@@ -48,10 +48,6 @@ public class Ticket {
     @Override
     public String toString() {
         return "Ticket{"
-            + "id=" + id
-            + ", movieSession=" + movieSession
-            + ", user=" + user
-            + '}';
+            + "id=" + id + '}';
     }
-
 }
