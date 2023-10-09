@@ -21,7 +21,7 @@ public class ShoppingCartDaoImpl implements ShoppingCartDao {
             transaction = session.beginTransaction();
             User managedUser = session.merge(shoppingCart.getUser());
             shoppingCart.setUser(managedUser);
-            session.persist(shoppingCart);
+            session.save(shoppingCart);
             transaction.commit();
             return shoppingCart;
         } catch (Exception e) {
