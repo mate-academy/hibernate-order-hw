@@ -9,7 +9,6 @@ import mate.academy.model.User;
 import mate.academy.util.HibernateUtil;
 import org.hibernate.Session;
 import org.hibernate.Transaction;
-import org.hibernate.query.Query;
 
 @Dao
 public class OrderDaoImpl implements OrderDao {
@@ -39,16 +38,14 @@ public class OrderDaoImpl implements OrderDao {
     @Override
     public List<Order> getListOrderByUser(User user) {
         try (Session session = HibernateUtil.getSessionFactory().openSession()) {
-            Query<Order> order = session.createQuery("FROM Order o "
-                    + "LEFT JOIN FETCH o.tickets t "
-                    + "LEFT JOIN FETCH o.orderDate "
-                    + "LEFT JOIN FETCH t.movieSession ms "
-                    + "LEFT JOIN FETCH ms.showTime "
-                    + "LEFT JOIN FETCH ms.cinemaHall "
-                    + "LEFT JOIN FETCH ms.movie "
-                    + "WHERE o.user =:user", Order.class);
-            order.setParameter("user", user);
-            return order.getResultList();
+            return session.createQuery("FROM Order o "
+                            + "LEFT JOIN FETCH o.user "
+                            + "LEFT JOIN FETCH o.tickets t "
+                            + "LEFT JOIN FETCH t.movieSession ms "
+                            + "LEFT JOIN FETCH ms.movie "
+                            + "LEFT JOIN FETCH ms.cinemaHall "
+                            + "WHERE o.user = :user", Order.class)
+                    .setParameter("user", user).getResultList();
         } catch (Exception e) {
             throw new DataProcessingException("Can't find an order by user " + user, e);
         }
