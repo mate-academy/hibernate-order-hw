@@ -2,14 +2,26 @@ package mate.academy;
 
 import java.time.LocalDate;
 import java.time.LocalDateTime;
+import java.util.ArrayList;
+import java.util.List;
+import mate.academy.lib.Injector;
 import mate.academy.model.CinemaHall;
 import mate.academy.model.Movie;
 import mate.academy.model.MovieSession;
+import mate.academy.model.ShoppingCart;
+import mate.academy.model.Ticket;
+import mate.academy.model.User;
 import mate.academy.service.CinemaHallService;
 import mate.academy.service.MovieService;
 import mate.academy.service.MovieSessionService;
+import mate.academy.service.OrderService;
 
 public class Main {
+    private static final Injector INJECTOR = Injector.getInstance("mate.academy");
+
+    private static OrderService orderService
+            = (OrderService) INJECTOR.getInstance(OrderService.class);
+
     public static void main(String[] args) {
         MovieService movieService = null;
 
@@ -50,6 +62,16 @@ public class Main {
 
         System.out.println(movieSessionService.get(yesterdayMovieSession.getId()));
         System.out.println(movieSessionService.findAvailableSessions(
-                        fastAndFurious.getId(), LocalDate.now()));
+                fastAndFurious.getId(), LocalDate.now()));
+        User user = new User();
+        user.setEmail("ulia@gmail.com");
+        user.setPassword("123456789");
+        ShoppingCart shoppingCart = new ShoppingCart();
+        List<Ticket> tickets = new ArrayList<>();
+        shoppingCart.setTickets(tickets);
+        shoppingCart.setUser(user);
+        orderService.completeOrder(shoppingCart);
+        orderService.getOrdersHistory(user);
     }
 }
+
