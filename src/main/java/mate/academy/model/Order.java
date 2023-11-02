@@ -18,7 +18,7 @@ public class Order {
     private Long id;
     @ManyToOne
     private User user;
-    private LocalDateTime orderDate;
+    private LocalDateTime orderDateTime;
     @OneToMany
     private List<Ticket> tickets;
 
@@ -39,11 +39,11 @@ public class Order {
     }
 
     public LocalDateTime getOrderDate() {
-        return orderDate;
+        return orderDateTime;
     }
 
     public void setOrderDate(LocalDateTime orderDate) {
-        this.orderDate = orderDate;
+        this.orderDateTime = orderDate;
     }
 
     public List<Ticket> getTickets() {
@@ -59,7 +59,7 @@ public class Order {
         return "Order{"
                 + "id=" + id
                 + ", user=" + user
-                + ", orderDate=" + orderDate
+                + ", orderDate=" + orderDateTime
                 + ", tickets=" + tickets + '}';
     }
 }
