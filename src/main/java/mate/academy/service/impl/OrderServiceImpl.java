@@ -10,9 +10,6 @@ import mate.academy.model.ShoppingCart;
 import mate.academy.model.User;
 import mate.academy.service.OrderService;
 import mate.academy.service.ShoppingCartService;
-import mate.academy.util.HibernateUtil;
-import org.hibernate.Session;
-import org.hibernate.query.Query;
 
 @Service
 public class OrderServiceImpl implements OrderService {
@@ -24,13 +21,9 @@ public class OrderServiceImpl implements OrderService {
     @Override
     public Order completeOrder(ShoppingCart shoppingCart) {
         Order order = createOrder(shoppingCart);
-        try (Session session = HibernateUtil.getSessionFactory().openSession()) {
-            orderDao.add(order);
-            shoppingCartService.clearShoppingCart(shoppingCart);
-            return order;
-        } catch (Exception e) {
-            throw new RuntimeException("Сan't complete order by shoppingCart" + order);
-        }
+        orderDao.add(order);
+        shoppingCartService.clearShoppingCart(shoppingCart);
+        return order;
     }
 
     private Order createOrder(ShoppingCart shoppingCart) {
@@ -43,15 +36,6 @@ public class OrderServiceImpl implements OrderService {
 
     @Override
     public List<Order> getOrdersHistory(User user) {
-        try (Session session = HibernateUtil.getSessionFactory().openSession()) {
-            Query<Order> sessionQuery
-                    = session.createQuery("select o from Order o "
-                    + "left join fetch o.tickets "
-                    + "where o.user.id = :id", Order.class);
-            sessionQuery.setParameter("id", user.getId());
-            return sessionQuery.getResultList();
-        } catch (Exception e) {
-            throw new RuntimeException("Can't get orders by user " + user);
-        }
+        return orderDao.getByUser(user);
     }
 }
