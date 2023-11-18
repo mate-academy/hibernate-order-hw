@@ -47,7 +47,11 @@ public class OrderDaoImpl implements OrderDao {
         try (Session session = factory.openSession()) {
             Query<Order> getOrderByUserQuery
                     = session.createQuery("FROM Order o " +
-                    "JOIN FETCH o.tickets " +
+                    "LEFT JOIN FETCH o.tickets t " +
+                    "LEFT JOIN FETCH o.user u " +
+                    "LEFT JOIN FETCH t.movieSession ms " +
+                    "LEFT JOIN FETCH ms.movie " +
+                    "LEFT JOIN FETCH ms.cinemaHall " +
                     "WHERE o.user = :user", Order.class);
             getOrderByUserQuery.setParameter("user", user);
             return getOrderByUserQuery.getResultList();
