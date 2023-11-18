@@ -46,7 +46,10 @@ public class OrderDaoImpl implements OrderDao {
     public List<Order> getByUser(User user) {
         try (Session session = factory.openSession()) {
             Query<Order> getOrderByUserQuery
-                    = session.createQuery("FROM Order o WHERE o.user = :user", Order.class);
+                    = session.createQuery("FROM Order o " +
+                    "JOIN FETCH o.tickets " +
+                    "WHERE o.user = :user", Order.class);
+            getOrderByUserQuery.setParameter("user", user);
             return getOrderByUserQuery.getResultList();
         } catch (Exception e) {
             throw new DataProcessingException("Can't get orders for user: " + user, e);

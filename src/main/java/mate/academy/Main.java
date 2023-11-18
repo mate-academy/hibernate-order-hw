@@ -3,13 +3,14 @@ package mate.academy;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
 
+import mate.academy.exception.RegistrationException;
 import mate.academy.lib.Injector;
 import mate.academy.model.CinemaHall;
 import mate.academy.model.Movie;
 import mate.academy.model.MovieSession;
-import mate.academy.service.CinemaHallService;
-import mate.academy.service.MovieService;
-import mate.academy.service.MovieSessionService;
+import mate.academy.model.User;
+import mate.academy.security.AuthenticationService;
+import mate.academy.service.*;
 
 public class Main {
     private static final Injector injector = Injector.getInstance("mate.academy");
@@ -59,6 +60,22 @@ public class Main {
         System.out.println(movieSessionService.findAvailableSessions(
                         fastAndFurious.getId(), LocalDate.now()));
 
+        User bob = null;
+        AuthenticationService authenticationService
+                = (AuthenticationService) injector.getInstance(AuthenticationService.class);
 
+        try {
+            bob = authenticationService.register("bob@mail.com", "159363");
+        } catch (RegistrationException e) {
+            throw new RuntimeException("Can't register user");
+        }
+
+        ShoppingCartService shoppingCartService
+                = (ShoppingCartService) injector.getInstance(ShoppingCartService.class);
+        shoppingCartService.addSession(tomorrowMovieSession, bob);
+
+        OrderService orderService = (OrderService) injector.getInstance(OrderService.class);
+        orderService.completeOrder(shoppingCartService.getByUser(bob));
+        System.out.println(orderService.getOrdersHistory(bob));
     }
 }

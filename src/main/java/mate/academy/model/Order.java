@@ -18,7 +18,6 @@ public class Order {
     private List<Ticket> tickets;
     private LocalDateTime orderDate;
     @ManyToOne
-    @Column(nullable = false)
     @JoinColumn(name = "user_id")
     private User user;
 
