@@ -22,6 +22,13 @@ public class OrderDaoImpl implements OrderDao {
     private static final String CANT_GET_ORDERS_EXCEPTION_MESSAGE =
             "Can't get list of Orders from DB for User: ";
     private static final String USER_PARAMETER = "user";
+    private static final String GET_ALL_ORDERS_BY_USER_QUERY = "FROM Order ord "
+            + "LEFT JOIN FETCH ord.user u "
+            + "LEFT JOIN FETCH ord.tickets t "
+            + "LEFT JOIN FETCH t.movieSession ms "
+            + "LEFT JOIN FETCH ms.movie "
+            + "LEFT JOIN FETCH ms.cinemaHall "
+            + "WHERE ord.user =:user";
 
     @Override
     public Order add(Order order) {
@@ -48,13 +55,8 @@ public class OrderDaoImpl implements OrderDao {
     @Override
     public List<Order> getByUser(User user) {
         try (Session session = factory.openSession()) {
-            Query<Order> getOrdersByUser = session.createQuery("FROM Order ord "
-                    + "LEFT JOIN FETCH ord.user u "
-                    + "LEFT JOIN FETCH ord.tickets t "
-                    + "LEFT JOIN FETCH t.movieSession ms "
-                    + "LEFT JOIN FETCH ms.movie "
-                    + "LEFT JOIN FETCH ms.cinemaHall "
-                    + "WHERE ord.user =:user", Order.class);
+            Query<Order> getOrdersByUser = session.createQuery(
+                    GET_ALL_ORDERS_BY_USER_QUERY, Order.class);
             getOrdersByUser.setParameter(USER_PARAMETER, user);
             return getOrdersByUser.getResultList();
         } catch (Exception e) {
