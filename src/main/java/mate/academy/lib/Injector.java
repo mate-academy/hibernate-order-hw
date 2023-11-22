@@ -110,6 +110,7 @@ public class Injector {
             throw new RuntimeException("Can't set value to field ", e);
         }
     }
+
     /**
      * Scans all classes accessible from the context class loader which
      * belong to the given package and subpackages.
@@ -139,6 +140,7 @@ public class Injector {
         }
         return classes;
     }
+
     /**
      * Recursive method used to find all classes in a given directory and subdirs.
      *
