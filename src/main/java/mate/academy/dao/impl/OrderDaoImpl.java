@@ -9,6 +9,7 @@ import org.hibernate.Session;
 import org.hibernate.Transaction;
 import org.hibernate.query.Query;
 
+import java.util.List;
 import java.util.Optional;
 
 public class OrderDaoImpl implements OrderDao {
@@ -48,5 +49,20 @@ public class OrderDaoImpl implements OrderDao {
         }
 
     }
+
+    @Override
+    public List<Order> getOrdersByUser(User user) {
+        try (Session session = HibernateUtil.getSessionFactory().openSession()) {
+            Query<Order> query = session.createQuery(
+                    "SELECT O FROM Order o " +
+                            "JOIN FETCH o.user u" +
+                            "WHERE u.id = :userId", Order.class);
+            query.setParameter("userId", user.getId());
+            return query.getResultList();
+        } catch (Exception e) {
+            throw new DataProcessingException("Can't find Orders by user: " + user, e);
+        }
+    }
 }
+
 
