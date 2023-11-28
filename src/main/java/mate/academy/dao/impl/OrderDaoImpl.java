@@ -42,6 +42,9 @@ public class OrderDaoImpl implements OrderDao {
                     "SELECT o FROM Order o "
                             + "JOIN FETCH o.user u "
                             + "JOIN FETCH o.tickets t "
+                            + "JOIN FETCH t.movieSession ms"
+                            + " JOIN FETCH ms.movie m"
+                            + " JOIN FETCH ms.cinemaHall ch "
                             + "WHERE u.id = :userId", Order.class);
             query.setParameter("userId", user.getId());
             return query.getResultList();
