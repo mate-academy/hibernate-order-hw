@@ -23,7 +23,7 @@ public class OrderDaoImpl implements OrderDao {
         try {
             session = sessionFactory.openSession();
             transaction = session.beginTransaction();
-            session.save(order);
+            session.persist(order);
             transaction.commit();
         } catch (Exception ex) {
             if (transaction != null) {
