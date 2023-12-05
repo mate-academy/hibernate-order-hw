@@ -3,17 +3,16 @@ package mate.academy;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
 
+import mate.academy.exception.AuthenticationException;
+import mate.academy.exception.RegistrationException;
 import mate.academy.lib.Injector;
-import mate.academy.model.CinemaHall;
-import mate.academy.model.Movie;
-import mate.academy.model.MovieSession;
-import mate.academy.service.CinemaHallService;
-import mate.academy.service.MovieService;
-import mate.academy.service.MovieSessionService;
+import mate.academy.model.*;
+import mate.academy.security.AuthenticationService;
+import mate.academy.service.*;
 
 public class Main {
     private static final Injector INJECTOR = Injector.getInstance("mate.academy");
-    public static void main(String[] args) {
+    public static void main(String[] args) throws AuthenticationException, RegistrationException {
         MovieService movieService =
                 (MovieService) INJECTOR.getInstance(MovieService.class);
 
@@ -57,5 +56,28 @@ public class Main {
         System.out.println(movieSessionService.get(yesterdayMovieSession.getId()));
         System.out.println(movieSessionService.findAvailableSessions(
                         fastAndFurious.getId(), LocalDate.now()));
+
+        User bob = new User();
+        bob.setEmail("bob@mail.com");
+        bob.setPassword("qwerty");
+
+        AuthenticationService authenticationService =
+                (AuthenticationService) INJECTOR.getInstance(AuthenticationService.class);
+        authenticationService.register(bob.getEmail(), bob.getPassword());
+        User userFromDB = authenticationService.login(bob.getEmail(), bob.getPassword());
+
+        ShoppingCartService shoppingCartService =
+                (ShoppingCartService) INJECTOR.getInstance(ShoppingCartService.class);
+
+        System.out.println(userFromDB);
+
+        shoppingCartService.addSession(tomorrowMovieSession, userFromDB);
+        ShoppingCart bobCart = shoppingCartService.getByUser(userFromDB);
+        System.out.println(bobCart);
+        System.out.println(bobCart);
+
+        OrderService orderService = (OrderService) INJECTOR.getInstance(OrderService.class);
+        orderService.completeOrder(bobCart);
+        orderService.getOrdersHistory(userFromDB);
     }
 }
