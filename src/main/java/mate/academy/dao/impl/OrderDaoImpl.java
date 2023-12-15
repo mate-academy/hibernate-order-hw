@@ -49,5 +49,4 @@ public class OrderDaoImpl implements OrderDao {
             throw new DataProcessingException("Can't get orders for user: " + user, e);
         }
     }
-
 }
