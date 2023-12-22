@@ -11,7 +11,7 @@ import jakarta.persistence.Table;
 import java.util.List;
 
 @Entity
-@Table (name = "shopping_carts")
+@Table(name = "shopping_carts")
 public class ShoppingCart {
     @Id
     private Long id;
@@ -24,6 +24,13 @@ public class ShoppingCart {
     @MapsId
     @JoinColumn(name = "id")
     private User user;
+
+    public ShoppingCart() {
+    }
+
+    public ShoppingCart(List<Ticket> tickets) {
+        this.tickets = tickets;
+    }
 
     public Long getId() {
         return id;
@@ -52,9 +59,9 @@ public class ShoppingCart {
     @Override
     public String toString() {
         return "ShoppingCart{"
-            + "id=" + id
-            + ", tickets=" + tickets
-            + ", user=" + user
-            + '}';
+                + "id=" + id
+                + ", tickets=" + tickets
+                + ", user=" + user
+                + '}';
     }
 }
