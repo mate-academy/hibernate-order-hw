@@ -29,6 +29,9 @@ public class Order {
     @JoinColumn(name = "id")
     private User user;
 
+    public Order() {
+    }
+
     public Long getId() {
         return id;
     }
