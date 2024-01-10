@@ -8,6 +8,8 @@ import jakarta.persistence.Id;
 import jakarta.persistence.JoinColumn;
 import jakarta.persistence.ManyToOne;
 import jakarta.persistence.Table;
+import java.time.LocalDateTime;
+import mate.academy.exception.MovieSessionSetException;
 
 @Entity
 @Table(name = "tickets")
@@ -16,9 +18,10 @@ public class Ticket {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
     @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "movie_session_id")
+    @JoinColumn(name = "movie_session_id", nullable = false)
     private MovieSession movieSession;
     @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "user_id", nullable = false)
     private User user;
 
     public Long getId() {
@@ -42,6 +45,10 @@ public class Ticket {
     }
 
     public void setMovieSession(MovieSession movieSession) {
+        if (movieSession.getShowTime().isBefore(LocalDateTime.now())) {
+            throw new MovieSessionSetException("Movie session is already passed. "
+                    + "Movie Session: " + movieSession + ". User: " + user);
+        }
         this.movieSession = movieSession;
     }
 
