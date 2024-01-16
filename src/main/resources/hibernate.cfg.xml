@@ -1,0 +1,29 @@
+<hibernate-configuration>
+
+    <!--Hibernatesessionfactoryconfiguration-->
+    <session-factory>
+
+        <!--Databaseconnectionproperties-->
+        <property name="hibernate.dialect">org.hibernate.dialect.MySQLDialect</property>
+        <property name="connection.url">jdbc:mysql://localhost:3306/test7?serverTimeZone=UTC</property>
+        <property name="connection.driver_class">com.mysql.cj.jdbc.Driver</property>
+        <property name="connection.username">root</property>
+        <property name="connection.password">228325</property>
+
+        <!--ShowSQLstatementsinconsole-->
+        <property name="show_sql">true</property>
+
+        <!--Automaticschemagenerationoptions-->
+        <property name="hibernate.hbm2ddl.auto">create-drop</property>
+
+        <!--ListofXMLmappingfiles-->
+        <mapping class="mate.academy.model.Movie"/>
+        <mapping class="mate.academy.model.CinemaHall"/>
+        <mapping class="mate.academy.model.MovieSession"/>
+        <mapping class="mate.academy.model.ShoppingCart"/>
+        <mapping class="mate.academy.model.Ticket"/>
+        <mapping class="mate.academy.model.User"/>
+        <mapping class="mate.academy.model.Order"/>
+
+    </session-factory>
+</hibernate-configuration>
