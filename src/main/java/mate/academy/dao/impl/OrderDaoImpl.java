@@ -8,7 +8,6 @@ import mate.academy.model.Order;
 import mate.academy.model.User;
 import mate.academy.util.HibernateUtil;
 import org.hibernate.Session;
-import org.hibernate.SessionFactory;
 import org.hibernate.Transaction;
 import org.hibernate.query.Query;
 
@@ -16,7 +15,7 @@ import org.hibernate.query.Query;
 public class OrderDaoImpl implements OrderDao {
     @Override
     public Optional<Order> getByUser(User user) {
-        try (Session session = HibernateUtil.getSessionFactory().openSession()){
+        try (Session session = HibernateUtil.getSessionFactory().openSession()) {
             Query<Order> query = session.createQuery("from Order o"
                     + " where o.user = :user", Order.class);
             query.setParameter("user", user);

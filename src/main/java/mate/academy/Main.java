@@ -1,8 +1,8 @@
 package mate.academy;
 
-import java.util.List;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
+import java.util.List;
 import mate.academy.dao.ShoppingCartDao;
 import mate.academy.dao.TicketDao;
 import mate.academy.dao.UserDao;
@@ -41,7 +41,8 @@ public class Main {
         secondCinemaHall.setDescription("second hall with capacity 200");
 
         CinemaHallService cinemaHallService = (CinemaHallService) injector
-                .getInstance(CinemaHallService.class);        cinemaHallService.add(firstCinemaHall);
+                .getInstance(CinemaHallService.class);
+        cinemaHallService.add(firstCinemaHall);
         cinemaHallService.add(secondCinemaHall);
 
         System.out.println(cinemaHallService.getAll());
@@ -66,9 +67,6 @@ public class Main {
         System.out.println(movieSessionService.findAvailableSessions(
                 fastAndFurious.getId(), LocalDate.now()));
 
-        OrderService orderService = (OrderService) injector
-                .getInstance(OrderService.class);
-
         User testUser = new User();
         testUser.setEmail("email@gmail.com");
         testUser.setPassword("qwerty123");
@@ -91,6 +89,9 @@ public class Main {
         testShoppingCart.setTickets(List.of(testTicket, testTicket1));
         ShoppingCartDao shoppingCartDao = new ShoppingCartDaoImpl();
         shoppingCartDao.add(testShoppingCart);
+
+        OrderService orderService = (OrderService) injector
+                .getInstance(OrderService.class);
 
         orderService.completeOrder(testShoppingCart);
         orderService.getOrdersHistory(testUser);
