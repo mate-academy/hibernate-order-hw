@@ -24,7 +24,7 @@ public class Order {
     @OneToMany
     @JoinTable(name = "orders_tickets",
             joinColumns = @JoinColumn(name = "orders_id"),
-            inverseJoinColumns = @JoinColumn( name = "tickets_id"))
+            inverseJoinColumns = @JoinColumn(name = "tickets_id"))
     private List<Ticket> ticketList;
 
     @Column(name = "show_time")
