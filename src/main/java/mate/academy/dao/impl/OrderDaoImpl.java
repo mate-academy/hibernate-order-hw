@@ -21,14 +21,14 @@ public class OrderDaoImpl implements OrderDao {
         try {
             session = HibernateUtil.getSessionFactory().openSession();
             transaction = session.beginTransaction();
-            session.save(order);
+            session.persist(order);
             transaction.commit();
             return order;
         } catch (Exception e) {
             if (transaction != null) {
                 transaction.rollback();
             }
-            throw new DataProcessingException("Can't add order to DB", e);
+            throw new DataProcessingException("Can't add order to DB" + order, e);
         } finally {
             if (session != null) {
                 session.close();
@@ -49,7 +49,7 @@ public class OrderDaoImpl implements OrderDao {
             query.setParameter("user", user);
             return query.getResultList();
         } catch (Exception e) {
-            throw new DataProcessingException("Get get order history by user from DB", e);
+            throw new DataProcessingException("Get get order history by user from DB" + user, e);
         }
     }
 }
