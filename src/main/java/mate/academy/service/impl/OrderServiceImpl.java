@@ -4,7 +4,6 @@ import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
 import mate.academy.dao.OrderDao;
-import mate.academy.exception.UserNotFoundException;
 import mate.academy.lib.Inject;
 import mate.academy.lib.Service;
 import mate.academy.model.Order;
@@ -26,17 +25,12 @@ public class OrderServiceImpl implements OrderService {
         order.setUser(shoppingCart.getUser());
         order.setOrderDate(LocalDateTime.now());
         order.setTickets(new ArrayList<>(shoppingCart.getTickets()));
-        shoppingCart.getTickets().clear();
         shoppingCartService.clearShoppingCart(shoppingCart);
         return orderDao.add(order);
     }
 
     @Override
-    public List<Order> getOrdersHistory(User user) throws UserNotFoundException {
-        List<Order> ordersByUser = orderDao.getByUser(user);
-        if (!ordersByUser.isEmpty()) {
-            return ordersByUser;
-        }
-        throw new UserNotFoundException("Orders for user: " + user + ", is not found");
+    public List<Order> getOrdersHistory(User user) {
+        return orderDao.getByUser(user);
     }
 }

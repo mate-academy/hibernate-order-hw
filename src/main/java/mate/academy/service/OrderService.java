@@ -1,7 +1,6 @@
 package mate.academy.service;
 
 import java.util.List;
-import mate.academy.exception.UserNotFoundException;
 import mate.academy.model.Order;
 import mate.academy.model.ShoppingCart;
 import mate.academy.model.User;
@@ -9,5 +8,5 @@ import mate.academy.model.User;
 public interface OrderService {
     Order completeOrder(ShoppingCart shoppingCart);
 
-    List<Order> getOrdersHistory(User user) throws UserNotFoundException;
+    List<Order> getOrdersHistory(User user);
 }

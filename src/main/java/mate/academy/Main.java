@@ -3,7 +3,6 @@ package mate.academy;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
 import mate.academy.exception.RegistrationException;
-import mate.academy.exception.UserNotFoundException;
 import mate.academy.lib.Injector;
 import mate.academy.model.CinemaHall;
 import mate.academy.model.Movie;
@@ -78,12 +77,9 @@ public class Main {
         OrderService orderService = (OrderService) INJECTOR.getInstance(OrderService.class);
         Order order = orderService.completeOrder(shoppingCartService.getByUser(bob));
         System.out.println(order);
-        try {
-            System.out.println(orderService.getOrdersHistory(bob));
-        } catch (UserNotFoundException e) {
-            System.out.println("user is not already exist");
-        }
-        
+
+        System.out.println(orderService.getOrdersHistory(bob));
+
         User unknownUser = null;
         try {
             unknownUser = authenticationService.register("asdasd@gmail.com", "qwerty1234");
@@ -93,12 +89,7 @@ public class Main {
 
         shoppingCartService.addSession(tomorrowMovieSession,unknownUser);
         shoppingCartService.addSession(yesterdayMovieSession,unknownUser);
-
-        try {
-            System.out.println(orderService.getOrdersHistory(unknownUser));
-        } catch (UserNotFoundException e) {
-            //expected UserNotFoundExc
-            System.out.println(e.getMessage());
-        }
+        //Expected an empty List
+        System.out.println(orderService.getOrdersHistory(unknownUser));
     }
 }
