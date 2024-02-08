@@ -82,6 +82,5 @@ public class Main {
                 .getInstance(OrderService.class);
         System.out.println(orderService.completeOrder(shoppingCartService.getByUser(bob)));
         System.out.println(orderService.getOrdersHistory(bob));
-        shoppingCartService.clearShoppingCart(shoppingCart);
     }
 }
