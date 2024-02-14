@@ -1,0 +1,15 @@
+databaseChangeLog:
+  - include:
+      file: /db/changelog/changes/create-users-table.yml
+  - include:
+      file: /db/changelog/changes/create-movies-table.yml
+  - include:
+      file: /db/changelog/changes/create-cinema-halls-table.yml
+  - include:
+      file: /db/changelog/changes/create-movie-sessions-table.yml
+  - include:
+      file: /db/changelog/changes/create-tickets-table.yml
+  - include:
+      file: /db/changelog/changes/create-orders-table.yml
+  - include:
+      file: /db/changelog/changes/create-shopping-carts-table.yml
