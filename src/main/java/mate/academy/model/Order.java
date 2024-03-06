@@ -19,7 +19,8 @@ public class Order {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
     @OneToMany
-    @JoinTable(joinColumns = @JoinColumn(name = "order_id"),
+    @JoinTable(name = "orders_tickets",
+            joinColumns = @JoinColumn(name = "order_id"),
             inverseJoinColumns = @JoinColumn(name = "ticket_id"))
     private List<Ticket> tickets;
     private LocalDateTime orderDate;
@@ -28,19 +29,6 @@ public class Order {
     private User user;
 
     public Order() {
-    }
-
-    public Order(List<Ticket> tickets, LocalDateTime orderDate, User user) {
-        this.tickets = tickets;
-        this.orderDate = orderDate;
-        this.user = user;
-    }
-
-    public Order(Long id, List<Ticket> tickets, LocalDateTime orderDate, User user) {
-        this.id = id;
-        this.tickets = tickets;
-        this.orderDate = orderDate;
-        this.user = user;
     }
 
     public Long getId() {
