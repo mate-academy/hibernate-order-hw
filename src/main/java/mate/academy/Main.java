@@ -94,7 +94,6 @@ public class Main {
         orderService.completeOrder(bobsShoppingCart);
         shoppingCartService.clearShoppingCart(bobsShoppingCart);
 
-        // Adding other shopping cart and order to get at least 2 in history to verify getAll()
         shoppingCartService.addSession(yesterdayMovieSession, registeredBob);
         ShoppingCart bobsShoppingCartTwo = shoppingCartService.getByUser(registeredBob);
         orderService.completeOrder(bobsShoppingCartTwo);
