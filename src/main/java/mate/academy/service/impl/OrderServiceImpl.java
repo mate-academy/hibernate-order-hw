@@ -6,6 +6,7 @@ import mate.academy.lib.Inject;
 import mate.academy.lib.Service;
 import mate.academy.model.Order;
 import mate.academy.model.ShoppingCart;
+import mate.academy.model.Ticket;
 import mate.academy.model.User;
 import mate.academy.service.OrderService;
 
@@ -18,7 +19,9 @@ public class OrderServiceImpl implements OrderService {
     public Order completeOrder(ShoppingCart shoppingCart) {
         Order order = new Order();
         order.setUser(shoppingCart.getUser());
-        order.setTickets(List.copyOf(shoppingCart.getTickets()));
+        List<Ticket> ticketsFromSc = shoppingCart.getTickets();
+        shoppingCart.getTickets().clear();
+        order.setTickets(ticketsFromSc);
         return orderDao.add(order);
     }
 
