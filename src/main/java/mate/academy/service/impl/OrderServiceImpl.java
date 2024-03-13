@@ -9,18 +9,21 @@ import mate.academy.model.ShoppingCart;
 import mate.academy.model.Ticket;
 import mate.academy.model.User;
 import mate.academy.service.OrderService;
+import mate.academy.service.ShoppingCartService;
 
 @Service
 public class OrderServiceImpl implements OrderService {
     @Inject
     private OrderDao orderDao;
+    @Inject
+    private ShoppingCartService shoppingCartService;
 
     @Override
     public Order completeOrder(ShoppingCart shoppingCart) {
         Order order = new Order();
         order.setUser(shoppingCart.getUser());
         List<Ticket> ticketsFromSc = shoppingCart.getTickets();
-        shoppingCart.getTickets().clear();
+        shoppingCartService.clearShoppingCart(shoppingCart);
         order.setTickets(ticketsFromSc);
         return orderDao.add(order);
     }
