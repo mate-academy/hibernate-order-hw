@@ -22,21 +22,18 @@ public class OrderServiceImpl implements OrderService {
 
     @Override
     public Order completeOrder(ShoppingCart shoppingCart) {
-        if (shoppingCart != null) {
-            List<Ticket> tickets = new ArrayList<>(shoppingCart.getTickets());
-            Order order = new Order();
-            order.setTickets(tickets);
-            order.setUser(shoppingCart.getUser());
-            order.setOrderDate(LocalDateTime.now());
-            shoppingCartService.clearShoppingCart(shoppingCart);
-            orderDao.add(order);
-            return order;
-        }
-        throw new RuntimeException("Can't complete order " + shoppingCart);
+        List<Ticket> tickets = new ArrayList<>(shoppingCart.getTickets());
+        Order order = new Order();
+        order.setTickets(tickets);
+        order.setUser(shoppingCart.getUser());
+        order.setOrderDate(LocalDateTime.now());
+        shoppingCartService.clearShoppingCart(shoppingCart);
+        orderDao.add(order);
+        return order;
     }
 
     @Override
     public List<Order> getOrdersHistory(User user) {
-        return List.of(orderDao.getByUser(user));
+        return orderDao.getByUser(user);
     }
 }
