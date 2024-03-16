@@ -25,7 +25,6 @@ public class OrderDaoImpl implements OrderDao {
                     + "WHERE o.user =:user", Order.class);
             orderQuery.setParameter("user", user);
             return orderQuery.getResultList();
-
         } catch (Exception e) {
             throw new DataProcessingException("Can't get order by user " + user, e);
         }
