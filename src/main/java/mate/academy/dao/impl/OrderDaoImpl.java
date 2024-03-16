@@ -71,6 +71,5 @@ public class OrderDaoImpl implements OrderDao {
                 session.close();
             }
         }
-
     }
 }
