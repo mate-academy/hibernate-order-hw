@@ -2,7 +2,6 @@ package mate.academy;
 
 import java.time.LocalDate;
 import java.time.LocalDateTime;
-
 import mate.academy.lib.Injector;
 import mate.academy.model.CinemaHall;
 import mate.academy.model.Movie;
@@ -75,7 +74,6 @@ public class Main {
         shoppingCartService.registerNewShoppingCart(jack);
         shoppingCartService.addSession(yesterdayMovieSession, jack);
         shoppingCartService.addSession(tomorrowMovieSession, jack);
-
 
         OrderService orderService =
                 (OrderService) injector.getInstance(OrderService.class);
