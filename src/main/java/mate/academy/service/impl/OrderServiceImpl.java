@@ -33,14 +33,6 @@ public class OrderServiceImpl implements OrderService {
 
     @Override
     public List<Order> getOrdersHistory(User user) {
-        List<Order> orders = new ArrayList<>();
-        Optional<Order> orderFromDb = orderDao.getByUser(user);
-        if (orderFromDb.isPresent()) {
-            Order order = orderFromDb.get();
-            orders.add(order);
-            return orders;
-        }
-        throw new DataProcessingException("Can not find order by user "
-                + user);
+        return orderDao.getByUser(user);
     }
 }

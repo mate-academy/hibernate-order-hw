@@ -1,5 +1,6 @@
 package mate.academy.dao.impl;
 
+import java.util.List;
 import java.util.Optional;
 import mate.academy.dao.OrderDao;
 import mate.academy.exception.DataProcessingException;
@@ -39,7 +40,7 @@ public class OrderDaoImpl implements OrderDao {
     }
 
     @Override
-    public Optional<Order> getByUser(User user) {
+    public List<Order> getByUser(User user) {
         String query = "FROM Order o "
                 + "left join fetch o.tickets t "
                 + "left join fetch t.movieSession m"
@@ -51,7 +52,7 @@ public class OrderDaoImpl implements OrderDao {
         try (Session session = sessionFactory.openSession()) {
             Query<Order> orderQuery = session.createQuery(query, Order.class);
             orderQuery.setParameter("user", user);
-            return Optional.ofNullable(orderQuery.getSingleResult());
+            return orderQuery.getResultList();
         }
     }
 }
