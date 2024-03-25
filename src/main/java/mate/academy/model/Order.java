@@ -10,6 +10,7 @@ import jakarta.persistence.OneToMany;
 import jakarta.persistence.Table;
 import java.time.LocalDateTime;
 import java.util.List;
+import org.hibernate.annotations.CreationTimestamp;
 
 @Entity
 @Table(name = "orders")
@@ -19,6 +20,7 @@ public class Order {
     private Long id;
     @OneToMany
     private List<Ticket> tickets;
+    @CreationTimestamp
     private LocalDateTime orderDate;
     @ManyToOne
     @JoinColumn(name = "user_id")

@@ -17,6 +17,8 @@ import mate.academy.service.OrderService;
 import mate.academy.service.ShoppingCartService;
 
 public class Main {
+    private static final String EMAIL = "johndoe@yahoo.com";
+    private static final String PASSWORD = "doe09091995";
     private static final Injector injector = Injector.getInstance("mate.academy");
 
     public static void main(String[] args) {
@@ -67,8 +69,8 @@ public class Main {
         AuthenticationService authenticationService =
                 (AuthenticationService) injector.getInstance(AuthenticationService.class);
         User john = new User();
-        john.setEmail("johndoe@yahoo.com");
-        john.setPassword("doe09091995");
+        john.setEmail(EMAIL);
+        john.setPassword(PASSWORD);
         try {
             john = authenticationService.register(john.getEmail(), john.getPassword());
         } catch (RegistrationException e) {
