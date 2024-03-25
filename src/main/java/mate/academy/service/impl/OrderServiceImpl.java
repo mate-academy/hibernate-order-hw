@@ -34,7 +34,7 @@ public class OrderServiceImpl implements OrderService {
     public List<Order> getOrdersHistory(User user) {
         List<Order> orderHistory = orderDao.findByUser(user);
         if (orderHistory.isEmpty()) {
-            System.out.println("Orders history is empty");
+            System.out.println("Orders history of user " + user.getEmail() + " is empty");
         }
         return orderHistory;
     }

@@ -66,9 +66,11 @@ public class Main {
 
         AuthenticationService authenticationService =
                 (AuthenticationService) injector.getInstance(AuthenticationService.class);
-        User john;
+        User john = new User();
+        john.setEmail("johndoe@yahoo.com");
+        john.setPassword("doe09091995");
         try {
-            john = authenticationService.register("johndoe@yahoo.com", "doe09091995");
+            john = authenticationService.register(john.getEmail(), john.getPassword());
         } catch (RegistrationException e) {
             throw new RuntimeException("Registration is failed", e);
         }
@@ -77,6 +79,9 @@ public class Main {
                 (ShoppingCartService) injector.getInstance(ShoppingCartService.class);
         OrderService orderService =
                 (OrderService) injector.getInstance(OrderService.class);
+
+        orderService.getOrdersHistory(john).forEach(System.out::println);
+
         shoppingCartService.addSession(yesterdayMovieSession, john);
         ShoppingCart shoppingCart = shoppingCartService.getByUser(john);
         orderService.completeOrder(shoppingCart);
