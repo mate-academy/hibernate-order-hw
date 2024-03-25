@@ -36,7 +36,7 @@ public class OrderDaoImpl implements OrderDao {
     }
 
     @Override
-    public List<Order> getByUser(User user) {
+    public List<Order> findByUser(User user) {
         String query = "FROM Order o "
                 + "left join fetch o.tickets t "
                 + "left join fetch t.movieSession m"

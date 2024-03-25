@@ -32,7 +32,7 @@ public class OrderServiceImpl implements OrderService {
 
     @Override
     public List<Order> getOrdersHistory(User user) {
-        List<Order> orderHistory = orderDao.getByUser(user);
+        List<Order> orderHistory = orderDao.findByUser(user);
         if (orderHistory.isEmpty()) {
             System.out.println("Orders history is empty");
         }
