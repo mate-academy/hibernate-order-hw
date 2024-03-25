@@ -71,22 +71,28 @@ public class Main {
         AuthenticationService authenticationService = (AuthenticationService) injector
                 .getInstance(AuthenticationService.class);
 
-        User user = authenticationService.register("test@gmail.com", "qwerty");
-        User user1 = authenticationService.register("test1@gmail.com", "qwerty");
-        User user2 = authenticationService.register("test2@gmail.com", "qwerty");
+        String bobEmail = "bob@gmail.com";
+        String tomEmail = "tom@gmail.com";
+        String samEmail = "sam@gmail.com";
 
-        shoppingCartService.addSession(tomorrowMovieSession, user);
-        shoppingCartService.addSession(tomorrowMovieSession, user1);
-        shoppingCartService.addSession(tomorrowMovieSession, user2);
-        shoppingCartService.addSession(yesterdayMovieSession, user);
+        String password = "qwerty";
 
-        ShoppingCart shoppingCart = shoppingCartService.getByUser(user);
+        User bob = authenticationService.register(bobEmail, password);
+        User tom = authenticationService.register(tomEmail, password);
+        User sam = authenticationService.register(samEmail, password);
+
+        shoppingCartService.addSession(tomorrowMovieSession, bob);
+        shoppingCartService.addSession(tomorrowMovieSession, tom);
+        shoppingCartService.addSession(tomorrowMovieSession, sam);
+        shoppingCartService.addSession(yesterdayMovieSession, bob);
+
+        ShoppingCart shoppingCart = shoppingCartService.getByUser(bob);
 
         OrderService orderService = (OrderService) injector
                 .getInstance(OrderService.class);
         orderService.completeOrder(shoppingCart);
 
-        List<Order> ordersHistory = orderService.getOrdersHistory(user);
+        List<Order> ordersHistory = orderService.getOrdersHistory(bob);
         System.out.println(ordersHistory);
     }
 }
