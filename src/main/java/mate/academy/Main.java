@@ -19,6 +19,11 @@ import mate.academy.service.OrderService;
 import mate.academy.service.ShoppingCartService;
 
 public class Main {
+    private static final String BOB_EMAIL = "bob@gmail.com";
+    private static final String TOM_EMAIL = "tom@gmail.com";
+    private static final String SAM_EMAIL = "sam@gmail.com";
+    private static final String PASSWORD = "qwerty";
+
     public static void main(String[] args) throws RegistrationException {
         Injector injector = Injector.getInstance("mate.academy");
         MovieService movieService = (MovieService) injector
@@ -71,15 +76,10 @@ public class Main {
         AuthenticationService authenticationService = (AuthenticationService) injector
                 .getInstance(AuthenticationService.class);
 
-        String bobEmail = "bob@gmail.com";
-        String tomEmail = "tom@gmail.com";
-        String samEmail = "sam@gmail.com";
 
-        String password = "qwerty";
-
-        User bob = authenticationService.register(bobEmail, password);
-        User tom = authenticationService.register(tomEmail, password);
-        User sam = authenticationService.register(samEmail, password);
+        User bob = authenticationService.register(BOB_EMAIL, PASSWORD);
+        User tom = authenticationService.register(TOM_EMAIL, PASSWORD);
+        User sam = authenticationService.register(SAM_EMAIL, PASSWORD);
 
         shoppingCartService.addSession(tomorrowMovieSession, bob);
         shoppingCartService.addSession(tomorrowMovieSession, tom);
