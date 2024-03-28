@@ -7,17 +7,21 @@ import mate.academy.model.Order;
 import mate.academy.model.User;
 import mate.academy.util.HibernateUtil;
 import org.hibernate.Session;
+import org.hibernate.SessionFactory;
 import org.hibernate.Transaction;
 import org.hibernate.query.Query;
 
 @Dao
 public class OrderDaoImpl implements OrderDao {
+
+    private final SessionFactory factory = HibernateUtil.getSessionFactory();
+
     @Override
     public Order add(Order order) {
         Session session = null;
         Transaction transaction = null;
         try {
-            session = HibernateUtil.getSessionFactory().openSession();
+            session = factory.openSession();
             transaction = session.beginTransaction();
             session.persist(order);
             transaction.commit();
@@ -26,7 +30,7 @@ public class OrderDaoImpl implements OrderDao {
             if (transaction != null) {
                 transaction.rollback();
             }
-            throw new RuntimeException("Can't add order", e);
+            throw new RuntimeException("Can't add order " + order, e);
         } finally {
             if (session != null) {
                 session.close();
@@ -36,13 +40,13 @@ public class OrderDaoImpl implements OrderDao {
 
     @Override
     public List<Order> getByUser(User user) {
-        try (Session session = HibernateUtil.getSessionFactory().openSession()) {
+        try (Session session = factory.openSession()) {
             Query<Order> query = session.createQuery("FROM Order o "
-                    + "join fetch o.tickets t "
-                    + "join fetch t.movieSession ms "
-                    + "join fetch ms.movie "
-                    + "join fetch ms.cinemaHall "
-                    + "join fetch o.user u "
+                    + "JOIN FETCH o.tickets t "
+                    + "JOIN FETCH t.movieSession ms "
+                    + "JOIN FETCH ms.movie "
+                    + "JOIN FETCH ms.cinemaHall "
+                    + "JOIN FETCH o.user u "
                     + "WHERE u.id = :userId", Order.class);
             query.setParameter("userId", user.getId());
             return query.getResultList();

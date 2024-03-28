@@ -72,7 +72,7 @@ public class Main {
             registeredUser = authenticationService.register("newUser@mail.com", "1234");
             System.out.println(registeredUser);
         } catch (RegistrationException e) {
-            throw new RuntimeException(e);
+            throw new RuntimeException("Can't register new user", e);
         }
 
         ShoppingCartService shoppingCartService =
