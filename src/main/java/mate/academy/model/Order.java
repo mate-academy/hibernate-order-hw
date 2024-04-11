@@ -68,11 +68,11 @@ public class Order {
 
     @Override
     public String toString() {
-        return "Order{" +
-                "id=" + id +
-                ", tickets=" + tickets +
-                ", orderDateTime=" + orderDateTime +
-                ", user=" + user +
-                '}';
+        return "Order{"
+                + "id=" + id
+                + ", tickets=" + tickets
+                + ", orderDateTime=" + orderDateTime
+                + ", user=" + user
+                + '}';
     }
 }

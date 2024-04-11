@@ -1,5 +1,6 @@
 package mate.academy.dao.impl;
 
+import java.util.List;
 import mate.academy.dao.OrderDao;
 import mate.academy.exception.DataProcessingException;
 import mate.academy.lib.Dao;
@@ -9,7 +10,6 @@ import mate.academy.util.HibernateUtil;
 import org.hibernate.Session;
 import org.hibernate.SessionFactory;
 import org.hibernate.Transaction;
-import java.util.List;
 
 @Dao
 public class OrderDaoImpl implements OrderDao {
