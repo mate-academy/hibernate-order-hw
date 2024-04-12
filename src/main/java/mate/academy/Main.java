@@ -73,6 +73,7 @@ public class Main {
         ShoppingCartService shoppingCartService = (ShoppingCartService) injector
                 .getInstance(ShoppingCartService.class);
         shoppingCartService.addSession(tomorrowMovieSession, bob);
+        shoppingCartService.addSession(tomorrowMovieSession, bob);
         System.out.println("Tomorrow movie session add to Bob's shopping cart "
                 + shoppingCartService.getByUser(bob));
 
@@ -81,5 +82,9 @@ public class Main {
         Order order = orderService.completeOrder(shoppingCartService.getByUser(bob));
         System.out.println(orderService.getOrdersHistory(bob));
         System.out.println("Bob's order: " + order);
+        shoppingCartService.addSession(tomorrowMovieSession, bob);
+        Order secondOrder = orderService.completeOrder(shoppingCartService.getByUser(bob));
+        System.out.println("Bob's order history: " + orderService.getOrdersHistory(bob));
+
     }
 }
