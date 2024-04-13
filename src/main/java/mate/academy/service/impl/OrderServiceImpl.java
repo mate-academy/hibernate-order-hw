@@ -24,7 +24,7 @@ public class OrderServiceImpl implements OrderService {
     public Order completeOrder(ShoppingCart shoppingCart) {
         List<Ticket> shoppingCartTickets = shoppingCart.getTickets();
         Order order = new Order();
-        order.setTickets(new ArrayList<Ticket>(shoppingCartTickets));
+        order.setTickets(new ArrayList<>(shoppingCartTickets));
         shoppingCartService.clearShoppingCart(shoppingCart);
         order.setUser(shoppingCart.getUser());
         order.setOrderDate(LocalDateTime.now());
@@ -34,6 +34,6 @@ public class OrderServiceImpl implements OrderService {
 
     @Override
     public List<Order> getOrdersHistory(User user) {
-        return orderDao.getOrdersHistory(user);
+        return orderDao.getByUser(user);
     }
 }

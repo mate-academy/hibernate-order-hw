@@ -39,16 +39,16 @@ public class OrderDaoImpl implements OrderDao {
     }
 
     @Override
-    public List<Order> getOrdersHistory(User user) {
+    public List<Order> getByUser(User user) {
         try (Session session = sessionFactory.openSession()) {
             String getOrdersByUserQuery = "FROM mate.academy.model.Order o JOIN FETCH o.tickets t "
                     + "JOIN FETCH t.movieSession ms JOIN FETCH ms.movie "
-                    + "JOIN FETCH ms.cinemaHall WHERE o.user = :user";
+                    + "JOIN FETCH ms.cinemaHall WHERE o.user.id = :id";
             Query<Order> query = session.createQuery(getOrdersByUserQuery, Order.class);
-            query.setParameter("user", user);
+            query.setParameter("id", user.getId());
             return query.getResultList();
         } catch (Exception e) {
-            throw new DataProcessingException("Can`t get orders history for user: " + user, e);
+            throw new DataProcessingException("Can't get orders history for user: " + user, e);
         }
     }
 }

@@ -22,7 +22,6 @@ public class Order {
     private List<Ticket> tickets;
     private LocalDateTime orderDate;
     @ManyToOne
-    @JoinColumn(name = "user_id")
     private User user;
 
     public Long getId() {
