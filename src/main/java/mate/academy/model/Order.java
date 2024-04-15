@@ -1,5 +1,6 @@
 package mate.academy.model;
 
+import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
@@ -20,6 +21,7 @@ public class Order {
     @JoinTable(name = "orders_tickets", joinColumns = @JoinColumn(name = "order_id"),
             inverseJoinColumns = @JoinColumn(name = "ticket_id"))
     private List<Ticket> tickets;
+    @Column(name = "order_date")
     private LocalDateTime orderDate;
     @ManyToOne
     private User user;

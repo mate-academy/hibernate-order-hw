@@ -41,9 +41,12 @@ public class OrderDaoImpl implements OrderDao {
     @Override
     public List<Order> getByUser(User user) {
         try (Session session = sessionFactory.openSession()) {
-            String getOrdersByUserQuery = "FROM mate.academy.model.Order o JOIN FETCH o.tickets t "
-                    + "JOIN FETCH t.movieSession ms JOIN FETCH ms.movie "
-                    + "JOIN FETCH ms.cinemaHall WHERE o.user.id = :id";
+            String getOrdersByUserQuery = "FROM orders o "
+                    + "JOIN FETCH o.tickets t "
+                    + "JOIN FETCH t.movieSession ms "
+                    + "JOIN FETCH ms.movie "
+                    + "JOIN FETCH ms.cinemaHall "
+                    + "WHERE o.user.id = :id";
             Query<Order> query = session.createQuery(getOrdersByUserQuery, Order.class);
             query.setParameter("id", user.getId());
             return query.getResultList();
