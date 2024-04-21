@@ -1,5 +1,6 @@
 package mate.academy.service.impl;
 
+import jakarta.transaction.Transactional;
 import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
@@ -20,6 +21,7 @@ public class OrderServiceImpl implements OrderService {
     private ShoppingCartService shoppingCartService;
 
     @Override
+    @Transactional
     public Order completeOrder(ShoppingCart shoppingCart) {
         Order order = new Order();
         order.setTickets(new ArrayList<>(shoppingCart.getTickets()));
