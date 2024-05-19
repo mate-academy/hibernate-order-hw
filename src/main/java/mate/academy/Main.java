@@ -70,7 +70,7 @@ public class Main {
                 .getInstance(AuthenticationService.class);
         ShoppingCartService shoppingCartService = (ShoppingCartService) injector
                 .getInstance(ShoppingCartService.class);
-        User user = new User();
+        User user;
         try {
             user = authenticationService.register("visitor@.com", "qwerty");
         } catch (RegistrationException e) {
