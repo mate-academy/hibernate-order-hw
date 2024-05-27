@@ -1,6 +1,7 @@
 package mate.academy.service.impl;
 
 import java.time.LocalDateTime;
+import java.util.ArrayList;
 import java.util.List;
 import mate.academy.dao.OrderDao;
 import mate.academy.lib.Inject;
@@ -25,7 +26,8 @@ public class OrderServiceImpl implements OrderService {
         newOrderBaseShoppingCart.setOrderDate(LocalDateTime.now());
         newOrderBaseShoppingCart.setUser(shoppingCart.getUser());
         List<Ticket> ticketsFromShoppingCart = shoppingCart.getTickets();
-        newOrderBaseShoppingCart.setTickets(ticketsFromShoppingCart);
+        List<Ticket> copyTicketsFromShoppingCart = new ArrayList<>(ticketsFromShoppingCart);
+        newOrderBaseShoppingCart.setTickets(copyTicketsFromShoppingCart);
         shoppingCartService.clearShoppingCart(shoppingCart);
         return orderDao.add(newOrderBaseShoppingCart);
     }
