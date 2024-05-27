@@ -6,7 +6,6 @@ import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
 import jakarta.persistence.JoinColumn;
-import jakarta.persistence.JoinTable;
 import jakarta.persistence.ManyToOne;
 import jakarta.persistence.OneToMany;
 import jakarta.persistence.Table;
@@ -20,9 +19,7 @@ public class Order {
     @GeneratedValue (strategy = GenerationType.IDENTITY)
     private Long id;
     @OneToMany
-    @JoinTable(name = "orders_tickets",
-            joinColumns = @JoinColumn(name = "order_id"),
-            inverseJoinColumns = @JoinColumn(name = "ticket_id"))
+    @JoinColumn(name = "order_id")
     private List<Ticket> tickets;
     private LocalDateTime orderDate;
     @ManyToOne(fetch = FetchType.LAZY)
