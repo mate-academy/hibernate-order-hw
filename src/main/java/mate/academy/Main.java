@@ -2,17 +2,33 @@ package mate.academy;
 
 import java.time.LocalDate;
 import java.time.LocalDateTime;
+import java.util.List;
+import mate.academy.lib.Injector;
 import mate.academy.model.CinemaHall;
 import mate.academy.model.Movie;
 import mate.academy.model.MovieSession;
+import mate.academy.model.Order;
+import mate.academy.model.ShoppingCart;
+import mate.academy.model.User;
 import mate.academy.service.CinemaHallService;
 import mate.academy.service.MovieService;
 import mate.academy.service.MovieSessionService;
+import mate.academy.service.OrderService;
 
 public class Main {
     public static void main(String[] args) {
-        MovieService movieService = null;
+        Injector injector = Injector.getInstance("mate.academy.Main");
+        OrderService orderService = (OrderService) injector.getInstance(OrderService.class);
 
+        ShoppingCart shoppingCart = new ShoppingCart();
+
+        User user = new User();
+        Order order = orderService.completeOrder(shoppingCart);
+
+        List<Order> ordersHistory = orderService.getOrdersHistory(user);
+        ordersHistory.forEach(System.out::println);
+
+        MovieService movieService = null;
         Movie fastAndFurious = new Movie("Fast and Furious");
         fastAndFurious.setDescription("An action film about street racing, heists, and spies.");
         movieService.add(fastAndFurious);
