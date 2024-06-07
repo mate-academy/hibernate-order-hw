@@ -16,8 +16,9 @@ import mate.academy.service.MovieSessionService;
 import mate.academy.service.OrderService;
 
 public class Main {
+    private static final Injector injector = Injector.getInstance("mate.academy.Main");
+
     public static void main(String[] args) {
-        Injector injector = Injector.getInstance("mate.academy.Main");
         OrderService orderService = (OrderService) injector.getInstance(OrderService.class);
 
         ShoppingCart shoppingCart = new ShoppingCart();
