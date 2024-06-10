@@ -2,19 +2,30 @@ package mate.academy;
 
 import java.time.LocalDate;
 import java.time.LocalDateTime;
+import mate.academy.exception.RegistrationException;
+import mate.academy.lib.Injector;
 import mate.academy.model.CinemaHall;
 import mate.academy.model.Movie;
 import mate.academy.model.MovieSession;
+import mate.academy.model.ShoppingCart;
+import mate.academy.model.User;
+import mate.academy.security.AuthenticationService;
 import mate.academy.service.CinemaHallService;
 import mate.academy.service.MovieService;
 import mate.academy.service.MovieSessionService;
+import mate.academy.service.OrderService;
+import mate.academy.service.ShoppingCartService;
+import mate.academy.service.UserService;
 
 public class Main {
+    private static final Injector injector = Injector.getInstance("mate.academy");
+
     public static void main(String[] args) {
-        MovieService movieService = null;
+        MovieService movieService = (MovieService) injector.getInstance(MovieService.class);
 
         Movie fastAndFurious = new Movie("Fast and Furious");
         fastAndFurious.setDescription("An action film about street racing, heists, and spies.");
+
         movieService.add(fastAndFurious);
         System.out.println(movieService.get(fastAndFurious.getId()));
         movieService.getAll().forEach(System.out::println);
@@ -50,6 +61,30 @@ public class Main {
 
         System.out.println(movieSessionService.get(yesterdayMovieSession.getId()));
         System.out.println(movieSessionService.findAvailableSessions(
-                        fastAndFurious.getId(), LocalDate.now()));
+                fastAndFurious.getId(), LocalDate.now()));
+
+        AuthenticationService authenticationService =
+                (AuthenticationService) injector.getInstance(AuthenticationService.class);
+
+        User testUser;
+        try {
+            testUser = authenticationService.register("test123@gmail.com", "123123");
+        } catch (RegistrationException e) {
+            throw new RuntimeException("Cant register user ", e);
+        }
+
+        UserService userService = (UserService) injector.getInstance(UserService.class);
+        System.out.println(userService.findByEmail(testUser.getEmail()));
+
+        ShoppingCartService shoppingCartService =
+                (ShoppingCartService) injector.getInstance(ShoppingCartService.class);
+        shoppingCartService.addSession(yesterdayMovieSession, testUser);
+
+        ShoppingCart userShoppingCart = shoppingCartService.getByUser(testUser);
+        shoppingCartService.clearShoppingCart(shoppingCartService.getByUser(testUser));
+
+        OrderService orderService = (OrderService) injector.getInstance(OrderService.class);
+        orderService.completeOrder(userShoppingCart);
+        orderService.getOrdersHistory(testUser);
     }
 }
