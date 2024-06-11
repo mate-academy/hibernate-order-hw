@@ -1,8 +1,5 @@
 package mate.academy.service.impl;
 
-import java.time.LocalDateTime;
-import java.util.ArrayList;
-import java.util.List;
 import mate.academy.dao.OrderDao;
 import mate.academy.dao.ShoppingCartDao;
 import mate.academy.exception.DataProcessingException;
@@ -13,12 +10,14 @@ import mate.academy.model.ShoppingCart;
 import mate.academy.model.Ticket;
 import mate.academy.model.User;
 import mate.academy.service.OrderService;
-import mate.academy.util.HibernateUtil;
-import org.hibernate.Session;
-import org.hibernate.Transaction;
+
+import java.time.LocalDateTime;
+import java.util.ArrayList;
+import java.util.List;
 
 @Service
 public class OrderServiceImpl implements OrderService {
+
     @Inject
     private OrderDao orderDao;
 
@@ -35,17 +34,12 @@ public class OrderServiceImpl implements OrderService {
 
         shoppingCart.getTickets().clear();
 
-        try (Session session = HibernateUtil.getSessionFactory().openSession()) {
-            Transaction transaction = session.beginTransaction();
-            try {
-                orderDao.add(order);
-                shoppingCartDao.update(shoppingCart);
-                transaction.commit();
-            } catch (Exception e) {
-                transaction.rollback();
-                throw new DataProcessingException("Can't complete order for shopping cart: "
-                        + shoppingCart, e);
-            }
+        try {
+            orderDao.add(order);
+            orderDao.updateShoppingCart(shoppingCart);
+        } catch (DataProcessingException e) {
+            throw new DataProcessingException("Can't complete order for shopping cart: "
+                    + shoppingCart, e);
         }
 
         return order;
