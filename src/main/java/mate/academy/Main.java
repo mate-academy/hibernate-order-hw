@@ -87,5 +87,6 @@ public class Main {
         orderService.completeOrder(shoppingCart);
         Order order = orderService.completeOrder(shoppingCart);
         System.out.println(order);
+        System.out.println(order);
     }
 }
