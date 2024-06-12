@@ -2,11 +2,13 @@ package mate.academy;
 
 import java.time.LocalDate;
 import java.time.LocalDateTime;
+import java.util.List;
 import mate.academy.exception.RegistrationException;
 import mate.academy.lib.Injector;
 import mate.academy.model.CinemaHall;
 import mate.academy.model.Movie;
 import mate.academy.model.MovieSession;
+import mate.academy.model.Order;
 import mate.academy.model.ShoppingCart;
 import mate.academy.model.User;
 import mate.academy.security.AuthenticationService;
@@ -38,7 +40,8 @@ public class Main {
         secondCinemaHall.setCapacity(200);
         secondCinemaHall.setDescription("second hall with capacity 200");
 
-        CinemaHallService cinemaHallService = null;
+        CinemaHallService cinemaHallService =
+                (CinemaHallService) injector.getInstance(CinemaHallService.class);
         cinemaHallService.add(firstCinemaHall);
         cinemaHallService.add(secondCinemaHall);
 
@@ -55,7 +58,8 @@ public class Main {
         yesterdayMovieSession.setMovie(fastAndFurious);
         yesterdayMovieSession.setShowTime(LocalDateTime.now().minusDays(1L));
 
-        MovieSessionService movieSessionService = null;
+        MovieSessionService movieSessionService =
+                (MovieSessionService) injector.getInstance(MovieSessionService.class);
         movieSessionService.add(tomorrowMovieSession);
         movieSessionService.add(yesterdayMovieSession);
 
@@ -85,6 +89,8 @@ public class Main {
 
         OrderService orderService = (OrderService) injector.getInstance(OrderService.class);
         orderService.completeOrder(userShoppingCart);
-        orderService.getOrdersHistory(testUser);
+
+        List<Order> ordersHistory = orderService.getOrdersHistory(testUser);
+        ordersHistory.forEach(System.out::println);
     }
 }

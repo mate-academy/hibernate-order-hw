@@ -31,11 +31,8 @@ public class OrderServiceImpl implements OrderService {
         order.setTickets(ticketsCopy);
         order.setLocalDateTime(LocalDateTime.now());
 
-        shoppingCart.getTickets().clear();
-
         try {
             orderDao.add(order);
-            orderDao.updateShoppingCart(shoppingCart);
         } catch (DataProcessingException e) {
             throw new DataProcessingException("Can't complete order for shopping cart: "
                     + shoppingCart, e);

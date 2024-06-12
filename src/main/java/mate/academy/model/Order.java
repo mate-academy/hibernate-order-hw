@@ -18,20 +18,15 @@ import java.util.Objects;
 @Entity
 @Table(name = "orders")
 public class Order {
-
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
-
     @OneToMany(fetch = FetchType.LAZY)
-    @JoinTable(name = "orders_tickets",
-            joinColumns = @JoinColumn(name = "order_id"),
+    @JoinTable(name = "orders_tickets", joinColumns = @JoinColumn(name = "order_id"),
             inverseJoinColumns = @JoinColumn(name = "ticket_id"))
     private List<Ticket> tickets;
-
     @ManyToOne(fetch = FetchType.LAZY, cascade = CascadeType.ALL)
     private User user;
-
     private LocalDateTime localDateTime;
 
     public Long getId() {
@@ -69,18 +64,15 @@ public class Order {
     @Override
     public boolean equals(Object o) {
         if (this == o) {
-            boolean b = true;
-            return b;
+            return true;
         }
         if (o == null || getClass() != o.getClass()) {
-            boolean b = false;
-            return b;
+            return false;
         }
         Order order = (Order) o;
-        return Objects.equals(id, order.id)
-               && Objects.equals(tickets, order.tickets)
-               && Objects.equals(user, order.user)
-               && Objects.equals(localDateTime, order.localDateTime);
+        return Objects.equals(id, order.id) && Objects.equals(tickets, order.tickets)
+                && Objects.equals(user, order.user)
+                && Objects.equals(localDateTime, order.localDateTime);
     }
 
     @Override
