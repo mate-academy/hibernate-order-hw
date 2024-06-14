@@ -15,7 +15,7 @@ import mate.academy.service.ShoppingCartService;
 public class OrderServiceImpl implements OrderService {
     @Inject
     private OrderDao orderDao;
-    private ShoppingCartService shoppingCartDao = new ShoppingCartServiceImpl();
+    private ShoppingCartService shoppingCartService = new ShoppingCartServiceImpl();
 
     @Override
     public Order completeOrder(ShoppingCart shoppingCart) {
@@ -24,6 +24,7 @@ public class OrderServiceImpl implements OrderService {
         order.setOrderDate(LocalDateTime.now());
         order.setUser(shoppingCart.getUser());
         orderDao.add(order);
+        shoppingCartService.clearShoppingCart(shoppingCart);
         return order;
     }
 

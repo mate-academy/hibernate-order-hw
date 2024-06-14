@@ -79,7 +79,6 @@ public class Main {
         shoppingCartService.addSession(tomorrowMovieSession, user);
         ShoppingCart byUser = shoppingCartService.getByUser(user);
 
-        Order order = new Order();
         final OrderService orderService
                 = (OrderService) injector.getInstance((OrderService.class));
         orderService.completeOrder(byUser);
