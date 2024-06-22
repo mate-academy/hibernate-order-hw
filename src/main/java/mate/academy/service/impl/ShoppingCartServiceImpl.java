@@ -3,7 +3,6 @@ package mate.academy.service.impl;
 import java.util.ArrayList;
 import mate.academy.dao.ShoppingCartDao;
 import mate.academy.dao.TicketDao;
-import mate.academy.dao.impl.ShoppingCartDaoImpl;
 import mate.academy.lib.Inject;
 import mate.academy.lib.Service;
 import mate.academy.model.MovieSession;
@@ -15,7 +14,7 @@ import mate.academy.service.ShoppingCartService;
 @Service
 public class ShoppingCartServiceImpl implements ShoppingCartService {
     @Inject
-    private ShoppingCartDao shoppingCartDao = new ShoppingCartDaoImpl();
+    private ShoppingCartDao shoppingCartDao;
     @Inject
     private TicketDao ticketDao;
 
