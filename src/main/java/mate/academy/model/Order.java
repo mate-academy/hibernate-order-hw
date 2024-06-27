@@ -20,7 +20,7 @@ public class Order {
     @OneToMany
     private List<Ticket> tickets;
     private LocalDateTime orderDate;
-    @ManyToOne(fetch = FetchType.LAZY)
+    @ManyToOne(fetch = FetchType.EAGER)
     private User user;
 
     public Order() {
