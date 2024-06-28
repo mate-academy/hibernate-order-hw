@@ -22,13 +22,13 @@ public class OrderServiceImpl implements OrderService {
 
     @Override
     public Order completeOrder(ShoppingCart shoppingCart) {
-        var order = new Order();
         List<Ticket> tickets = new ArrayList<>(shoppingCart.getTickets());
         var user = shoppingCart.getUser();
+        var order = new Order();
         order.setUser(user);
         order.setTickets(tickets);
-        shoppingCartService.clearShoppingCart(shoppingCart);
         order.setOrderDate(LocalDateTime.now());
+        shoppingCartService.clearShoppingCart(shoppingCart);
         orderDao.add(order);
         return order;
     }
