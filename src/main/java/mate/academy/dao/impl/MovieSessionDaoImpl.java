@@ -1,7 +1,9 @@
 package mate.academy.dao.impl;
 
-import jakarta.persistence.criteria.*;
-
+import jakarta.persistence.criteria.CriteriaBuilder;
+import jakarta.persistence.criteria.CriteriaQuery;
+import jakarta.persistence.criteria.Predicate;
+import jakarta.persistence.criteria.Root;
 import java.time.LocalDate;
 import java.time.LocalTime;
 import java.util.List;
@@ -53,8 +55,8 @@ public class MovieSessionDaoImpl implements MovieSessionDao {
                     date.atStartOfDay(), date.atTime(END_OF_DAY));
             Predicate allConditions = criteriaBuilder.and(moviePredicate, datePredicate);
             criteriaQuery.select(root).where(allConditions);
-            root.fetch("movie", JoinType.LEFT);
-            root.fetch("cinemaHall", JoinType.LEFT);
+            root.fetch("movie");
+            root.fetch("cinemaHall");
             return session.createQuery(criteriaQuery).getResultList();
         } catch (Exception e) {
             throw new DataProcessingException("Can't get available sessions for movie with id: "
