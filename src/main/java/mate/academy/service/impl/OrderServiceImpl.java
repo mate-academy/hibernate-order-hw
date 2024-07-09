@@ -1,5 +1,6 @@
 package mate.academy.service.impl;
 
+import mate.academy.dao.OrderDao;
 import mate.academy.dao.impl.OrderDaoImpl;
 import mate.academy.lib.Inject;
 import mate.academy.lib.Service;
@@ -15,7 +16,7 @@ import java.util.List;
 @Service
 public class OrderServiceImpl implements OrderService {
     @Inject
-    private OrderDaoImpl orderDao;
+    private OrderDao orderDao;
 
     @Override
     public Order completeOrder(ShoppingCart shoppingCart) {

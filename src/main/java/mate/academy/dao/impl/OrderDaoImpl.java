@@ -13,6 +13,7 @@ import java.util.List;
 
 @Dao
 public class OrderDaoImpl implements OrderDao {
+
     @Override
     public List<Order> getByUser(User user) {
         try (Session session = HibernateUtil.getSessionFactory().openSession()) {
