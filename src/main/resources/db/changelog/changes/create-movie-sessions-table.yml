@@ -14,7 +14,7 @@ databaseChangeLog:
                     nullable: false
                     primaryKey: true
               - column:
-                  name: movie_id
+                  name: movies_id
                   type: bigint
                   constraints:
                     nullable: false
@@ -30,7 +30,7 @@ databaseChangeLog:
                     nullable: false
         - addForeignKeyConstraint:
             baseTableName: movie_sessions
-            baseColumnNames: movie_id
+            baseColumnNames: movies_id
             constraintName: fk_movie_sessions_movies
             referencedTableName: movies
             referencedColumnNames: id

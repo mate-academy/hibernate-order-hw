@@ -19,7 +19,7 @@ databaseChangeLog:
         - addForeignKeyConstraint:
             baseTableName: orders_tickets
             baseColumnNames: orders_id
-            constraintName: fk_order_tickets_orders
+            constraintName: fk_orders_tickets_orders
             referencedTableName: orders
             referencedColumnNames: id
         - addForeignKeyConstraint:

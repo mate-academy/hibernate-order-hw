@@ -19,7 +19,7 @@ databaseChangeLog:
                   constraints:
                     nullable: false
               - column:
-                  name: user_id
+                  name: users_id
                   type: bigint
                   constraints:
                     nullable: false
@@ -31,7 +31,7 @@ databaseChangeLog:
             referencedColumnNames: id
         - addForeignKeyConstraint:
             baseTableName: tickets
-            baseColumnNames: user_id
+            baseColumnNames: users_id
             constraintName: fk_tickets_users
             referencedTableName: users
             referencedColumnNames: id
