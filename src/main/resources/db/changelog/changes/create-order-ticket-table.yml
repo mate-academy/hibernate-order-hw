@@ -1,0 +1,31 @@
+databaseChangeLog:
+  - changeSet:
+      id: create-order-ticket-table
+      author: bw
+      changes:
+        - createTable:
+            tableName: orders_tickets
+            columns:
+              - column:
+                  name: orders_id
+                  type: bigint
+                  constraints:
+                    nullable: false
+              - column:
+                  name: tickets_id
+                  type: bigint
+                  constraints:
+                    nullable: false
+        - addForeignKeyConstraint:
+            baseTableName: orders_tickets
+            baseColumnNames: orders_id
+            constraintName: fk_order_tickets_orders
+            referencedTableName: orders
+            referencedColumnNames: id
+        - addForeignKeyConstraint:
+            baseTableName: orders_tickets
+            baseColumnNames: tickets_id
+            constraintName: fk_orders_tickets_tickets
+            referencedTableName: tickets
+            referencedColumnNames: id
+

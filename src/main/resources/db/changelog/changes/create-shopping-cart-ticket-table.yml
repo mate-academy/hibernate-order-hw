@@ -1,0 +1,30 @@
+databaseChangeLog:
+  - changeSet:
+      id: create-shopping-cart-ticket-table
+      author: bw
+      changes:
+        - createTable:
+            tableName: shopping_carts_tickets
+            columns:
+              - column:
+                  name: shopping_carts_id
+                  type: bigint
+                  constraints:
+                    nullable: false
+              - column:
+                  name: tickets_id
+                  type: bigint
+                  constraints:
+                    nullable: false
+        - addForeignKeyConstraint:
+            baseTableName: shopping_carts_tickets
+            baseColumnNames: shopping_carts_id
+            constraintName: fk_shopping_carts_tickets_shopping_carts
+            referencedTableName: shopping_carts
+            referencedColumnNames: id
+        - addForeignKeyConstraint:
+            baseTableName: shopping_carts_tickets
+            baseColumnNames: tickets_id
+            constraintName: fk_shopping_carts_tickets_tickets
+            referencedTableName: tickets
+            referencedColumnNames: id
