@@ -21,6 +21,11 @@ public class OrderServiceImpl implements OrderService {
         User user = shoppingCart.getUser();
         List<Ticket> tickets = shoppingCart.getTickets();
         LocalDateTime now = LocalDateTime.now();
+        Order order = createOrder(user,tickets,now);
+        return order;
+    }
+
+    private static Order createOrder(User user, List<Ticket> tickets, LocalDateTime now) {
         Order order = new Order();
         order.setUser(user);
         order.setTickets(tickets);

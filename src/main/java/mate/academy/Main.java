@@ -66,9 +66,7 @@ public class Main {
 
         AuthenticationService authenticationService =
                 (AuthenticationService) injector.getInstance(AuthenticationService.class);
-        User user = new User();
-        user.setEmail("12345");
-        user.setPassword("12345_password");
+        User user = createUser();
         User registered;
         try {
             registered = authenticationService.register(user.getEmail(), user.getPassword());
@@ -82,7 +80,14 @@ public class Main {
 
         OrderService orderService =
                 (OrderService) injector.getInstance(OrderService.class);
-        orderService.completeOrder(byUser);
-        orderService.getOrdersHistory(registered);
+        System.out.println(orderService.completeOrder(byUser));
+        System.out.println(orderService.getOrdersHistory(registered));
+    }
+
+    private static User createUser() {
+        User user = new User();
+        user.setEmail("12345");
+        user.setPassword("12345_password");
+        return user;
     }
 }
