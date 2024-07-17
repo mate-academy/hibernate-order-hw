@@ -28,4 +28,10 @@ public class Order {
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "user_id")
     private User user;
+
+    public Order(List<Ticket> tickets, LocalDateTime orderDate, User user) {
+        this.tickets = tickets;
+        this.orderDate = orderDate;
+        this.user = user;
+    }
 }
