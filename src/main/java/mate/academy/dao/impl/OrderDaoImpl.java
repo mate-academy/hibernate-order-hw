@@ -10,7 +10,7 @@ import org.hibernate.Session;
 import org.hibernate.Transaction;
 import org.hibernate.query.Query;
 
-import java.util.Optional;
+import java.util.List;
 
 @Dao
 public class OrderDaoImpl implements OrderDao {
@@ -21,8 +21,6 @@ public class OrderDaoImpl implements OrderDao {
         try {
             session = HibernateUtil.getSessionFactory().openSession();
             transaction = session.beginTransaction();
-            User managedUser = session.merge(order.getUser());
-            order.setUser(managedUser);
             session.persist(order);
             transaction.commit();
             return order;
@@ -39,7 +37,7 @@ public class OrderDaoImpl implements OrderDao {
     }
 
     @Override
-    public Optional<Order> getByUser(User user) {
+    public List<Order> getByUser(User user) {
         try (Session session = HibernateUtil.getSessionFactory().openSession()){
             Query<Order> query = session.createQuery("FROM Order o "
                 + "LEFT JOIN FETCH o.tickets t "
@@ -48,7 +46,7 @@ public class OrderDaoImpl implements OrderDao {
                 + "LEFT JOIN FETCH ms.cinemaHall "
                 + "WHERE o.user =:user", Order.class);
             query.setParameter("user", user);
-            return query.uniqueResultOptional();
+            return query.getResultList();
         } catch (Exception e) {
             throw new DataProcessingException("Can't find an order by user: " + user, e);
         }
