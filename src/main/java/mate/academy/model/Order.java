@@ -29,9 +29,22 @@ public class Order {
     @JoinColumn(name = "user_id")
     private User user;
 
+    public Order() {
+    }
+
     public Order(List<Ticket> tickets, LocalDateTime orderDate, User user) {
         this.tickets = tickets;
         this.orderDate = orderDate;
         this.user = user;
+    }
+
+    @Override
+    public String toString() {
+        return "Order{"
+                + "id=" + id
+                + ", tickets=" + tickets
+                + ", orderDate=" + orderDate
+                + ", user=" + user
+                + '}';
     }
 }
