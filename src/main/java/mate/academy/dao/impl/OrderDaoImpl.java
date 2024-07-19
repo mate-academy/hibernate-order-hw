@@ -39,7 +39,7 @@ public class OrderDaoImpl implements OrderDao {
     public List<Order> getHistoryByUser(User user) {
         try (Session session = HibernateUtil.getSessionFactory().openSession()) {
             String hql = "FROM Order o "
-                    + "LEFT JOIN FETCH o.tickets t "
+                + "LEFT JOIN FETCH o.tickets t "
                     + "LEFT JOIN FETCH o.user "
                     + "LEFT JOIN FETCH t.movieSession ms "
                     + "LEFT JOIN FETCH ms.movie m "
