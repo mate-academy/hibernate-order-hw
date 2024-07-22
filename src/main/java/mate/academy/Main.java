@@ -63,33 +63,33 @@ public class Main {
         System.out.println(movieSessionService.findAvailableSessions(
                         fastAndFurious.getId(), LocalDate.now()));
 
-        User userA = new User();
-        userA.setEmail("Alice@gmail.com");
-        userA.setPassword("Alice1234");
-        User userB = new User();
-        userB.setEmail("BobRoss@gmail.com");
-        userB.setPassword("paint4life");
+        User firstUser = new User();
+        firstUser.setEmail("Alice@gmail.com");
+        firstUser.setPassword("Alice1234");
+        User secondUser = new User();
+        secondUser.setEmail("BobRoss@gmail.com");
+        secondUser.setPassword("paint4life");
 
         UserService userService =
                 (UserService) injector.getInstance(UserService.class);
 
-        userService.add(userA);
-        userService.add(userB);
+        userService.add(firstUser);
+        userService.add(secondUser);
 
         ShoppingCartService shoppingCartService =
                 (ShoppingCartService) injector.getInstance(ShoppingCartService.class);
 
-        shoppingCartService.registerNewShoppingCart(userA);
-        shoppingCartService.registerNewShoppingCart(userB);
-        shoppingCartService.addSession(tomorrowMovieSession,userA);
-        shoppingCartService.addSession(tomorrowMovieSession,userB);
+        shoppingCartService.registerNewShoppingCart(firstUser);
+        shoppingCartService.registerNewShoppingCart(secondUser);
+        shoppingCartService.addSession(tomorrowMovieSession,firstUser);
+        shoppingCartService.addSession(tomorrowMovieSession,secondUser);
 
         OrderService orderService =
                 (OrderService) injector.getInstance(OrderService.class);
         System.out.println(orderService
-                .completeOrder(shoppingCartService.getByUser(userA)));
+                .completeOrder(shoppingCartService.getByUser(firstUser)));
         System.out.println(orderService
-                .completeOrder(shoppingCartService.getByUser(userB)));
-        System.out.println(orderService.getOrdersHistory(userA));
+                .completeOrder(shoppingCartService.getByUser(secondUser)));
+        System.out.println(orderService.getOrdersHistory(secondUser));
     }
 }
