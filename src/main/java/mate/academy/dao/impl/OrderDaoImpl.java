@@ -1,7 +1,6 @@
 package mate.academy.dao.impl;
 
 import java.util.List;
-import java.util.Optional;
 import mate.academy.dao.OrderDao;
 import mate.academy.exception.DataProcessingException;
 import mate.academy.lib.Dao;
@@ -37,7 +36,7 @@ public class OrderDaoImpl implements OrderDao {
     }
 
     @Override
-    public Optional<List<Order>> getByUser(User user) {
+    public List<Order> getByUser(User user) {
         try (Session session = HibernateUtil.getSessionFactory().openSession()) {
             Query<Order> query = session.createQuery("FROM Order o "
                     + "LEFT JOIN FETCH o.tickets t "
@@ -47,7 +46,7 @@ public class OrderDaoImpl implements OrderDao {
                     + "LEFT JOIN FETCH o.user "
                     + "WHERE o.user =:user", Order.class);
             query.setParameter("user", user);
-            return Optional.ofNullable(query.getResultList());
+            return query.getResultList();
         } catch (Exception e) {
             throw new DataProcessingException("Can't find a order by user: " + user, e);
         }
