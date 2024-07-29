@@ -21,18 +21,23 @@ public class OrderServiceImpl implements OrderService {
 
     @Override
     public Order completeOrder(ShoppingCart shoppingCart) {
-        Order newOrder = orderDao.add(new Order(
-                new ArrayList<>(shoppingCart.getTickets()),
-                LocalDateTime.now(),
-                shoppingCart.getUser()));
-        if (newOrder != null) {
+        Order newOrder = createOrderFromShoppingCart(shoppingCart);
+        Order savedOrder = orderDao.add(newOrder);
+        if (savedOrder != null) {
             shoppingCartService.clearShoppingCart(shoppingCart);
         }
-        return newOrder;
+        return savedOrder;
     }
 
     @Override
     public List<Order> getOrderHistory(User user) {
         return orderDao.getByUser(user);
+    }
+
+    private Order createOrderFromShoppingCart(ShoppingCart shoppingCart) {
+        return new Order(
+                new ArrayList<>(shoppingCart.getTickets()),
+                LocalDateTime.now(),
+                shoppingCart.getUser());
     }
 }
