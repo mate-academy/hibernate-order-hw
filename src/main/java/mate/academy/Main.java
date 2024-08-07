@@ -18,7 +18,7 @@ import mate.academy.service.OrderService;
 import mate.academy.service.ShoppingCartService;
 
 public class Main {
-    private static Injector injector =
+    private static final Injector injector =
             Injector.getInstance("mate.academy");
 
     public static void main(String[] args) throws RegistrationException, AuthenticationException {
@@ -82,11 +82,9 @@ public class Main {
         System.out.println("Testing order");
         Order order = new Order();
         order.setUser(user);
-        order.setTickets(shoppingCartService.getByUser(user).getTickets());
-        order.setOrderDate(LocalDateTime.now().plusDays(1L));
         OrderService orderService =
                 (OrderService) injector.getInstance(OrderService.class);
-        orderService.compliteOrder(order);
+        orderService.completeOrder(order);
         System.out.println(orderService.getOrdersHistory(user));
     }
 }
