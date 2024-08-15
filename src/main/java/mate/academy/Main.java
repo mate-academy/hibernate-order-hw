@@ -19,7 +19,6 @@ import mate.academy.service.OrderService;
 import mate.academy.service.ShoppingCartService;
 
 public class Main {
-
     private static final Injector injector = Injector.getInstance("mate.academy");
 
     public static void main(String[] args) {

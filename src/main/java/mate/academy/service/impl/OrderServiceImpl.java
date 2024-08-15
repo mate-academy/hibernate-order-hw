@@ -17,10 +17,7 @@ public class OrderServiceImpl implements OrderService {
 
     @Override
     public Order completeOrder(ShoppingCart shoppingCart) {
-        Order order = new Order();
-        order.setUser(shoppingCart.getUser());
-        order.setTickets(shoppingCart.getTickets());
-        order.setOrderDate(LocalDateTime.now());
+        Order order = createOrder(shoppingCart);
         return orderDao.add(order);
     }
 
@@ -29,4 +26,11 @@ public class OrderServiceImpl implements OrderService {
         return orderDao.getByUser(user);
     }
 
+    private Order createOrder(ShoppingCart shoppingCart) {
+        Order order = new Order();
+        order.setUser(shoppingCart.getUser());
+        order.setTickets(shoppingCart.getTickets());
+        order.setOrderDate(LocalDateTime.now());
+        return order;
+    }
 }
