@@ -75,7 +75,7 @@ public class Main {
             System.out.println(authenticationService
                     .register("LOLIPOP123f@gamil.com", "098765dfde"));
         } catch (RegistrationException e) {
-            throw new RuntimeException(e);
+            throw new RuntimeException("Can't register users",e);
         }
 
         ShoppingCartService shoppingCartService = (ShoppingCartService)
