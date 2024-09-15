@@ -24,8 +24,8 @@ public class OrderServiceImpl implements OrderService {
         Order order = new Order();
         order.setUser(shoppingCart.getUser());
         order.setTickets(new ArrayList<>(shoppingCart.getTickets()));
-        shoppingCartService.clearShoppingCart(shoppingCart);
         order.setOrderDate(LocalDateTime.now());
+        shoppingCartService.clearShoppingCart(shoppingCart);
         return orderDao.add(order);
     }
 
