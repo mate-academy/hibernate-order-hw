@@ -1,0 +1,29 @@
+databaseChangeLog:
+  - changeSet:
+      id: 1726736567256-1
+      author: Andrey Chertykovtsev
+      objectQuotingStrategy: QUOTE_ONLY_RESERVED_WORDS
+      changes:
+        - createTable:
+            tableName: tickets
+            columns:
+              - column:
+                  name: id
+                  type: BIGINT
+                  autoIncrement: true
+                  constraints:
+                    nullable: false
+                    primaryKey: true
+                    primaryKeyName: pk_tickets
+              - column:
+                  name: movie_session_id
+                  type: BIGINT
+                  constraints:
+                    foreignKeyName: fk_tickets_on_movie_sessions
+                    references: movie_sessions (id)
+              - column:
+                  name: user_id
+                  type: BIGINT
+                  constraints:
+                    foreignKeyName: fk_tickets_on_user
+                    references: users (id)

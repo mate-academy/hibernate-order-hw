@@ -1,0 +1,31 @@
+databaseChangeLog:
+  - changeSet:
+      id: 1726736386316-1
+      author: Andrey Chertykovtsev
+      changes:
+        - createTable:
+            tableName: movie_sessions
+            columns:
+              - column:
+                  name: id
+                  type: BIGINT
+                  autoIncrement: true
+                  constraints:
+                    nullable: false
+                    primaryKey: true
+                    primaryKeyName: pk_movie_sessions
+              - column:
+                  name: movie_id
+                  type: BIGINT
+                  constraints:
+                    foreignKeyName: fk_movie_sessions_on_movie
+                    references: movies (id)
+              - column:
+                  name: cinema_hall_id
+                  type: BIGINT
+                  constraints:
+                    foreignKeyName: fk_movie_sessions_on_cinema_hall
+                    references: cinema_halls (id)
+              - column:
+                  name: show_time
+                  type: DATETIME

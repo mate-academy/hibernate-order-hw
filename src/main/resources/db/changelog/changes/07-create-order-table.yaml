@@ -1,0 +1,70 @@
+databaseChangeLog:
+  - changeSet:
+      id: 1726753024312-1
+      author: Andrey Chertykovtsev
+      changes:
+        - createTable:
+            tableName: orders
+            columns:
+              - column:
+                  name: id
+                  type: BIGINT
+                  autoIncrement: true
+                  constraints:
+                    nullable: false
+                    primaryKey: true
+                    primaryKeyName: pk_orders
+              - column:
+                  name: orderDate
+                  type: DATETIME
+              - column:
+                  name: user_id
+                  type: BIGINT
+                  constraints:
+                    foreignKeyName: fk_orders_on_user
+                    references: users (id)
+  - changeSet:
+      id: 1726753024312-2
+      author: Andrey Chertykovtsev
+      changes:
+        - createTable:
+            tableName: orders_tickets
+            columns:
+              - column:
+                  name: orders_id
+                  type: BIGINT
+                  constraints:
+                    nullable: false
+              - column:
+                  name: ticket_id
+                  type: BIGINT
+                  constraints:
+                    nullable: false
+  - changeSet:
+      id: 1726753024312-3
+      author: Andrey Chertykovtsev
+      changes:
+        - addUniqueConstraint:
+            columnNames: ticket_id
+            constraintName: uc_orders_tickets_ticket
+            tableName: orders_tickets
+  - changeSet:
+      id: 1726753024312-4
+      author: Andrey Chertykovtsev
+      changes:
+        - addForeignKeyConstraint:
+            baseColumnNames: orders_id
+            baseTableName: orders_tickets
+            constraintName: fk_ordtic_on_order
+            referencedColumnNames: id
+            referencedTableName: orders
+  - changeSet:
+      id: 1726753024312-5
+      author: Andrey Chertykovtsev
+      changes:
+        - addForeignKeyConstraint:
+            baseColumnNames: ticket_id
+            baseTableName: orders_tickets
+            constraintName: fk_ordtic_on_ticket
+            referencedColumnNames: id
+            referencedTableName: tickets

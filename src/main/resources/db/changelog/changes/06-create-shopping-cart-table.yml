@@ -1,0 +1,71 @@
+databaseChangeLog:
+  - changeSet:
+      id: 1726739216503-1
+      author: Andrey Chertykovtsev
+      changes:
+        - createTable:
+            tableName: shopping_carts
+            columns:
+              - column:
+                  name: id
+                  type: BIGINT
+                  constraints:
+                    nullable: false
+                    primaryKey: true
+                    primaryKeyName: pk_shopping_carts
+  - changeSet:
+      id: 1726739216503-2
+      author: Andrey Chertykovtsev
+      changes:
+        - createTable:
+            tableName: shopping_carts_tickets
+            columns:
+              - column:
+                  name: shopping_cart_id
+                  type: BIGINT
+                  constraints:
+                    nullable: false
+              - column:
+                  name: ticket_id
+                  type: BIGINT
+                  constraints:
+                    nullable: false
+  - changeSet:
+      id: 1726739216503-3
+      author: Andrey Chertykovtsev
+      changes:
+        - addUniqueConstraint:
+            columnNames: ticket_id
+            constraintName: uc_shopping_carts_tickets_ticket
+            tableName: shopping_carts_tickets
+  - changeSet:
+      id: 1726739216503-4
+      author: Andrey Chertykovtsev
+      changes:
+        - addForeignKeyConstraint:
+            constraintName: fk_shopping_carts_on_id
+            baseColumnNames: id
+            baseTableName: shopping_carts
+            referencedColumnNames: id
+            referencedTableName: users
+  - changeSet:
+      id: 1726739216503-5
+      author: Andrey Chertykovtsev
+      changes:
+        - addForeignKeyConstraint:
+            constraintName: fk_shocartic_on_shopping_cart
+            baseColumnNames: shopping_cart_id
+            baseTableName: shopping_carts_tickets
+            referencedColumnNames: id
+            referencedTableName: shopping_carts
+  - changeSet:
+      id: 1726739216503-6
+      author: Andrey Chertykovtsev
+      changes:
+        - addForeignKeyConstraint:
+            constraintName: fk_shocartic_on_ticket
+            baseColumnNames: ticket_id
+            baseTableName: shopping_carts_tickets
+            referencedColumnNames: id
+            referencedTableName: tickets
+
