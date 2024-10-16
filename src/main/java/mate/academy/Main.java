@@ -86,12 +86,16 @@ public class Main {
         ShoppingCart shoppingCartBob = new ShoppingCart();
         shoppingCartBob.setUser(bob);
         shoppingCartBob.setTickets(List.of(terminator));
+        shoppingCartBob.setId(bob.getId());
 
         ShoppingCart shoppingCartAnna = new ShoppingCart();
         shoppingCartAnna.setUser(anna);
         shoppingCartAnna.setTickets(List.of(missionImpossible));
+        shoppingCartAnna.setId(anna.getId());
 
         OrderService orderService = (OrderService) injector.getInstance(OrderService.class);
+        System.out.println(orderService.getOrdersHistory(bob));
+        System.out.println(orderService.getOrdersHistory(anna));
         System.out.println(orderService.completeOrder(shoppingCartBob));
         System.out.println(orderService.completeOrder(shoppingCartAnna));
         System.out.println(orderService.getOrdersHistory(bob));
