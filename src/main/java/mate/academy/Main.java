@@ -85,8 +85,11 @@ public class Main {
         }
 
         shoppingCartService.addSession(yesterdayMovieSession, exampleUser);
+        System.out.println(shoppingCartService.getByUser(exampleUser));
         System.out.println(orderService.completeOrder(shoppingCartService.getByUser(exampleUser)));
 
-        System.out.println(orderService.getOrdersHistory(exampleUser));
+        System.out.println("10sec difference ----- " + orderService.getOrdersHistory(exampleUser));
+        System.out.println("Should be empty -------------- "
+                + shoppingCartService.getByUser(exampleUser));
     }
 }
