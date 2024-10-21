@@ -78,17 +78,10 @@ public class Main {
         shoppingCartService.addSession(tomorrowMovieSession, exampleUser);
         OrderService orderService = (OrderService) injector.getInstance(OrderService.class);
         System.out.println(orderService.completeOrder(shoppingCartService.getByUser(exampleUser)));
-        try {
-            Thread.sleep(10000);
-        } catch (InterruptedException e) {
-            Thread.currentThread().interrupt();
-        }
-
         shoppingCartService.addSession(yesterdayMovieSession, exampleUser);
         System.out.println(shoppingCartService.getByUser(exampleUser));
         System.out.println(orderService.completeOrder(shoppingCartService.getByUser(exampleUser)));
-
-        System.out.println("10sec difference ----- " + orderService.getOrdersHistory(exampleUser));
+        orderService.getOrdersHistory(exampleUser);
         System.out.println("Should be empty -------------- "
                 + shoppingCartService.getByUser(exampleUser));
     }

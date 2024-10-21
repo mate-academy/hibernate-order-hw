@@ -5,6 +5,7 @@ import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
 import jakarta.persistence.JoinColumn;
+import jakarta.persistence.JoinTable;
 import jakarta.persistence.ManyToOne;
 import jakarta.persistence.OneToMany;
 import jakarta.persistence.Table;
@@ -13,12 +14,17 @@ import java.util.List;
 
 @Entity
 @Table(name = "orders")
-public class Order implements Comparable<Order> {
+public class Order {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
     @OneToMany
+    @JoinTable(
+            name = "orders_tickets",
+            joinColumns = @JoinColumn(name = "order_id"),
+            inverseJoinColumns = @JoinColumn(name = "ticket_id")
+    )
     private List<Ticket> tickets;
 
     @ManyToOne
@@ -67,10 +73,5 @@ public class Order implements Comparable<Order> {
                 + ", user=" + user
                 + ", orderDate=" + orderDate
                 + '}';
-    }
-
-    @Override
-    public int compareTo(Order o) {
-        return this.getOrderDate().compareTo(o.getOrderDate());
     }
 }

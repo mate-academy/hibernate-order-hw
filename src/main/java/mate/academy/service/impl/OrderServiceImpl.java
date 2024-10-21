@@ -32,8 +32,6 @@ public class OrderServiceImpl implements OrderService {
     }
 
     public List<Order> getOrdersHistory(User user) {
-        List<Order> orderHistory = orderDao.getByUser(user);
-        orderHistory.sort(Order::compareTo);
-        return orderHistory;
+        return orderDao.getByUser(user);
     }
 }
