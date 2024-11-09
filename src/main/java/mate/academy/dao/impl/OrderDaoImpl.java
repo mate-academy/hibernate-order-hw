@@ -30,6 +30,10 @@ public class OrderDaoImpl implements OrderDao {
                 transaction.rollback();
             }
             throw new RuntimeException("Can't insert order " + order, e);
+        } finally {
+            if (session != null) {
+                session.close();
+            }
         }
     }
 
