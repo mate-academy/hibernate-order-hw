@@ -14,14 +14,14 @@ import mate.academy.service.OrderService;
 public class Main {
     public static void main(String[] args) {
         Injector injector = Injector.getInstance("mate.academy");
-        final MovieService movieService
-                = (MovieService) injector.getInstance(MovieService.class);
-        final CinemaHallService cinemaHallService
-                = (CinemaHallService) injector.getInstance(CinemaHallService.class);
-        final MovieSessionService movieSessionService
-                = (MovieSessionService) injector.getInstance(MovieSessionService.class);
-        final OrderService orderService
-                = (OrderService) injector.getInstance(OrderService.class);
+        final MovieService movieService = (MovieService) injector
+                .getInstance(MovieService.class);
+        final CinemaHallService cinemaHallService = (CinemaHallService) injector
+                .getInstance(CinemaHallService.class);
+        final MovieSessionService movieSessionService = (MovieSessionService) injector
+                .getInstance(MovieSessionService.class);
+        final OrderService orderService = (OrderService) injector
+                .getInstance(OrderService.class);
 
         Movie fastAndFurious = new Movie("Fast and Furious");
         fastAndFurious.setDescription("An action film about street racing, heists, and spies.");

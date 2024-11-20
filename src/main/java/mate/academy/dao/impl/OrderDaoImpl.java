@@ -27,7 +27,7 @@ public class OrderDaoImpl implements OrderDao {
             if (transaction != null) {
                 transaction.rollback();
             }
-            throw new DataProcessingException("Can't add a order: " + order, e);
+            throw new DataProcessingException("Can't add an order: " + order, e);
         } finally {
             if (session != null) {
                 session.close();
@@ -36,7 +36,7 @@ public class OrderDaoImpl implements OrderDao {
     }
 
     @Override
-    public Order getbyUser(User user) {
+    public Order getByUser(User user) {
         try (Session session = HibernateUtil.getSessionFactory().openSession()) {
             Query<Order> query = session.createQuery("FROM Order o "
                     + "LEFT JOIN FETCH o.tickets t "
@@ -44,12 +44,12 @@ public class OrderDaoImpl implements OrderDao {
             query.setParameter("user", user);
             return query.uniqueResult();
         } catch (Exception e) {
-            throw new DataProcessingException("Can't find order by user: " + user, e);
+            throw new DataProcessingException("Can't find an order by user: " + user, e);
         }
     }
 
     @Override
-    public List<Order> getOrdersbyUser(User user) {
+    public List<Order> getOrdersByUser(User user) {
         try (Session session = HibernateUtil.getSessionFactory().openSession()) {
             Query<Order> query = session.createQuery("FROM Order o "
                     + "LEFT JOIN FETCH o.tickets t "

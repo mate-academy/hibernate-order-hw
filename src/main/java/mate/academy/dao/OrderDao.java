@@ -8,7 +8,7 @@ public interface OrderDao {
 
     Order add(Order order);
 
-    Order getbyUser(User user);
+    Order getByUser(User user);
 
-    List<Order> getOrdersbyUser(User user);
+    List<Order> getOrdersByUser(User user);
 }
