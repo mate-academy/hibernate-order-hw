@@ -1,5 +1,6 @@
 package mate.academy.dao.impl;
 
+import java.util.Optional;
 import mate.academy.dao.ShoppingCartDao;
 import mate.academy.exception.DataProcessingException;
 import mate.academy.lib.Dao;
@@ -7,20 +8,18 @@ import mate.academy.model.ShoppingCart;
 import mate.academy.model.User;
 import mate.academy.util.HibernateUtil;
 import org.hibernate.Session;
+import org.hibernate.SessionFactory;
 import org.hibernate.Transaction;
-import org.hibernate.query.Query;
 
 @Dao
 public class ShoppingCartDaoImpl implements ShoppingCartDao {
     @Override
     public ShoppingCart add(ShoppingCart shoppingCart) {
-        Session session = null;
         Transaction transaction = null;
+        Session session = null;
         try {
             session = HibernateUtil.getSessionFactory().openSession();
             transaction = session.beginTransaction();
-            User managedUser = session.merge(shoppingCart.getUser());
-            shoppingCart.setUser(managedUser);
             session.persist(shoppingCart);
             transaction.commit();
             return shoppingCart;
@@ -28,7 +27,7 @@ public class ShoppingCartDaoImpl implements ShoppingCartDao {
             if (transaction != null) {
                 transaction.rollback();
             }
-            throw new DataProcessingException("Can't insert a shopping cart: " + shoppingCart, e);
+            throw new DataProcessingException("Can't insert shoppingCart: " + shoppingCart, e);
         } finally {
             if (session != null) {
                 session.close();
@@ -37,27 +36,29 @@ public class ShoppingCartDaoImpl implements ShoppingCartDao {
     }
 
     @Override
-    public ShoppingCart getByUser(User user) {
+    public Optional<ShoppingCart> getByUser(User user) {
         try (Session session = HibernateUtil.getSessionFactory().openSession()) {
-            Query<ShoppingCart> query = session.createQuery("FROM ShoppingCart sc "
-                    + "LEFT JOIN FETCH sc.tickets t "
-                    + "LEFT JOIN FETCH t.movieSession ms "
-                    + "LEFT JOIN FETCH ms.movie "
-                    + "LEFT JOIN FETCH ms.cinemaHall "
-                    + "WHERE sc.user =:user", ShoppingCart.class);
-            query.setParameter("user", user);
-            return query.uniqueResult();
+            return session.createQuery("from ShoppingCart s "
+                            + "left join fetch s.user "
+                            + "left join fetch s.tickets t "
+                            + "left join fetch t.movieSession "
+                            + "where s.user.id = :id", ShoppingCart.class)
+                    .setParameter("id", user.getId())
+                    .uniqueResultOptional();
         } catch (Exception e) {
-            throw new DataProcessingException("Can't find a shopping cart by user: " + user, e);
+            throw new DataProcessingException(
+                    "Can't get ShoppingCart related to user: " + user, e);
         }
     }
 
     @Override
     public void update(ShoppingCart shoppingCart) {
+        SessionFactory sessionFactory = HibernateUtil.getSessionFactory();
         Session session = null;
         Transaction transaction = null;
+
         try {
-            session = HibernateUtil.getSessionFactory().openSession();
+            session = sessionFactory.openSession();
             transaction = session.beginTransaction();
             session.update(shoppingCart);
             transaction.commit();
@@ -65,7 +66,7 @@ public class ShoppingCartDaoImpl implements ShoppingCartDao {
             if (transaction != null) {
                 transaction.rollback();
             }
-            throw new DataProcessingException("Can't update a shopping cart: " + shoppingCart, e);
+            throw new DataProcessingException("updating " + shoppingCart + " failed", e);
         } finally {
             if (session != null) {
                 session.close();

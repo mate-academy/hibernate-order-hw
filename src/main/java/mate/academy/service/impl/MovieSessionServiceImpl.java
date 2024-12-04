@@ -11,20 +11,33 @@ import mate.academy.service.MovieSessionService;
 @Service
 public class MovieSessionServiceImpl implements MovieSessionService {
     @Inject
-    private MovieSessionDao sessionDao;
+    private MovieSessionDao movieSessionDao;
 
     @Override
-    public List<MovieSession> findAvailableSessions(Long movieId, LocalDate date) {
-        return sessionDao.findAvailableSessions(movieId, date);
+    public MovieSession add(MovieSession movieSession) {
+        return movieSessionDao.add(movieSession);
     }
 
     @Override
     public MovieSession get(Long id) {
-        return sessionDao.get(id).get();
+        return movieSessionDao.get(id).orElseThrow(
+                () -> new RuntimeException("movieSession not found"));
     }
 
     @Override
-    public MovieSession add(MovieSession session) {
-        return sessionDao.add(session);
+    public List<MovieSession> findAvailableSessions(Long movieId, LocalDate date) {
+        return movieSessionDao.findAvailableSessions(movieId, date);
+    }
+
+    @Override
+    public Boolean update(MovieSession movieSession) {
+        MovieSession currentMovieSession = get(movieSession.getId());
+        movieSessionDao.update(movieSession);
+        return currentMovieSession.equals(get(movieSession.getId()));
+    }
+
+    @Override
+    public Boolean delete(Long id) {
+        return movieSessionDao.delete(id);
     }
 }

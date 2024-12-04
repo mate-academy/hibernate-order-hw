@@ -10,4 +10,8 @@ public interface MovieDao {
     Optional<Movie> get(Long id);
 
     List<Movie> getAll();
+
+    boolean update(Movie movie);
+
+    boolean delete(Long id);
 }

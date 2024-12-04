@@ -26,4 +26,16 @@ public class MovieServiceImpl implements MovieService {
     public List<Movie> getAll() {
         return movieDao.getAll();
     }
+
+    @Override
+    public Boolean update(Movie movie) {
+        Movie currentMovie = get(movie.getId());
+        movieDao.update(movie);
+        return currentMovie.equals(get(movie.getId()));
+    }
+
+    @Override
+    public Boolean delete(Long id) {
+        return movieDao.delete(id);
+    }
 }

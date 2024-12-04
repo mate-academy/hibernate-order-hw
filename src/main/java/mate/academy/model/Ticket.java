@@ -8,50 +8,73 @@ import jakarta.persistence.Id;
 import jakarta.persistence.JoinColumn;
 import jakarta.persistence.ManyToOne;
 import jakarta.persistence.Table;
+import java.util.Objects;
 
 @Entity
-@Table(name = "tickets")
+@Table(name = "Tickets")
 public class Ticket {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
     @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "movie_session_id")
+    @JoinColumn(name = "movieSession_id")
     private MovieSession movieSession;
-    @ManyToOne(fetch = FetchType.LAZY)
+    @ManyToOne
+    @JoinColumn(name = "user_id")
     private User user;
 
     public Long getId() {
         return id;
     }
 
-    public void setId(Long id) {
+    public Ticket setId(Long id) {
         this.id = id;
-    }
-
-    public User getUser() {
-        return user;
-    }
-
-    public void setUser(User user) {
-        this.user = user;
+        return this;
     }
 
     public MovieSession getMovieSession() {
         return movieSession;
     }
 
-    public void setMovieSession(MovieSession movieSession) {
+    public Ticket setMovieSession(MovieSession movieSession) {
         this.movieSession = movieSession;
+        return this;
+    }
+
+    public User getUser() {
+        return user;
+    }
+
+    public Ticket setUser(User user) {
+        this.user = user;
+        return this;
     }
 
     @Override
     public String toString() {
         return "Ticket{"
-            + "id=" + id
-            + ", movieSession=" + movieSession
-            + ", user=" + user
-            + '}';
+                + "id="
+                + id
+                + ", movieSession="
+                + movieSession
+                + ", user="
+                + user
+                + '}';
     }
 
+    @Override
+    public boolean equals(Object o) {
+        if (o == null || getClass() != o.getClass()) {
+            return false;
+        }
+        Ticket ticket = (Ticket) o;
+        return Objects.equals(id, ticket.id)
+                && Objects.equals(movieSession, ticket.movieSession)
+                && Objects.equals(user, ticket.user);
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(id, movieSession, user);
+    }
 }

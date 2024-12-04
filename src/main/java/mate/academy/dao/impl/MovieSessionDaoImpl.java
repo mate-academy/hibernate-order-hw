@@ -1,11 +1,7 @@
 package mate.academy.dao.impl;
 
-import jakarta.persistence.criteria.CriteriaBuilder;
-import jakarta.persistence.criteria.CriteriaQuery;
-import jakarta.persistence.criteria.Predicate;
-import jakarta.persistence.criteria.Root;
 import java.time.LocalDate;
-import java.time.LocalTime;
+import java.time.LocalDateTime;
 import java.util.List;
 import java.util.Optional;
 import mate.academy.dao.MovieSessionDao;
@@ -14,13 +10,12 @@ import mate.academy.lib.Dao;
 import mate.academy.model.MovieSession;
 import mate.academy.util.HibernateUtil;
 import org.hibernate.Session;
+import org.hibernate.SessionFactory;
 import org.hibernate.Transaction;
 import org.hibernate.query.Query;
 
 @Dao
 public class MovieSessionDaoImpl implements MovieSessionDao {
-    private static final LocalTime END_OF_DAY = LocalTime.of(23, 59, 59);
-
     @Override
     public MovieSession add(MovieSession movieSession) {
         Transaction transaction = null;
@@ -35,7 +30,7 @@ public class MovieSessionDaoImpl implements MovieSessionDao {
             if (transaction != null) {
                 transaction.rollback();
             }
-            throw new DataProcessingException("Can't insert a movie session: " + movieSession, e);
+            throw new DataProcessingException("Can't insert movieSession " + movieSession, e);
         } finally {
             if (session != null) {
                 session.close();
@@ -44,37 +39,83 @@ public class MovieSessionDaoImpl implements MovieSessionDao {
     }
 
     @Override
-    public List<MovieSession> findAvailableSessions(Long movieId, LocalDate date) {
+    public Optional<MovieSession> get(Long id) {
         try (Session session = HibernateUtil.getSessionFactory().openSession()) {
-            CriteriaBuilder criteriaBuilder = session.getCriteriaBuilder();
-            CriteriaQuery<MovieSession> criteriaQuery =
-                    criteriaBuilder.createQuery(MovieSession.class);
-            Root<MovieSession> root = criteriaQuery.from(MovieSession.class);
-            Predicate moviePredicate = criteriaBuilder.equal(root.get("movie").get("id"), movieId);
-            Predicate datePredicate = criteriaBuilder.between(root.get("showTime"),
-                    date.atStartOfDay(), date.atTime(END_OF_DAY));
-            Predicate allConditions = criteriaBuilder.and(moviePredicate, datePredicate);
-            criteriaQuery.select(root).where(allConditions);
-            root.fetch("movie");
-            root.fetch("cinemaHall");
-            return session.createQuery(criteriaQuery).getResultList();
+            return Optional.ofNullable(session.get(MovieSession.class, id));
         } catch (Exception e) {
-            throw new DataProcessingException("Can't get available sessions for movie with id: "
-                    + movieId + " for date: " + date, e);
+            throw new DataProcessingException("Can't get a movieSession by id: " + id, e);
         }
     }
 
     @Override
-    public Optional<MovieSession> get(Long id) {
+    public List<MovieSession> findAvailableSessions(Long movieId, LocalDate date) {
         try (Session session = HibernateUtil.getSessionFactory().openSession()) {
-            Query<MovieSession> query = session.createQuery("FROM MovieSession ms "
-                    + "JOIN FETCH ms.movie m "
-                    + "JOIN FETCH ms.cinemaHall ch "
-                    + "WHERE ms.id = :id", MovieSession.class);
-            query.setParameter("id", id);
-            return query.uniqueResultOptional();
+            LocalDateTime start = date.atTime(0,0,0);
+            LocalDateTime end = date.atTime(23, 59, 59);
+            Query<MovieSession> movieSessionQuery
+                    = session.createQuery("from MovieSession ms "
+                            + "where ms.movie.id = :movieId "
+                            + "and ms.showTime > :start "
+                            + "and ms.showTime < :end",
+                    MovieSession.class);
+            movieSessionQuery.setParameter("movieId", movieId);
+            movieSessionQuery.setParameter("start", start);
+            movieSessionQuery.setParameter("end", end);
+            return movieSessionQuery.getResultList();
         } catch (Exception e) {
-            throw new DataProcessingException("Can't get a movie session by id: " + id, e);
+            throw new DataProcessingException(
+                    "Can't get available sessions on the scheduled date: " + date, e);
         }
+    }
+
+    @Override
+    public boolean update(MovieSession movieSession) {
+        SessionFactory sessionFactory = HibernateUtil.getSessionFactory();
+        Session session = null;
+        Transaction transaction = null;
+
+        try {
+            session = sessionFactory.openSession();
+            transaction = session.beginTransaction();
+            session.update(movieSession);
+            transaction.commit();
+        } catch (Exception e) {
+            if (transaction != null) {
+                transaction.rollback();
+            }
+            throw new DataProcessingException("updating " + movieSession + " failed", e);
+        } finally {
+            if (session != null) {
+                session.close();
+            }
+        }
+
+        return get(movieSession.getId()).get().equals(movieSession);
+    }
+
+    @Override
+    public boolean delete(Long id) {
+        SessionFactory sessionFactory = HibernateUtil.getSessionFactory();
+        Session session = null;
+        Transaction transaction = null;
+
+        try {
+            session = sessionFactory.openSession();
+            transaction = session.beginTransaction();
+            session.delete(get(id)
+                    .orElseThrow(() -> new RuntimeException("no movie session with id " + id)));
+            transaction.commit();
+        } catch (Exception e) {
+            if (transaction != null) {
+                transaction.rollback();
+            }
+            throw new DataProcessingException("removing movie session with id: "
+                    + id + " from database failed", e);
+        } finally {
+            if (session != null) {
+                session.close();
+            }
+        }
+        return get(id).isEmpty();
     }
 }

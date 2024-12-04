@@ -6,31 +6,34 @@ import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
 import jakarta.persistence.JoinColumn;
 import jakarta.persistence.JoinTable;
+import jakarta.persistence.ManyToOne;
 import jakarta.persistence.OneToMany;
-import jakarta.persistence.OneToOne;
 import jakarta.persistence.Table;
+import java.time.LocalDateTime;
 import java.util.List;
 import java.util.Objects;
 
 @Entity
-@Table(name = "ShoppingCarts")
-public class ShoppingCart {
+@Table(name = "Orders")
+public class Order {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
     @OneToMany
-    @JoinTable(name = "shopping_cart_contents",
-            joinColumns = @JoinColumn(name = "shopping_cart_id"),
+    @JoinTable(name = "ordered_tickets",
+            joinColumns = @JoinColumn(name = "order_id"),
             inverseJoinColumns = @JoinColumn(name = "ticket_id"))
     private List<Ticket> tickets;
-    @OneToOne
+    @ManyToOne
+    @JoinColumn(name = "user_id")
     private User user;
+    private LocalDateTime orderDate;
 
     public Long getId() {
         return id;
     }
 
-    public ShoppingCart setId(Long id) {
+    public Order setId(Long id) {
         this.id = id;
         return this;
     }
@@ -39,7 +42,7 @@ public class ShoppingCart {
         return tickets;
     }
 
-    public ShoppingCart setTickets(List<Ticket> tickets) {
+    public Order setTickets(List<Ticket> tickets) {
         this.tickets = tickets;
         return this;
     }
@@ -48,20 +51,27 @@ public class ShoppingCart {
         return user;
     }
 
-    public ShoppingCart setUser(User user) {
+    public Order setUser(User user) {
         this.user = user;
+        return this;
+    }
+
+    public LocalDateTime getOrderDate() {
+        return orderDate;
+    }
+
+    public Order setOrderDate(LocalDateTime orderDate) {
+        this.orderDate = orderDate;
         return this;
     }
 
     @Override
     public String toString() {
-        return "ShoppingCart{"
-                + "id="
-                + id
-                + ", tickets="
-                + tickets
-                + ", user="
-                + user
+        return "Order{"
+                + "id=" + id
+                + ", tickets=" + tickets
+                + ", user=" + user
+                + ", orderDate=" + orderDate
                 + '}';
     }
 
@@ -70,14 +80,15 @@ public class ShoppingCart {
         if (o == null || getClass() != o.getClass()) {
             return false;
         }
-        ShoppingCart that = (ShoppingCart) o;
-        return Objects.equals(id, that.id)
-                && Objects.equals(tickets, that.tickets)
-                && Objects.equals(user, that.user);
+        Order order = (Order) o;
+        return Objects.equals(id, order.id)
+                && Objects.equals(tickets, order.tickets)
+                && Objects.equals(user, order.user)
+                && Objects.equals(orderDate, order.orderDate);
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(id, tickets, user);
+        return Objects.hash(id, tickets, user, orderDate);
     }
 }

@@ -9,4 +9,8 @@ public interface MovieService {
     Movie get(Long id);
 
     List<Movie> getAll();
+
+    Boolean update(Movie movie);
+
+    Boolean delete(Long id);
 }
