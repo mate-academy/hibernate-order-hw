@@ -21,7 +21,7 @@ public class MovieSessionServiceImpl implements MovieSessionService {
     @Override
     public MovieSession get(Long id) {
         return movieSessionDao.get(id).orElseThrow(
-                () -> new RuntimeException("movieSession not found"));
+                () -> new RuntimeException("Movie Session with id " + id + " not found"));
     }
 
     @Override
@@ -30,14 +30,14 @@ public class MovieSessionServiceImpl implements MovieSessionService {
     }
 
     @Override
-    public Boolean update(MovieSession movieSession) {
+    public boolean update(MovieSession movieSession) {
         MovieSession currentMovieSession = get(movieSession.getId());
         movieSessionDao.update(movieSession);
         return currentMovieSession.equals(get(movieSession.getId()));
     }
 
     @Override
-    public Boolean delete(Long id) {
+    public boolean delete(Long id) {
         return movieSessionDao.delete(id);
     }
 }

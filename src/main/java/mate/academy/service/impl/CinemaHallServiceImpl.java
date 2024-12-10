@@ -20,7 +20,7 @@ public class CinemaHallServiceImpl implements CinemaHallService {
     @Override
     public CinemaHall get(Long id) {
         return cinemaHallDao.get(id).orElseThrow(
-                () -> new RuntimeException("cinemaHall not found"));
+                () -> new RuntimeException("Cinema Hall with id " + id + " not found"));
     }
 
     @Override
@@ -29,14 +29,14 @@ public class CinemaHallServiceImpl implements CinemaHallService {
     }
 
     @Override
-    public Boolean update(CinemaHall cinemaHall) {
+    public boolean update(CinemaHall cinemaHall) {
         CinemaHall currentCinemaHall = get(cinemaHall.getId());
         cinemaHallDao.update(cinemaHall);
         return currentCinemaHall.equals(get(cinemaHall.getId()));
     }
 
     @Override
-    public Boolean delete(Long id) {
+    public boolean delete(Long id) {
         return cinemaHallDao.delete(id);
     }
 }

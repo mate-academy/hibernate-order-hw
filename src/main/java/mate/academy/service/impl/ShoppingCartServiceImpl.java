@@ -34,7 +34,7 @@ public class ShoppingCartServiceImpl implements ShoppingCartService {
     @Override
     public ShoppingCart getByUser(User user) {
         return shoppingCartDao.getByUser(user).orElseThrow(
-                () -> new RuntimeException("ShoppingCart not found")
+                () -> new RuntimeException("ShoppingCart with id " + user.getId() + " not found")
         );
     }
 

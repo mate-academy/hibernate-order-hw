@@ -18,17 +18,17 @@ public class Main {
 
     public static void main(String[] args) {
         // 0. INJECTING
-        final var cinemaHallService
+        final CinemaHallService cinemaHallService
                 = (CinemaHallService) injector.getInstance(CinemaHallService.class);
-        final var movieService
+        final MovieService movieService
                 = (MovieService) injector.getInstance(MovieService.class);
-        final var movieSessionService
+        final MovieSessionService movieSessionService
                 = (MovieSessionService) injector.getInstance(MovieSessionService.class);
-        final var authenticationService
+        final AuthenticationService authenticationService
                 = (AuthenticationService) injector.getInstance(AuthenticationService.class);
-        final var shoppingCartService
+        final ShoppingCartService shoppingCartService
                 = (ShoppingCartService) injector.getInstance(ShoppingCartService.class);
-        final var orderService
+        final OrderService orderService
                 = (OrderService) injector.getInstance(OrderService.class);
 
         // 1. CREATING

@@ -11,7 +11,7 @@ public interface MovieSessionService {
 
     List<MovieSession> findAvailableSessions(Long movieId, LocalDate date);
 
-    Boolean update(MovieSession movieSession);
+    boolean update(MovieSession movieSession);
 
-    Boolean delete(Long id);
+    boolean delete(Long id);
 }

@@ -19,12 +19,7 @@ public class UserServiceImpl implements UserService {
 
     @Override
     public User add(User user) {
-        String currentPassword = user.getPassword();
-        user.setSalt(HashUtil.getSalt());
-        user.setPassword(HashUtil.hashPassword(user.getPassword(), user.getSalt()));
-        if (user.getPassword().equals(currentPassword)) {
-            throw new RegistrationException("password was not encrypted");
-        }
+        encryptPassword(user);
         userDao.add(user);
         shoppingCartService.registerNewShoppingCart(user);
 
@@ -36,5 +31,11 @@ public class UserServiceImpl implements UserService {
     @Override
     public Optional<User> findByEmail(String email) {
         return userDao.get(email);
+    }
+
+    private User encryptPassword(User user) {
+        user.setSalt(HashUtil.getSalt());
+        user.setPassword(HashUtil.hashPassword(user.getPassword(), user.getSalt()));
+        return user;
     }
 }
