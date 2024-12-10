@@ -18,7 +18,7 @@ public class Order {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private long id;
-    @OneToOne(fetch = FetchType.LAZY)
+    @OneToOne
     private User user;
     @Column(name = "order_date")
     private LocalDateTime orderDate;
