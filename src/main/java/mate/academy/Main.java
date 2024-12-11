@@ -90,7 +90,6 @@ public class Main {
             ShoppingCartService shoppingCartService =
                     (ShoppingCartService) injector.getInstance(ShoppingCartService.class);
 
-            shoppingCartService.addSession(tomorrowMovieSession, user);
             shoppingCartService.addSession(yesterdayMovieSession, user);
             System.out.println("Shopping cart before completing order:");
             System.out.println(shoppingCartService.getByUser(user));
