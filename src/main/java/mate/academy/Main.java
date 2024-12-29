@@ -15,7 +15,6 @@ import mate.academy.model.User;
 import mate.academy.service.CinemaHallService;
 import mate.academy.service.MovieService;
 import mate.academy.service.MovieSessionService;
-import mate.academy.service.OrderService;
 import mate.academy.service.UserService;
 
 public class Main {
@@ -88,11 +87,5 @@ public class Main {
         order.setUser(user);
         order.setLocalDateTime(LocalDateTime.now());
         orderDao.add(order);
-
-        OrderService orderService =
-                (OrderService) injector.getInstance(OrderService.class);
-
-        List<Order> byUser = orderService.getOrdersHistory(user);
-        System.out.println(byUser);
     }
 }
