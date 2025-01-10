@@ -12,14 +12,11 @@ import mate.academy.model.ShoppingCart;
 import mate.academy.model.Ticket;
 import mate.academy.model.User;
 import mate.academy.service.OrderService;
-import mate.academy.service.ShoppingCartService;
 
 @Service
 public class OrderServiceImpl implements OrderService {
     @Inject
     private OrderDao orderDao;
-    @Inject
-    private ShoppingCartService shoppingCartService;
     @Inject
     private ShoppingCartDao shoppingCartDao;
 
