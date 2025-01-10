@@ -1,7 +1,12 @@
 package mate.academy.model;
 
-import jakarta.persistence.*;
-
+import jakarta.persistence.Entity;
+import jakarta.persistence.GeneratedValue;
+import jakarta.persistence.GenerationType;
+import jakarta.persistence.Id;
+import jakarta.persistence.ManyToOne;
+import jakarta.persistence.OneToMany;
+import jakarta.persistence.Table;
 import java.time.LocalDateTime;
 import java.util.List;
 
@@ -51,8 +56,8 @@ public class Order {
 
     @Override
     public String toString() {
-        return "Order{" +
-                "id=" + id
+        return "Order{"
+                + "id=" + id
                 + ", tickets=" + tickets
                 + ", orderDate=" + orderDate
                 + ", user=" + user
