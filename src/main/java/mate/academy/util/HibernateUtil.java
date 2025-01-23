@@ -11,7 +11,12 @@ public class HibernateUtil {
 
     private static SessionFactory initSessionFactory() {
         try {
-            return new Configuration().configure().buildSessionFactory();
+            Configuration configuration = new Configuration().configure();
+            configuration.setProperty("hibernate.connection.username",
+                    System.getenv("DB_USER"));
+            configuration.setProperty("hibernate.connection.password",
+                    System.getenv("DB_PASSWORD"));
+            return configuration.buildSessionFactory();
         } catch (Exception e) {
             throw new RuntimeException("Error creating SessionFactory", e);
         }
