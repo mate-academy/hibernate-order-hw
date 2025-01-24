@@ -77,13 +77,13 @@ public class Main {
         ShoppingCart shoppingCart = shoppingCartService.getByUser(user);
         System.out.println(shoppingCart);
 
-        shoppingCartService.clearShoppingCart(shoppingCartService.getByUser(user));
-        System.out.println("Shopping cart after clearing: " + shoppingCartService.getByUser(user));
-
         OrderService orderService = (OrderService)
                 injector.getInstance(OrderService.class);
         Order order = orderService.completeOrder(shoppingCart);
         orderService.getOrdersHistory(user);
-        System.out.println("Order create:" + order);
+        System.out.println("Order history:" + orderService.getOrdersHistory(user));
+
+        shoppingCartService.clearShoppingCart(shoppingCartService.getByUser(user));
+        System.out.println("Shopping cart after clearing: " + shoppingCartService.getByUser(user));
     }
 }
