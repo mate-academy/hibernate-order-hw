@@ -10,6 +10,8 @@ import jakarta.persistence.JoinTable;
 import jakarta.persistence.ManyToOne;
 import jakarta.persistence.OneToMany;
 import jakarta.persistence.Table;
+import java.time.LocalDateTime;
+import java.time.format.DateTimeFormatter;
 import java.util.List;
 
 @Entity
@@ -28,6 +30,8 @@ public class Order {
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "user_id")
     private User user;
+
+    private LocalDateTime orderDate;
 
     public Long getId() {
         return id;
@@ -59,6 +63,17 @@ public class Order {
                 + "id=" + id
                 + ", tickets=" + tickets
                 + ", user=" + user
-                + '}';
+                + ", date="
+                + orderDate.format(DateTimeFormatter
+                           .ofPattern("yyyy.MM.dd HH:mm"))
+                + " }";
+    }
+
+    public LocalDateTime getOrderDate() {
+        return orderDate;
+    }
+
+    public void setOrderDate(LocalDateTime orderDate) {
+        this.orderDate = orderDate;
     }
 }
