@@ -64,7 +64,8 @@ public class Main {
         yesterdayMovieSession.setShowTime(LocalDateTime.now().minusDays(1L));
 
         MovieSessionService movieSessionService;
-        movieSessionService = (MovieSessionService) injector.getInstance(MovieService.class);
+        movieSessionService = (MovieSessionService) injector
+                .getInstance(MovieServiceImpl.class);
         movieSessionService.add(tomorrowMovieSession);
         movieSessionService.add(yesterdayMovieSession);
 
@@ -73,7 +74,9 @@ public class Main {
                         fastAndFurious.getId(), LocalDate.now()));
 
         // Створення сервісів
-        AuthenticationService authenticationService = new AuthenticationServiceImpl();
+        AuthenticationService authenticationService;
+        authenticationService = (AuthenticationService) injector
+                .getInstance(AuthenticationServiceImpl.class);
         // Реєстрація та авторизація користувача
         User user = authenticationService.register("andriy@gmail.com", "1234");
 
@@ -91,14 +94,17 @@ public class Main {
         shoppingCart.setUser(user);
 
         // Реєстрація нового кошика покупок
-        ShoppingCartService shoppingCartService = new ShoppingCartServiceImpl();
+        ShoppingCartService shoppingCartService;
+        shoppingCartService = (ShoppingCartService) injector
+                .getInstance(ShoppingCartServiceImpl.class);
         shoppingCartService.registerNewShoppingCart(user);
 
         // Додавання сеансу до кошика
         shoppingCartService.addSession(yesterdayMovieSession, user);
 
         // Завершення замовлення
-        OrderService orderService = new OrderServiceImpl();
+        OrderService orderService;
+        orderService = (OrderService) injector.getInstance(OrderServiceImpl.class);
         orderService.completeOrder(shoppingCartService.getByUser(user));
 
         // Отримання історії замовлень
