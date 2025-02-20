@@ -1,5 +1,6 @@
 package mate.academy.model;
 
+import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
@@ -9,7 +10,6 @@ import jakarta.persistence.OneToMany;
 import jakarta.persistence.Table;
 import java.time.LocalDateTime;
 import java.util.List;
-import jdk.jfr.Timestamp;
 
 @Entity
 @Table (name = "orders")
@@ -19,7 +19,7 @@ public class Order {
     private Long id;
     @OneToMany
     private List<Ticket> tickets;
-    @Timestamp
+    @Column
     private LocalDateTime orderDate;
     @ManyToOne
     private User user;

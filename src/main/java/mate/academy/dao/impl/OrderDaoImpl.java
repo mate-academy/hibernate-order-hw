@@ -1,5 +1,6 @@
 package mate.academy.dao.impl;
 
+import java.util.List;
 import mate.academy.dao.OrderDao;
 import mate.academy.lib.Dao;
 import mate.academy.model.Order;
@@ -14,13 +15,13 @@ public class OrderDaoImpl implements OrderDao {
     private final Session session = HibernateUtil.getSessionFactory().openSession();
 
     @Override
-    public Order getByUser(User user) {
+    public List<Order> getByUser(User user) {
         Query<Order> query = session.createQuery(
                 "FROM Order o JOIN FETCH o.tickets "
                         + " WHERE o.user = :user",
                 Order.class);
         query.setParameter("user", user);
-        return query.uniqueResult();
+        return query.getResultList();
     }
 
     @Override

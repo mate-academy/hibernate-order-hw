@@ -23,13 +23,13 @@ public class OrderServiceImpl implements OrderService {
         Order order = new Order();
         order.setUser(user);
         order.setTickets(tickets);
-        order.setOrderDate(LocalDateTime.now().plusDays(1L));
+        order.setOrderDate(LocalDateTime.now());
 
         return orderDao.completeOrder(order);
     }
 
     @Override
     public List<Order> getOrdersHistory(User user) {
-        return List.of(orderDao.getByUser(user));
+        return orderDao.getByUser(user);
     }
 }
