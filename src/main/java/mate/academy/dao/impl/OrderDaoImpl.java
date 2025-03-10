@@ -1,14 +1,16 @@
 package mate.academy.dao.impl;
 
-import java.util.Optional;
+import java.util.List;
 import mate.academy.dao.OrderDao;
 import mate.academy.exception.DataProcessingException;
+import mate.academy.lib.Dao;
 import mate.academy.model.Order;
 import mate.academy.model.User;
 import mate.academy.util.HibernateUtil;
 import org.hibernate.Session;
 import org.hibernate.Transaction;
 
+@Dao
 public class OrderDaoImpl implements OrderDao {
     @Override
     public Order add(Order order) {
@@ -33,13 +35,13 @@ public class OrderDaoImpl implements OrderDao {
     }
 
     @Override
-    public Optional<Order> getByUser(User user) {
+    public List<Order> getByUser(User user) {
         try (Session session = HibernateUtil.getSessionFactory().openSession()) {
             return session.createQuery("FROM Order o " +
                             "LEFT JOIN FETCH o.tickets " +
                             "WHERE o.user = :user", Order.class)
                     .setParameter("user", user)
-                    .uniqueResultOptional();
+                    .getResultList();
         }
     }
 }
