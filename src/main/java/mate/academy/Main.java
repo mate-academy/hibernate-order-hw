@@ -2,21 +2,19 @@ package mate.academy;
 
 import java.time.LocalDate;
 import java.time.LocalDateTime;
-import java.util.List;
 import mate.academy.exception.RegistrationException;
 import mate.academy.lib.Injector;
 import mate.academy.model.CinemaHall;
 import mate.academy.model.Movie;
 import mate.academy.model.MovieSession;
 import mate.academy.model.ShoppingCart;
-import mate.academy.model.Ticket;
 import mate.academy.model.User;
 import mate.academy.security.AuthenticationService;
 import mate.academy.service.CinemaHallService;
 import mate.academy.service.MovieService;
 import mate.academy.service.MovieSessionService;
 import mate.academy.service.OrderService;
-import mate.academy.util.HashUtil;
+import mate.academy.service.ShoppingCartService;
 
 public class Main {
     private static final Injector injector = Injector.getInstance("mate.academy");
@@ -65,28 +63,25 @@ public class Main {
         System.out.println(movieSessionService.findAvailableSessions(
                         fastAndFurious.getId(), LocalDate.now()));
 
-        User bob = new User();
-        bob.setEmail("bob@email.com");
-        bob.setSalt(HashUtil.getSalt());
-        bob.setPassword(HashUtil.hashPassword("test", bob.getSalt()));
-
         AuthenticationService authenticationService = (AuthenticationService)
                 injector.getInstance(AuthenticationService.class);
+        User bob;
         try {
-            authenticationService.register(bob.getEmail(), bob.getPassword());
+            bob = authenticationService.register("test123", "test");
             System.out.println("Successfully registered User: " + bob);
         } catch (RegistrationException e) {
             throw new RuntimeException(e);
         }
 
-        Ticket ticket = new Ticket();
-        ticket.setMovieSession(tomorrowMovieSession);
-        ticket.setUser(bob);
-        ShoppingCart shoppingCart = new ShoppingCart();
-        shoppingCart.setUser(bob);
-        shoppingCart.setTickets(List.of(ticket));
-        OrderService orderService = (OrderService) injector.getInstance(OrderService.class);
-        orderService.completeOrder(shoppingCart);
+        ShoppingCartService shoppingCartService = (ShoppingCartService)
+                injector.getInstance(ShoppingCartService.class);
+        shoppingCartService.addSession(tomorrowMovieSession, bob);
+
+        OrderService orderService = (OrderService)
+                injector.getInstance(OrderService.class);
+
+        ShoppingCart byUser = shoppingCartService.getByUser(bob);
+        orderService.completeOrder(byUser);
         System.out.println("Complete order");
         orderService.getOrdersHistory(bob).forEach(System.out::println);
     }
