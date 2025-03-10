@@ -65,7 +65,6 @@ public class Main {
         System.out.println(movieSessionService.findAvailableSessions(
                         fastAndFurious.getId(), LocalDate.now()));
 
-
         User bob = new User();
         bob.setEmail("bob@email.com");
         bob.setSalt(HashUtil.getSalt());
