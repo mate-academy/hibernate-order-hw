@@ -78,8 +78,9 @@ public class Main {
         } catch (RegistrationException e) {
             throw new RuntimeException(e);
         }
+
         Ticket ticket = new Ticket();
-        ticket.setMovieSession(movieSessionService.get(1L));
+        ticket.setMovieSession(tomorrowMovieSession);
         ticket.setUser(bob);
         ShoppingCart shoppingCart = new ShoppingCart();
         shoppingCart.setUser(bob);
