@@ -23,6 +23,9 @@ public class OrderServiceImpl implements OrderService {
 
     @Override
     public Order completeOrder(ShoppingCart shoppingCart) {
+        if (shoppingCart == null) {
+            throw new RuntimeException("ShoppingCart " + shoppingCart + " is empty");
+        }
         Order order = new Order();
         order.setOrderDate(LocalDateTime.now());
         order.setTickets(new ArrayList<>(shoppingCart.getTickets()));
