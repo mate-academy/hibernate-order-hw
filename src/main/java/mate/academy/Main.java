@@ -84,18 +84,9 @@ public class Main {
         try {
             User login = authenticationService.login(newUser.getEmail(), newUser.getPassword());
             System.out.println(login);
-            shoppingService.addSession(yesterdayMovieSession,
-                    login);
-            System.out.println("======================================");
-            shoppingService.addSession(tomorrowMovieSession,
-                    login);
-            System.out.println("======================================");
-            orderService.completeOrder(shoppingService
-                    .getByUser(login));
-            System.out.println("======================================");
-            shoppingService.clearShoppingCart(shoppingService
-                    .getByUser(login));
-            System.out.println("======================================");
+            shoppingService.addSession(yesterdayMovieSession, login);
+            shoppingService.addSession(tomorrowMovieSession, login);
+            orderService.completeOrder(shoppingService.getByUser(login));
             orderService.getOrdersHistory(login);
         } catch (AuthenticationException e) {
             throw new RuntimeException(e);
