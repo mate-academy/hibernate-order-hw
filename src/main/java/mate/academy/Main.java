@@ -37,7 +37,8 @@ public class Main {
         secondCinemaHall.setCapacity(200);
         secondCinemaHall.setDescription("second hall with capacity 200");
 
-        CinemaHallService cinemaHallService = (CinemaHallService) instance.getInstance(CinemaHallService.class);
+        CinemaHallService cinemaHallService = (
+                CinemaHallService) instance.getInstance(CinemaHallService.class);
         cinemaHallService.add(firstCinemaHall);
         cinemaHallService.add(secondCinemaHall);
 
@@ -54,7 +55,8 @@ public class Main {
         yesterdayMovieSession.setMovie(fastAndFurious);
         yesterdayMovieSession.setShowTime(LocalDateTime.now().minusDays(1L));
 
-        MovieSessionService movieSessionService = (MovieSessionService) instance.getInstance(MovieSessionService.class);
+        MovieSessionService movieSessionService = (
+                MovieSessionService) instance.getInstance(MovieSessionService.class);
         movieSessionService.add(tomorrowMovieSession);
         movieSessionService.add(yesterdayMovieSession);
 
