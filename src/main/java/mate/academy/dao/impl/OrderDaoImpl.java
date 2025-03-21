@@ -12,7 +12,6 @@ import org.hibernate.Transaction;
 import org.hibernate.exception.ConstraintViolationException;
 import org.hibernate.exception.JDBCConnectionException;
 import org.hibernate.query.Query;
-import javax.persistence.NoResultException;
 
 @Dao
 public class OrderDaoImpl implements OrderDao {
@@ -30,12 +29,14 @@ public class OrderDaoImpl implements OrderDao {
             if (transaction != null) {
                 transaction.rollback();
             }
-            throw new DataProcessingException("Database constraint violation while inserting order. Check if all related entities exist: " + order, e);
+            throw new DataProcessingException("Database constraint violation while "
+                    + "inserting order. Check if all related entities exist: " + order, e);
         } catch (JDBCConnectionException e) {
             if (transaction != null) {
                 transaction.rollback();
             }
-            throw new DataProcessingException("Database connection error while inserting order: " + order, e);
+            throw new DataProcessingException("Database connection error while inserting "
+                    + "order: " + order, e);
         } catch (Exception e) {
             if (transaction != null) {
                 transaction.rollback();
@@ -51,7 +52,8 @@ public class OrderDaoImpl implements OrderDao {
     @Override
     public List<Order> getByUser(User user) {
         if (user == null) {
-            throw new DataProcessingException("User cannot be null", new IllegalArgumentException());
+            throw new DataProcessingException("User cannot be null",
+                    new IllegalArgumentException());
         }
         
         try (Session session = HibernateUtil.getSessionFactory().openSession()) {
@@ -65,7 +67,8 @@ public class OrderDaoImpl implements OrderDao {
             query.setParameter("user", user);
             return query.getResultList();
         } catch (JDBCConnectionException e) {
-            throw new DataProcessingException("Database connection error while finding orders for user: " + user, e);
+            throw new DataProcessingException("Database connection error while "
+                    + "finding orders for user: " + user, e);
         } catch (Exception e) {
             throw new DataProcessingException("Can't find orders for user: " + user, e);
         }
@@ -74,7 +77,8 @@ public class OrderDaoImpl implements OrderDao {
     @Override
     public Order get(Long id) {
         if (id == null) {
-            throw new DataProcessingException("Order ID cannot be null", new IllegalArgumentException());
+            throw new DataProcessingException("Order ID cannot be null",
+                    new IllegalArgumentException());
         }
         
         try (Session session = HibernateUtil.getSessionFactory().openSession()) {
@@ -85,11 +89,16 @@ public class OrderDaoImpl implements OrderDao {
                     + "LEFT JOIN FETCH ms.cinemaHall "
                     + "WHERE o.id = :id", Order.class);
             query.setParameter("id", id);
-            return query.getSingleResult();
-        } catch (NoResultException e) {
-            throw new DataProcessingException("Order not found with id: " + id, e);
+
+            List<Order> results = query.getResultList();
+            if (results.isEmpty()) {
+                throw new DataProcessingException("Order not found with id: " + id,
+                        new IllegalStateException());
+            }
+            return results.get(0);
         } catch (JDBCConnectionException e) {
-            throw new DataProcessingException("Database connection error while finding order with id: " + id, e);
+            throw new DataProcessingException("Database connection error while "
+                    + "finding order with id: " + id, e);
         } catch (Exception e) {
             throw new DataProcessingException("Can't find order with id: " + id, e);
         }
