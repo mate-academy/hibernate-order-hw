@@ -3,6 +3,7 @@ package mate.academy.service.impl;
 import java.time.LocalDateTime;
 import java.util.List;
 import mate.academy.dao.OrderDao;
+import mate.academy.exception.DataProcessingException;
 import mate.academy.lib.Inject;
 import mate.academy.lib.Service;
 import mate.academy.model.Order;
@@ -20,6 +21,15 @@ public class OrderServiceImpl implements OrderService {
 
     @Override
     public Order completeOrder(ShoppingCart shoppingCart) {
+        if (shoppingCart == null) {
+            throw new DataProcessingException("Shopping cart cannot be null", 
+                    new IllegalArgumentException());
+        }
+        if (shoppingCart.getTickets() == null || shoppingCart.getTickets().isEmpty()) {
+            throw new DataProcessingException("Cannot complete order with empty shopping cart", 
+                    new IllegalArgumentException());
+        }
+        
         Order order = new Order();
         order.setTickets(List.copyOf(shoppingCart.getTickets()));
         order.setUser(shoppingCart.getUser());
@@ -31,6 +41,10 @@ public class OrderServiceImpl implements OrderService {
 
     @Override
     public List<Order> getOrdersHistory(User user) {
+        if (user == null) {
+            throw new DataProcessingException("User cannot be null when retrieving order history", 
+                    new IllegalArgumentException());
+        }
         return orderDao.getByUser(user);
     }
 }
