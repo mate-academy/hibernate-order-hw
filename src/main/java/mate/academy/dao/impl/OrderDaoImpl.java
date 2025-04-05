@@ -5,6 +5,7 @@ import mate.academy.dao.OrderDao;
 import mate.academy.exception.DataProcessingException;
 import mate.academy.lib.Dao;
 import mate.academy.model.Order;
+import mate.academy.model.Ticket;
 import mate.academy.model.User;
 import mate.academy.util.HibernateUtil;
 import org.hibernate.Session;
@@ -38,16 +39,19 @@ public class OrderDaoImpl implements OrderDao {
     @Override
     public List<Order> getByUser(User user) {
         try (Session session = HibernateUtil.getSessionFactory().openSession()) {
-            Query<Order> query = session.createQuery("FROM Order o "
-                    + "JOIN FETCH o.user u "
-                    + "JOIN FETCH o.tickets t "
-                    + "JOIN FETCH t.movieSession ms "
-                    + "JOIN FETCH ms.movie "
-                    + "JOIN FETCH ms.cinemaHall "
-                    + "WHERE u.id =:user_id", Order.class);
-
+            Query<Order> query =
+                    session.createQuery("FROM Order o WHERE o.user.id = :user_id", Order.class);
             query.setParameter("user_id", user.getId());
-            return query.getResultList();
+            List<Order> orders = query.getResultList();
+            for (Order order : orders) {
+                order.getTickets().size();
+                for (Ticket ticket : order.getTickets()) {
+                    ticket.getMovieSession();
+                    ticket.getMovieSession().getMovie();
+                    ticket.getMovieSession().getCinemaHall();
+                }
+            }
+            return orders;
         } catch (Exception e) {
             throw new DataProcessingException("Can't find orders by user: " + user, e);
         }
