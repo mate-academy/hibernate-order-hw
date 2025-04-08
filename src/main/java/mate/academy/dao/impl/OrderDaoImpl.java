@@ -3,18 +3,21 @@ package mate.academy.dao.impl;
 import java.util.List;
 import mate.academy.dao.OrderDao;
 import mate.academy.exception.DataProcessingException;
+import mate.academy.lib.Dao;
 import mate.academy.model.Order;
-import mate.academy.model.Ticket;
 import mate.academy.model.User;
 import mate.academy.util.HibernateUtil;
 import org.hibernate.Session;
 import org.hibernate.Transaction;
 
+@Dao
 public class OrderDaoImpl implements OrderDao {
     @Override
-    public List<Order> getAll() {
+    public List<Order> getByUser(User user) {
         try (Session session = HibernateUtil.getSessionFactory().openSession()) {
-            return session.createQuery("from Order", Order.class).getResultList();
+            return session.createQuery("from Order o where o.user = :user", Order.class)
+                    .setParameter("user", user)
+                    .getResultList();
         } catch (Exception e) {
             throw new DataProcessingException("Can not get history of orders", e);
         }
@@ -27,10 +30,6 @@ public class OrderDaoImpl implements OrderDao {
         try {
             session = HibernateUtil.getSessionFactory().openSession();
             transaction = session.beginTransaction();
-            User managedUser = session.merge(order.getUser());
-            order.setUser(managedUser);
-            List<Ticket> managedTickets = session.merge(order.getTickets());
-            order.setTickets(managedTickets);
             session.persist(order);
             transaction.commit();
             return order;
