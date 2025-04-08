@@ -6,7 +6,6 @@ import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
 import jakarta.persistence.JoinColumn;
 import jakarta.persistence.ManyToOne;
-import jakarta.persistence.MapsId;
 import jakarta.persistence.OneToMany;
 import jakarta.persistence.Table;
 import java.time.LocalDateTime;
@@ -23,12 +22,10 @@ public class Order {
     private LocalDateTime orderDate;
 
     @ManyToOne
-    @MapsId
     @JoinColumn(name = "user_id")
     private User user;
 
     @OneToMany
-    @MapsId
     @JoinColumn(name = "tickets_id")
     private List<Ticket> tickets;
 
