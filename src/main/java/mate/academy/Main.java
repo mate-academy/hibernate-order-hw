@@ -5,24 +5,32 @@ import java.time.LocalDateTime;
 import mate.academy.lib.Injector;
 import mate.academy.model.CinemaHall;
 import mate.academy.model.Movie;
+import mate.academy.model.MovieSession;
 import mate.academy.model.ShoppingCart;
 import mate.academy.model.User;
-import mate.academy.model.MovieSession;
 import mate.academy.service.CinemaHallService;
 import mate.academy.service.MovieService;
 import mate.academy.service.MovieSessionService;
 import mate.academy.service.OrderService;
+import mate.academy.service.ShoppingCartService;
+import mate.academy.util.HashUtil;
 
 public class Main {
     private static final Injector injector = Injector.getInstance("mate.academy");
 
     public static void main(String[] args) {
-        OrderService orderService = (OrderService) injector.getInstance(OrderService.class);
         User user = new User();
+        user.setPassword("123");
+        user.setEmail("nikolya.cr@gmail.com");
+        user.setSalt(HashUtil.getSalt());
         ShoppingCart shoppingCart = new ShoppingCart();
         shoppingCart.setUser(user);
-        orderService.completeOrder(shoppingCart);
-        orderService.getOrdersHistory(user);
+        OrderService orderService = (OrderService) injector.getInstance(OrderService.class);
+        System.out.println(orderService.completeOrder(shoppingCart));
+        System.out.println(orderService.getOrdersHistory(user));
+        ShoppingCartService shoppingCartService =
+                (ShoppingCartService) injector.getInstance(ShoppingCartService.class);
+        System.out.println(shoppingCartService.getByUser(user));
         MovieService movieService = null;
 
         Movie fastAndFurious = new Movie("Fast and Furious");
