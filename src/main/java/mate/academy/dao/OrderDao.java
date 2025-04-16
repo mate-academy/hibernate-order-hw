@@ -7,7 +7,7 @@ import mate.academy.model.User;
 
 public interface OrderDao {
 
-    Order completeOrder(ShoppingCart shoppingCart);
+    Order add(ShoppingCart shoppingCart);
 
     List<Order> getOrdersHistory(User user);
 }

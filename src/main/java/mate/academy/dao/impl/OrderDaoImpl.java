@@ -16,13 +16,13 @@ import org.hibernate.Transaction;
 @Dao
 public class OrderDaoImpl implements OrderDao {
     @Override
-    public Order completeOrder(ShoppingCart shoppingCart) {
+    public Order add(ShoppingCart shoppingCart) {
         Session session = HibernateUtil.getSessionFactory().openSession();
         Transaction transaction = null;
         Order order = new Order();
         try {
             transaction = session.beginTransaction();
-            order.setTickets(shoppingCart.getTickets());
+            order.setTickets(new ArrayList<>(shoppingCart.getTickets()));
             order.setUser(shoppingCart.getUser());
             order.setOrderDate(LocalDateTime.now());
             session.save(order);
@@ -50,8 +50,7 @@ public class OrderDaoImpl implements OrderDao {
                             + " LEFT JOIN FETCH t.movieSession m "
                             + "LEFT JOIN FETCH m.movie mm "
                             + "LEFT JOIN FETCH m.cinemaHall "
-                            + "where o.user = :user",Order.class)
-                    .setParameter("user", user)
+                            + "LEFT JOIN FETCH o.user u ",Order.class)
                     .getResultList();
         }
     }

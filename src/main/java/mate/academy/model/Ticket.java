@@ -18,6 +18,7 @@ public class Ticket {
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "movie_session_id")
     private MovieSession movieSession;
+
     @ManyToOne(fetch = FetchType.LAZY)
     private User user;
 
@@ -48,10 +49,9 @@ public class Ticket {
     @Override
     public String toString() {
         return "Ticket{"
-            + "id=" + id
-            + ", movieSession=" + movieSession
-            + ", user=" + user
-            + '}';
+                + "id=" + id
+                + ", movieSession=" + movieSession
+                + ", user=" + user
+                + '}';
     }
-
 }
