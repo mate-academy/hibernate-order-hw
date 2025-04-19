@@ -70,7 +70,7 @@ public class Main {
                 .getInstance(AuthenticationService.class);
         User user = null;
         try {
-            authenticationService.register(login, password);
+            user = authenticationService.register(login, password);
             user = authenticationService.login(login, password);
         } catch (RegistrationException | AuthenticationException e) {
             throw new RuntimeException("Error while trying to authenticate User with login "
