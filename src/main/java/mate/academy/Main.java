@@ -72,22 +72,22 @@ public class Main {
 
         ShoppingCartService shoppingCartService = (ShoppingCartService) injector
                 .getInstance(ShoppingCartService.class);
-        // Реєстрація нового кошика для користувача
+
         shoppingCartService.registerNewShoppingCart(user);
 
-        // Додаємо сесію в кошик
-        MovieSession movieSession = movieSessionService.get(1L); // приклад
-        shoppingCartService.addSession(movieSession, user);
+        MovieSession movieSession = new MovieSession();
+        movieSession.setCinemaHall(firstCinemaHall);
+        movieSession.setMovie(fastAndFurious);
+        movieSession.setShowTime(LocalDateTime.now().plusDays(1));
+        MovieSession savedSession = movieSessionService.add(movieSession);
 
-        // Отримуємо кошик
+        shoppingCartService.addSession(savedSession, user);
         ShoppingCart cart = shoppingCartService.getByUser(user);
 
-        // Оформлення замовлення
         OrderService orderService = (OrderService) injector.getInstance(OrderService.class);
         Order order = orderService.completeOrder(cart);
         System.out.println("Order completed: " + order);
 
-        // Історія замовлень користувача
         List<Order> orderHistory = orderService.getOrdersHistory(user);
         System.out.println("Order history for user:");
         orderHistory.forEach(System.out::println);
