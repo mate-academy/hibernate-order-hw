@@ -20,11 +20,11 @@ import mate.academy.service.ShoppingCartService;
 public class Main {
     private static final String EMAIL = "bob@gmail.com";
     private static final String PASSWORD = "password";
+    private static final Injector INJECTOR = Injector.getInstance("mate.academy");
 
     public static void main(String[] args) throws RegistrationException, AuthenticationException {
-        Injector injector = Injector.getInstance("mate.academy");
         MovieService movieService =
-                (MovieService) injector.getInstance(MovieService.class);
+                (MovieService) INJECTOR.getInstance(MovieService.class);
 
         Movie fastAndFurious = new Movie("Fast and Furious");
         fastAndFurious.setDescription(
@@ -42,7 +42,7 @@ public class Main {
         secondCinemaHall.setDescription("second hall with capacity 200");
 
         CinemaHallService cinemaHallService =
-                (CinemaHallService) injector.getInstance(CinemaHallService.class);
+                (CinemaHallService) INJECTOR.getInstance(CinemaHallService.class);
 
         cinemaHallService.add(firstCinemaHall);
         cinemaHallService.add(secondCinemaHall);
@@ -61,7 +61,7 @@ public class Main {
         yesterdayMovieSession.setShowTime(LocalDateTime.now().minusDays(1L));
 
         MovieSessionService movieSessionService =
-                (MovieSessionService) injector.getInstance(MovieSessionService.class);
+                (MovieSessionService) INJECTOR.getInstance(MovieSessionService.class);
         movieSessionService.add(tomorrowMovieSession);
         movieSessionService.add(yesterdayMovieSession);
 
@@ -70,13 +70,13 @@ public class Main {
                 fastAndFurious.getId(), LocalDate.now()));
 
         AuthenticationService authenticationService =
-                (AuthenticationService) injector.getInstance(AuthenticationService.class);
+                (AuthenticationService) INJECTOR.getInstance(AuthenticationService.class);
         User bob = authenticationService.register(EMAIL, PASSWORD);
 
         System.out.println(authenticationService.login(EMAIL, PASSWORD));
 
         ShoppingCartService shoppingCartService = (ShoppingCartService)
-                injector.getInstance(ShoppingCartService.class);
+                INJECTOR.getInstance(ShoppingCartService.class);
 
         shoppingCartService.addSession(tomorrowMovieSession,bob);
 
@@ -84,7 +84,7 @@ public class Main {
         System.out.println(byUser);
 
         OrderService orderService =
-                (OrderService) injector.getInstance(OrderService.class);
+                (OrderService) INJECTOR.getInstance(OrderService.class);
         orderService.completeOrder(byUser);
         System.out.println(orderService.getOrdersHistory(bob));
     }
