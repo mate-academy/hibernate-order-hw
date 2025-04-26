@@ -27,6 +27,9 @@ public class Order {
     private List<Ticket> tickets;
     private LocalDateTime orderDate;
 
+    @JoinTable(name = "orders_user",
+            joinColumns = @JoinColumn(name = "order_id"),
+            inverseJoinColumns = @JoinColumn(name = "user_id"))
     @ManyToOne(fetch = FetchType.LAZY)
     private User user;
 
