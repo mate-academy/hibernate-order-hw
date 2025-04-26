@@ -1,0 +1,20 @@
+<!DOCTYPE hibernate-configuration PUBLIC
+        "-//Hibernate/Hibernate Configuration DTD 3.0//EN"
+        "http://hibernate.sourceforge.net/hibernate-configuration-3.0.dtd">
+<hibernate-configuration>
+    <session-factory>
+        <property name="hibernate.connection.driver_class">com.mysql.cj.jdbc.Driver</property>
+        <property name="hibernate.connection.url">jdbc:mysql://localhost:3306/test_db</property>
+        <property name="hibernate.connection.username">root</property>
+        <property name="hibernate.connection.password">Qq123456</property>
+        <property name="hibernate.hbm2ddl.auto">create-drop</property>
+
+        <mapping class="mate.academy.model.Order"/>
+        <mapping class="mate.academy.model.Ticket"/>
+        <mapping class="mate.academy.model.User"/>
+        <mapping class="mate.academy.model.ShoppingCart"/>
+        <mapping class="mate.academy.model.MovieSession"/>
+        <mapping class="mate.academy.model.Movie"/>
+        <mapping class="mate.academy.model.CinemaHall"/>
+    </session-factory>
+</hibernate-configuration>
