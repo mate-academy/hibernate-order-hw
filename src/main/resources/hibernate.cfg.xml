@@ -1,0 +1,32 @@
+<?xml version='1.0' encoding='utf-8'?>
+<!DOCTYPE hibernate-configuration PUBLIC
+        "-//Hibernate/Hibernate Configuration DTD 3.0//EN"
+        "http://hibernate.org/dtd/hibernate-configuration-3.0.dtd">
+<hibernate-configuration>
+    <session-factory>
+        <!-- Dialect dla MySQL -->
+        <property name="hibernate.dialect">org.hibernate.dialect.MySQLDialect</property>
+
+        <!-- Dane połączeniowe -->
+        <property name="hibernate.connection.driver_class">com.mysql.cj.jdbc.Driver</property>
+        <property name="hibernate.connection.url">jdbc:mysql://localhost:3306/cinema?serverTimezone=UTC</property>
+        <property name="hibernate.connection.username">root</property>
+        <property name="hibernate.connection.password">root</property>
+
+        <!-- Pokazuj generowane SQL na konsoli -->
+        <property name="hibernate.show_sql">true</property>
+        <property name="hibernate.format_sql">true</property>
+
+        <!-- Automatyczne aktualizowanie schematu przy starcie (w dewelopmencie) -->
+        <property name="hibernate.hbm2ddl.auto">update</property>
+
+        <!-- Mapowania klas -->
+        <mapping class="mate.academy.model.CinemaHall"/>
+        <mapping class="mate.academy.model.Movie"/>
+        <mapping class="mate.academy.model.MovieSession"/>
+        <mapping class="mate.academy.model.ShoppingCart"/>
+        <mapping class="mate.academy.model.Ticket"/>
+        <mapping class="mate.academy.model.User"/>
+        <mapping class="mate.academy.model.Order"/>
+    </session-factory>
+</hibernate-configuration>

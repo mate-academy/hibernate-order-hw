@@ -6,6 +6,7 @@ import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
 import jakarta.persistence.Table;
+import jakarta.persistence.Transient;
 
 @Entity
 @Table(name = "users")
@@ -13,10 +14,21 @@ public class User {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
-    @Column(unique = true)
+
+    @Column(unique = true, nullable = false)
     private String email;
+
+    @Transient
     private String password;
+
+    @Column(name = "password_hash", nullable = false)
+    private String passwordHash;
+
+    @Column(nullable = false)
     private byte[] salt;
+
+    public User() {
+    }
 
     public Long getId() {
         return id;
@@ -42,6 +54,14 @@ public class User {
         this.password = password;
     }
 
+    public String getPasswordHash() {
+        return passwordHash;
+    }
+
+    public void setPasswordHash(String passwordHash) {
+        this.passwordHash = passwordHash;
+    }
+
     public byte[] getSalt() {
         return salt;
     }
@@ -53,8 +73,8 @@ public class User {
     @Override
     public String toString() {
         return "User{"
-            + "id=" + id
-            + ", email='" + email + '\''
-            + '}';
+                + "id=" + id
+                + ", email='" + email + '\''
+                + '}';
     }
 }
