@@ -19,6 +19,10 @@ public class ShoppingCartDaoImpl implements ShoppingCartDao {
         try {
             session = HibernateUtil.getSessionFactory().openSession();
             transaction = session.beginTransaction();
+            ShoppingCart existingCart = getByUser(shoppingCart.getUser());
+            if (existingCart != null) {
+                return existingCart;
+            }
             User managedUser = session.merge(shoppingCart.getUser());
             shoppingCart.setUser(managedUser);
             session.persist(shoppingCart);
