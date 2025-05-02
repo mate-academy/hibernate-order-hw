@@ -19,7 +19,7 @@ public class Order {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private long id;
-    @OneToMany(mappedBy = "order")
+    @OneToMany
     @JoinTable(
             name = "orders_tickets",
             joinColumns = @JoinColumn(name = "order_id"),

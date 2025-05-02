@@ -1,6 +1,5 @@
 package mate.academy.dao.impl;
 
-import jakarta.persistence.Query;
 import java.util.List;
 import mate.academy.dao.OrderDao;
 import mate.academy.exception.DataProcessingException;
@@ -10,6 +9,7 @@ import mate.academy.model.User;
 import mate.academy.util.HibernateUtil;
 import org.hibernate.Session;
 import org.hibernate.Transaction;
+import org.hibernate.query.Query;
 
 @Dao
 public class OrderDaoImpl implements OrderDao {
