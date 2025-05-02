@@ -2,16 +2,24 @@ package mate.academy;
 
 import java.time.LocalDate;
 import java.time.LocalDateTime;
+import java.util.ArrayList;
+import java.util.List;
+import mate.academy.lib.Injector;
 import mate.academy.model.CinemaHall;
 import mate.academy.model.Movie;
 import mate.academy.model.MovieSession;
+import mate.academy.model.ShoppingCart;
+import mate.academy.model.Ticket;
+import mate.academy.model.User;
 import mate.academy.service.CinemaHallService;
 import mate.academy.service.MovieService;
 import mate.academy.service.MovieSessionService;
+import mate.academy.service.OrderService;
 
 public class Main {
     public static void main(String[] args) {
-        MovieService movieService = null;
+        Injector injector = Injector.getInstance("mate.academy");
+        MovieService movieService = (MovieService) injector.getInstance(MovieService.class);
 
         Movie fastAndFurious = new Movie("Fast and Furious");
         fastAndFurious.setDescription("An action film about street racing, heists, and spies.");
@@ -51,5 +59,19 @@ public class Main {
         System.out.println(movieSessionService.get(yesterdayMovieSession.getId()));
         System.out.println(movieSessionService.findAvailableSessions(
                         fastAndFurious.getId(), LocalDate.now()));
+        User user = new User();
+        user.setPassword("password");
+        user.setEmail("email@email.com");
+        Ticket ticket = new Ticket();
+        ticket.setMovieSession(tomorrowMovieSession);
+        ticket.setUser(user);
+        List<Ticket> ticketList = new ArrayList<>();
+        ticketList.add(ticket);
+        ShoppingCart shoppingCart = new ShoppingCart();
+        shoppingCart.setUser(user);
+        shoppingCart.setTickets(ticketList);
+        OrderService orderService = (OrderService) injector.getInstance(OrderService.class);
+        orderService.completeOrder(shoppingCart);
+        orderService.getOrdersHistory(user);
     }
 }

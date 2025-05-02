@@ -13,9 +13,11 @@
             List<Order> getOrdersHistory(User user);
         }
         ``` 
-- In the `mate/academy/Main.main()` method create an instance of OrderService using injector and test all methods from it.   
+- In the `mate/academy/Main.main()` method create an instance of OrderService using injector 
+- and test all methods from it.   
 
-__Attention!!!__: you can have some problems with the naming of the table. Let's use `orders` instead of `order`.
+__Attention!!!__: you can have some problems with the naming of the table. Let's use `orders` 
+instead of `order`.
 
 __You can check yourself using this__ [checklist](./checklist.md)
 
