@@ -25,6 +25,14 @@ public class ShoppingCart {
     @JoinColumn(name = "id")
     private User user;
 
+    public ShoppingCart() {
+    }
+
+    public ShoppingCart(List<Ticket> tickets, User user) {
+        this.tickets = tickets;
+        this.user = user;
+    }
+
     public Long getId() {
         return id;
     }
@@ -52,9 +60,9 @@ public class ShoppingCart {
     @Override
     public String toString() {
         return "ShoppingCart{"
-            + "id=" + id
-            + ", tickets=" + tickets
-            + ", user=" + user
-            + '}';
+                + "id=" + id
+                + ", tickets=" + tickets
+                + ", user=" + user
+                + '}';
     }
 }
