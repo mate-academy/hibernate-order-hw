@@ -1,55 +1,97 @@
 package mate.academy;
 
-import java.time.LocalDate;
 import java.time.LocalDateTime;
+import java.util.ArrayList;
+import java.util.List;
+import mate.academy.dao.TicketDao;
+import mate.academy.lib.Injector;
 import mate.academy.model.CinemaHall;
 import mate.academy.model.Movie;
 import mate.academy.model.MovieSession;
+import mate.academy.model.Order;
+import mate.academy.model.ShoppingCart;
+import mate.academy.model.Ticket;
+import mate.academy.model.User;
 import mate.academy.service.CinemaHallService;
 import mate.academy.service.MovieService;
 import mate.academy.service.MovieSessionService;
+import mate.academy.service.OrderService;
+import mate.academy.service.ShoppingCartService;
+import mate.academy.service.UserService;
 
 public class Main {
+    private static final Injector injector = Injector.getInstance("mate.academy");
+    private static final OrderService orderService =
+            (OrderService) injector.getInstance(OrderService.class);
+    private static final ShoppingCartService shoppingCartService =
+            (ShoppingCartService) injector.getInstance(ShoppingCartService.class);
+    private static final CinemaHallService cinemaHallService =
+            (CinemaHallService) injector.getInstance(CinemaHallService.class);
+    private static final MovieService movieService =
+            (MovieService) injector.getInstance(MovieService.class);
+    private static final MovieSessionService movieSessionService =
+            (MovieSessionService) injector.getInstance(MovieSessionService.class);
+    private static final UserService userService =
+            (UserService) injector.getInstance(UserService.class);
+    private static final TicketDao ticketDao =
+            (TicketDao) injector.getInstance(TicketDao.class);
+
     public static void main(String[] args) {
-        MovieService movieService = null;
+        CinemaHall cinemaHall1 = new CinemaHall();
+        cinemaHall1.setCapacity(100);
+        cinemaHall1.setDescription("Hall 1");
 
-        Movie fastAndFurious = new Movie("Fast and Furious");
-        fastAndFurious.setDescription("An action film about street racing, heists, and spies.");
-        movieService.add(fastAndFurious);
-        System.out.println(movieService.get(fastAndFurious.getId()));
-        movieService.getAll().forEach(System.out::println);
+        CinemaHall cinemaHall2 = new CinemaHall();
+        cinemaHall2.setCapacity(200);
+        cinemaHall2.setDescription("Hall 2");
 
-        CinemaHall firstCinemaHall = new CinemaHall();
-        firstCinemaHall.setCapacity(100);
-        firstCinemaHall.setDescription("first hall with capacity 100");
+        cinemaHallService.add(cinemaHall1);
+        cinemaHallService.add(cinemaHall2);
 
-        CinemaHall secondCinemaHall = new CinemaHall();
-        secondCinemaHall.setCapacity(200);
-        secondCinemaHall.setDescription("second hall with capacity 200");
+        Movie movie1 = new Movie("Cool guy 1");
+        Movie movie2 = new Movie("Cool guy 2");
 
-        CinemaHallService cinemaHallService = null;
-        cinemaHallService.add(firstCinemaHall);
-        cinemaHallService.add(secondCinemaHall);
+        movieService.add(movie1);
+        movieService.add(movie2);
 
-        System.out.println(cinemaHallService.getAll());
-        System.out.println(cinemaHallService.get(firstCinemaHall.getId()));
+        MovieSession movieSession1 = new MovieSession();
+        movieSession1.setMovie(movie1);
+        movieSession1.setCinemaHall(cinemaHall1);
+        movieSession1.setShowTime(LocalDateTime.now());
 
-        MovieSession tomorrowMovieSession = new MovieSession();
-        tomorrowMovieSession.setCinemaHall(firstCinemaHall);
-        tomorrowMovieSession.setMovie(fastAndFurious);
-        tomorrowMovieSession.setShowTime(LocalDateTime.now().plusDays(1L));
+        MovieSession movieSession2 = new MovieSession();
+        movieSession2.setMovie(movie2);
+        movieSession2.setCinemaHall(cinemaHall2);
+        movieSession2.setShowTime(LocalDateTime.now().plusDays(1));
 
-        MovieSession yesterdayMovieSession = new MovieSession();
-        yesterdayMovieSession.setCinemaHall(firstCinemaHall);
-        yesterdayMovieSession.setMovie(fastAndFurious);
-        yesterdayMovieSession.setShowTime(LocalDateTime.now().minusDays(1L));
+        movieSessionService.add(movieSession1);
+        movieSessionService.add(movieSession2);
 
-        MovieSessionService movieSessionService = null;
-        movieSessionService.add(tomorrowMovieSession);
-        movieSessionService.add(yesterdayMovieSession);
+        User user = new User();
+        user.setEmail("derek@gmail.com");
+        user.setPassword("1234");
 
-        System.out.println(movieSessionService.get(yesterdayMovieSession.getId()));
-        System.out.println(movieSessionService.findAvailableSessions(
-                        fastAndFurious.getId(), LocalDate.now()));
+        userService.add(user);
+
+        Ticket ticket1 = new Ticket();
+        ticket1.setMovieSession(movieSession1);
+        ticket1.setUser(user);
+
+        Ticket ticket2 = new Ticket();
+        ticket2.setMovieSession(movieSession2);
+        ticket2.setUser(user);
+
+        ticketDao.add(ticket1);
+        ticketDao.add(ticket2);
+
+        ShoppingCart shoppingCart = new ShoppingCart();
+        shoppingCart.setUser(user);
+        shoppingCart.setTickets(new ArrayList<>(List.of(ticket1, ticket2)));
+
+        Order order = orderService.completeOrder(shoppingCart);
+        System.out.println("Completed order: " + order);
+
+        List<Order> orders = orderService.getOrdersHistory(user);
+        orders.forEach(System.out::println);
     }
 }
