@@ -10,7 +10,11 @@ import jakarta.persistence.JoinColumn;
 import jakarta.persistence.ManyToOne;
 import jakarta.persistence.Table;
 import java.time.LocalDateTime;
+import lombok.Getter;
+import lombok.Setter;
 
+@Getter
+@Setter
 @Entity
 @Table(name = "movie_sessions")
 public class MovieSession {
@@ -24,38 +28,6 @@ public class MovieSession {
     private CinemaHall cinemaHall;
     @Column(name = "show_time")
     private LocalDateTime showTime;
-
-    public Long getId() {
-        return id;
-    }
-
-    public void setId(Long id) {
-        this.id = id;
-    }
-
-    public Movie getMovie() {
-        return movie;
-    }
-
-    public void setMovie(Movie movie) {
-        this.movie = movie;
-    }
-
-    public CinemaHall getCinemaHall() {
-        return cinemaHall;
-    }
-
-    public void setCinemaHall(CinemaHall cinemaHall) {
-        this.cinemaHall = cinemaHall;
-    }
-
-    public LocalDateTime getShowTime() {
-        return showTime;
-    }
-
-    public void setShowTime(LocalDateTime showTime) {
-        this.showTime = showTime;
-    }
 
     @Override
     public String toString() {
