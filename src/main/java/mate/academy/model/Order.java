@@ -1,31 +1,30 @@
 package mate.academy.model;
 
+import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
+import jakarta.persistence.GeneratedValue;
+import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
-import jakarta.persistence.JoinColumn;
-import jakarta.persistence.JoinTable;
-import jakarta.persistence.MapsId;
+import jakarta.persistence.ManyToOne;
 import jakarta.persistence.OneToMany;
-import jakarta.persistence.OneToOne;
 import jakarta.persistence.Table;
+import java.time.LocalDateTime;
 import java.util.List;
 
 @Entity
-@Table (name = "shopping_carts")
-public class ShoppingCart {
+@Table (name = "orders")
+public class Order {
     @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
     @OneToMany
-    @JoinTable(name = "shopping_carts_tickets",
-            joinColumns = @JoinColumn(name = "shopping_cart_id"),
-            inverseJoinColumns = @JoinColumn(name = "ticket_id"))
     private List<Ticket> tickets;
-    @OneToOne
-    @MapsId
-    @JoinColumn(name = "id")
+    @Column
+    private LocalDateTime orderDate;
+    @ManyToOne
     private User user;
 
-    public ShoppingCart() {
+    public Order() {
     }
 
     public Long getId() {
@@ -44,6 +43,14 @@ public class ShoppingCart {
         this.tickets = tickets;
     }
 
+    public LocalDateTime getOrderDate() {
+        return orderDate;
+    }
+
+    public void setOrderDate(LocalDateTime orderDate) {
+        this.orderDate = orderDate;
+    }
+
     public User getUser() {
         return user;
     }
@@ -54,10 +61,10 @@ public class ShoppingCart {
 
     @Override
     public String toString() {
-        return "ShoppingCart{"
-            + "id=" + id
-            + ", tickets=" + tickets
-            + ", user=" + user
-            + '}';
+        return "Order{"
+                + "id=" + id
+                + ", tickets=" + tickets
+                + ", orderDate=" + orderDate
+                + ", user=" + user + '}';
     }
 }
