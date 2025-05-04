@@ -19,5 +19,6 @@ __Attention!!!__: you can have some problems with the naming of the table. Let's
 
 __You can check yourself using this__ [checklist](./checklist.md)
 
-### Model structure 
+### Model structure
+
 ![pic](Hibernate_Cinema_Uml.png)
