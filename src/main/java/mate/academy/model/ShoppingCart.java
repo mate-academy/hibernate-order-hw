@@ -1,6 +1,8 @@
 package mate.academy.model;
 
 import jakarta.persistence.Entity;
+import jakarta.persistence.GeneratedValue;
+import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
 import jakarta.persistence.JoinColumn;
 import jakarta.persistence.JoinTable;
@@ -14,6 +16,7 @@ import java.util.List;
 @Table (name = "shopping_carts")
 public class ShoppingCart {
     @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
     @OneToMany
     @JoinTable(name = "shopping_carts_tickets",
@@ -22,7 +25,7 @@ public class ShoppingCart {
     private List<Ticket> tickets;
     @OneToOne
     @MapsId
-    @JoinColumn(name = "id")
+    @JoinColumn(name = "user_id")
     private User user;
 
     public Long getId() {
