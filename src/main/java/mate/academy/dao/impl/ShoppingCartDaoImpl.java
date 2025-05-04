@@ -19,8 +19,6 @@ public class ShoppingCartDaoImpl implements ShoppingCartDao {
         try {
             session = HibernateUtil.getSessionFactory().openSession();
             transaction = session.beginTransaction();
-            User managedUser = session.merge(shoppingCart.getUser());
-            shoppingCart.setUser(managedUser);
             session.persist(shoppingCart);
             transaction.commit();
             return shoppingCart;
@@ -28,7 +26,8 @@ public class ShoppingCartDaoImpl implements ShoppingCartDao {
             if (transaction != null) {
                 transaction.rollback();
             }
-            throw new DataProcessingException("Can't insert a shopping cart: " + shoppingCart, e);
+            throw new DataProcessingException("Can't insert to DB shopping cart: "
+                    + shoppingCart, e);
         } finally {
             if (session != null) {
                 session.close();
