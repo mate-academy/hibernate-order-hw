@@ -12,7 +12,7 @@ import java.util.List;
 import java.util.Map;
 
 public class Injector {
-    private static final Map<String, Injector> injectors = new HashMap<>();
+    private static final Map<String, Injector> INJECTORS = new HashMap<>();
     private final Map<Class<?>, Object> instanceOfClasses = new HashMap<>();
     private final List<Class<?>> classes = new ArrayList<>();
 
@@ -25,11 +25,11 @@ public class Injector {
     }
 
     public static Injector getInstance(String mainPackageName) {
-        if (injectors.containsKey(mainPackageName)) {
-            return injectors.get(mainPackageName);
+        if (INJECTORS.containsKey(mainPackageName)) {
+            return INJECTORS.get(mainPackageName);
         }
         Injector injector = new Injector(mainPackageName);
-        injectors.put(mainPackageName, injector);
+        INJECTORS.put(mainPackageName, injector);
         return injector;
     }
 
