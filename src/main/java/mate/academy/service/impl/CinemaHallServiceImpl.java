@@ -19,11 +19,24 @@ public class CinemaHallServiceImpl implements CinemaHallService {
 
     @Override
     public CinemaHall get(Long id) {
-        return cinemaHallDao.get(id).get();
+        return cinemaHallDao.get(id).orElseThrow(
+                () -> new RuntimeException("Cinema Hall with id " + id + " not found"));
     }
 
     @Override
     public List<CinemaHall> getAll() {
         return cinemaHallDao.getAll();
+    }
+
+    @Override
+    public boolean update(CinemaHall cinemaHall) {
+        CinemaHall currentCinemaHall = get(cinemaHall.getId());
+        cinemaHallDao.update(cinemaHall);
+        return currentCinemaHall.equals(get(cinemaHall.getId()));
+    }
+
+    @Override
+    public boolean delete(Long id) {
+        return cinemaHallDao.delete(id);
     }
 }

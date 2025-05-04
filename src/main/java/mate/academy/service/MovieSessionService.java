@@ -5,9 +5,13 @@ import java.util.List;
 import mate.academy.model.MovieSession;
 
 public interface MovieSessionService {
-    List<MovieSession> findAvailableSessions(Long movieId, LocalDate date);
+    MovieSession add(MovieSession movieSession);
 
     MovieSession get(Long id);
 
-    MovieSession add(MovieSession session);
+    List<MovieSession> findAvailableSessions(Long movieId, LocalDate date);
+
+    boolean update(MovieSession movieSession);
+
+    boolean delete(Long id);
 }

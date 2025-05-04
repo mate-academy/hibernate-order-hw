@@ -5,9 +5,10 @@ import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
 import jakarta.persistence.Table;
+import java.util.Objects;
 
 @Entity
-@Table(name = "cinema_halls")
+@Table(name = "CinemaHalls")
 public class CinemaHall {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -19,24 +20,27 @@ public class CinemaHall {
         return id;
     }
 
-    public void setId(Long id) {
+    public CinemaHall setId(Long id) {
         this.id = id;
+        return this;
     }
 
     public int getCapacity() {
         return capacity;
     }
 
-    public void setCapacity(int capacity) {
+    public CinemaHall setCapacity(int capacity) {
         this.capacity = capacity;
+        return this;
     }
 
     public String getDescription() {
         return description;
     }
 
-    public void setDescription(String description) {
+    public CinemaHall setDescription(String description) {
         this.description = description;
+        return this;
     }
 
     @Override
@@ -44,7 +48,24 @@ public class CinemaHall {
         return "CinemaHall{"
                 + "id=" + id
                 + ", capacity=" + capacity
-                + ", description='" + description + '\''
+                + ", description='"
+                + description + '\''
                 + '}';
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (o == null || getClass() != o.getClass()) {
+            return false;
+        }
+        CinemaHall that = (CinemaHall) o;
+        return capacity == that.capacity
+                && Objects.equals(id, that.id)
+                && Objects.equals(description, that.description);
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(id, capacity, description);
     }
 }

@@ -1,8 +1,8 @@
 package mate.academy.service.impl;
 
-import java.util.ArrayList;
 import mate.academy.dao.ShoppingCartDao;
 import mate.academy.dao.TicketDao;
+import mate.academy.dao.UserDao;
 import mate.academy.lib.Inject;
 import mate.academy.lib.Service;
 import mate.academy.model.MovieSession;
@@ -17,33 +17,43 @@ public class ShoppingCartServiceImpl implements ShoppingCartService {
     private ShoppingCartDao shoppingCartDao;
     @Inject
     private TicketDao ticketDao;
+    @Inject
+    private UserDao userDao;
 
     @Override
     public void addSession(MovieSession movieSession, User user) {
-        Ticket newTicket = new Ticket();
-        newTicket.setUser(user);
-        newTicket.setMovieSession(movieSession);
-
-        ShoppingCart shoppingCart = shoppingCartDao.getByUser(user);
-        shoppingCart.getTickets().add(ticketDao.add(newTicket));
+        Ticket ticket = new Ticket();
+        ticket.setUser(user);
+        ticket.setMovieSession(movieSession);
+        ticketDao.add(ticket);
+        ShoppingCart shoppingCart = getByUser(user);
+        shoppingCart.getTickets().add(ticket);
         shoppingCartDao.update(shoppingCart);
     }
 
     @Override
     public ShoppingCart getByUser(User user) {
-        return shoppingCartDao.getByUser(user);
+        return shoppingCartDao.getByUser(user).orElseThrow(
+                () -> new RuntimeException("ShoppingCart with id " + user.getId() + " not found")
+        );
     }
 
     @Override
     public void registerNewShoppingCart(User user) {
+        if (userDao.get(user.getEmail()).isEmpty()) {
+            throw new RuntimeException("There is no user: " + user);
+        }
+        if (shoppingCartDao.getByUser(user).isPresent()) {
+            throw new RuntimeException("ShoppingCart already exists: " + user);
+        }
         ShoppingCart shoppingCart = new ShoppingCart();
         shoppingCart.setUser(user);
         shoppingCartDao.add(shoppingCart);
     }
 
     @Override
-    public void clearShoppingCart(ShoppingCart cart) {
-        cart.setTickets(new ArrayList<>());
-        shoppingCartDao.update(cart);
+    public void clear(ShoppingCart shoppingCart) {
+        shoppingCart.getTickets().clear();
+        shoppingCartDao.update(shoppingCart);
     }
 }
