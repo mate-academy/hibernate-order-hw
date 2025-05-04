@@ -1,0 +1,42 @@
+databaseChangeLog:
+  - changeSet:
+      id: create-orders-table
+      author: bw
+      changes:
+        - createTable:
+            tableName: orders
+            columns:
+              - column:
+                  name: id
+                  type: bigint
+                  autoIncrement: true
+                  constraints:
+                    primaryKey: true
+                    nullable: false
+              - column:
+                  name: orders_date
+                  type: datetime
+                  constraints:
+                    nullable: false
+              - column:
+                  name: tickets_id
+                  type: bigint
+                  constraints:
+                    nullable: false
+              - column:
+                  name: users_id
+                  type: bigint
+                  constraints:
+                    nullable: false
+        - addForeignKeyConstraint:
+            baseTableName: orders
+            baseColumnNames: tickets_id
+            constraintName: fk_orders_tickets
+            referencedTableName: tickets
+            referencedColumnNames: id
+        - addForeignKeyConstraint:
+            baseTableName: orders
+            baseColumnNames: users_id
+            constraintName: fk_orders_users
+            referencedTableName: users
+            referencedColumnNames: id

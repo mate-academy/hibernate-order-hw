@@ -1,0 +1,37 @@
+databaseChangeLog:
+  - changeSet:
+      id: create-ticket-table
+      author: bw
+      changes:
+        - createTable:
+            tableName: tickets
+            columns:
+              - column:
+                  name: id
+                  type: bigint
+                  autoIncrement: true
+                  constraints:
+                    primaryKey: true
+                    nullable: false
+              - column:
+                  name: movieSession_id
+                  type: bigint
+                  constraints:
+                    nullable: false
+              - column:
+                  name: users_id
+                  type: bigint
+                  constraints:
+                    nullable: false
+        - addForeignKeyConstraint:
+            baseTableName: tickets
+            baseColumnNames: movieSession_id
+            constraintName: fk_tickets_movie_session
+            referencedTableName: movie_sessions
+            referencedColumnNames: id
+        - addForeignKeyConstraint:
+            baseTableName: tickets
+            baseColumnNames: users_id
+            constraintName: fk_tickets_users
+            referencedTableName: users
+            referencedColumnNames: id
