@@ -50,8 +50,8 @@ public class Main {
         yesterdayMovieSession.setMovie(fastAndFurious);
         yesterdayMovieSession.setShowTime(LocalDateTime.now().minusDays(1L));
 
-        MovieSessionService mss
-                = (MovieSessionService) injector.getInstance(MovieSessionService.class);
+        MovieSessionService mss = (MovieSessionService) injector
+                .getInstance(MovieSessionService.class);
         mss.add(tomorrowMovieSession);
         mss.add(yesterdayMovieSession);
 
@@ -66,15 +66,15 @@ public class Main {
         UserService us = (UserService) injector.getInstance(UserService.class);
         us.add(user);
 
-        ShoppingCartService shoppingCartService
-                = (ShoppingCartService) injector.getInstance(ShoppingCartService.class);
-        shoppingCartService.registerNewShoppingCart(user);
-        shoppingCartService.addSession(tomorrowMovieSession, user);
-        shoppingCartService.addSession(yesterdayMovieSession, user);
+        ShoppingCartService scs = (ShoppingCartService) injector
+                .getInstance(ShoppingCartService.class);
+        scs.registerNewShoppingCart(user);
+        scs.addSession(tomorrowMovieSession, user);
+        scs.addSession(yesterdayMovieSession, user);
 
         OrderService os = (OrderService) injector.getInstance(OrderService.class);
 
-        os.completeOrder(shoppingCartService.getByUser(user));
-        os.getOrdersHistory(user);
+        os.completeOrder(scs.getByUser(user));
+        System.out.println(os.getOrdersHistory(user));
     }
 }

@@ -28,7 +28,7 @@ public class OrderServiceImpl implements OrderService {
         order.setUser(shoppingCart.getUser());
         shoppingCartService.clearShoppingCart(shoppingCart);
         orderDao.add(order);
-        return null;
+        return order;
     }
 
     @Override
