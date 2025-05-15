@@ -21,7 +21,7 @@
         <dependency>
             <groupId>org.hibernate</groupId>
             <artifactId>hibernate-core</artifactId>
-            <version>6.2.7.Final</version>
+            <version>6.4.7.Final</version>
         </dependency>
         <dependency>
             <groupId>mysql</groupId>
@@ -34,7 +34,7 @@
             <plugin>
                 <groupId>org.apache.maven.plugins</groupId>
                 <artifactId>maven-checkstyle-plugin</artifactId>
-                <version>3.3.0</version>
+                <version>3.5.0</version>
                 <executions>
                     <execution>
                         <phase>compile</phase>
