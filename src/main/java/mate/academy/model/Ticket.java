@@ -21,6 +21,10 @@ public class Ticket {
     @ManyToOne(fetch = FetchType.LAZY)
     private User user;
 
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "order_id")
+    private Order order;
+
     public Long getId() {
         return id;
     }
@@ -49,8 +53,9 @@ public class Ticket {
     public String toString() {
         return "Ticket{"
             + "id=" + id
-            + ", movieSession=" + movieSession
-            + ", user=" + user
+            + ", movieSession=" + movieSession.getId()
+            + ", user=" + user.getId()
+            + ", order=" + (order != null ? order.getId() : "null")
             + '}';
     }
 
