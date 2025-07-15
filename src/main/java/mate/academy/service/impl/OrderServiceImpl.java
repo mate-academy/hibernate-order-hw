@@ -8,10 +8,10 @@ import mate.academy.lib.Service;
 import mate.academy.model.Order;
 import mate.academy.model.ShoppingCart;
 import mate.academy.model.User;
-import mate.academy.service.OrderServices;
+import mate.academy.service.OrderService;
 
 @Service
-public class OrderServicesImpl implements OrderServices {
+public class OrderServiceImpl implements OrderService {
 
     @Inject
     private OrderDao orderDao;

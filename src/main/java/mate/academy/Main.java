@@ -11,7 +11,7 @@ import mate.academy.model.User;
 import mate.academy.service.CinemaHallService;
 import mate.academy.service.MovieService;
 import mate.academy.service.MovieSessionService;
-import mate.academy.service.OrderServices;
+import mate.academy.service.OrderService;
 import mate.academy.service.ShoppingCartService;
 import mate.academy.service.UserService;
 
@@ -29,8 +29,8 @@ public class Main {
                 = (ShoppingCartService) injector.getInstance(ShoppingCartService.class);
         final UserService userService
                 = (UserService) injector.getInstance(UserService.class);
-        final OrderServices orderServices
-                = (OrderServices) injector.getInstance(OrderServices.class);
+        final OrderService orderServices
+                = (OrderService) injector.getInstance(OrderService.class);
 
         Movie fastAndFurious = new Movie("Fast and Furious");
         fastAndFurious.setDescription("An action film about street racing, heists, and spies.");
