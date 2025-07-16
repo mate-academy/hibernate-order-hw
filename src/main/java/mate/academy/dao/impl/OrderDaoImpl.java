@@ -1,5 +1,6 @@
 package mate.academy.dao.impl;
 
+import java.time.LocalDateTime;
 import java.util.List;
 import mate.academy.dao.OrderDao;
 import mate.academy.exception.DataProcessingException;
@@ -23,6 +24,8 @@ public class OrderDaoImpl implements OrderDao {
             order = new Order();
             transaction = session.beginTransaction();
             order.setTickets(shoppingCart.getTickets());
+            order.setUser(shoppingCart.getUser());
+            order.setOrderDate(LocalDateTime.now());
             session.persist(order);
             transaction.commit();
             return order;
