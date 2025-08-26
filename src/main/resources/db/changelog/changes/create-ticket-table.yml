@@ -1,0 +1,24 @@
+databaseChangeLog:
+  - changeSet:
+      id: create-ticket-table
+      author: petro
+      changes:
+        - createTable:
+            tableName: tickets
+            columns:
+              - column:
+                  name: id
+                  type: BIGINT
+                  autoIncrement: true
+                  constraints:
+                    primaryKey: true
+                    nullable: false
+              - column:
+                  name: movie_session_id
+                  type: BIGINT
+              - column:
+                  name: user_id
+                  type: BIGINT
+              - column:
+                  name: order_id
+                  type: BIGINT

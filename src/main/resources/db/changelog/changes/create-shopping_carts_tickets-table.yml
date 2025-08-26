@@ -1,0 +1,21 @@
+databaseChangeLog:
+  - changeSet:
+      id: create-shopping_carts_tickets-table
+      author: petro
+      changes:
+        - createTable:
+            tableName: shopping_carts_tickets
+            columns:
+              - column:
+                  name: id
+                  type: BIGINT
+                  autoIncrement: true
+                  constraints:
+                    primaryKey: true
+                    nullable: false
+              - column:
+                  name: shopping_cart_id
+                  type: BIGINT
+              - column:
+                  name: ticket_id
+                  type: BIGINT

@@ -1,0 +1,21 @@
+databaseChangeLog:
+  - changeSet:
+      id: create-order-table
+      author: petro
+      changes:
+        - createTable:
+            tableName: orders
+            columns:
+              - column:
+                  name: id
+                  type: BIGINT
+                  autoIncrement: true
+                  constraints:
+                    primaryKey: true
+                    nullable: false
+              - column:
+                  name: orderDate
+                  type: DATETIME
+              - column:
+                  name: user_id
+                  type: BIGINT

@@ -1,0 +1,24 @@
+databaseChangeLog:
+  - changeSet:
+      id: create-movie_Session-table
+      author: petro
+      changes:
+        - createTable:
+            tableName: movie_sessions
+            columns:
+              - column:
+                  name: id
+                  type: BIGINT
+                  autoIncrement: true
+                  constraints:
+                    primaryKey: true
+                    nullable: false
+              - column:
+                  name: movie_id
+                  type: BIGINT
+              - column:
+                  name: cinema_hall_id
+                  type: BIGINT
+              - column:
+                  name: show_time
+                  type: TIMESTAMP
