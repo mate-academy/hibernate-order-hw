@@ -5,6 +5,7 @@ import mate.academy.dao.OrderDao;
 import mate.academy.exception.DataProcessingException;
 import mate.academy.lib.Dao;
 import mate.academy.model.Order;
+import mate.academy.model.User;
 import mate.academy.util.HibernateUtil;
 import org.hibernate.Session;
 import org.hibernate.Transaction;
@@ -46,17 +47,18 @@ public class OrderDaoImpl implements OrderDao {
     }
 
     @Override
-    public List<Order> getByUser(Long userId) {
+    public List<Order> getByUser(User user) {
         try (Session session = HibernateUtil.getSessionFactory().openSession()) {
             List<Order> orderList = session.createQuery(
                             "SELECT o FROM Order o "
                                     + "JOIN FETCH o.user "
+                                    + "JOIN FETCH o.tickets "
                                     + "WHERE o.user.id = :userId", Order.class)
-                    .setParameter("userId", userId)
+                    .setParameter("userId", user.getId())
                     .getResultList();
             return orderList; // повертаємо користувача
         } catch (Exception e) {
-            throw new DataProcessingException("Failed to get user with id: " + userId, e);
+            throw new DataProcessingException("Failed to get user with id: " + user.getId(), e);
         }
     }
 }
