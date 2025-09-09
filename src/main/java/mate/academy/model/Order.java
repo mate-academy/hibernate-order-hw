@@ -24,11 +24,7 @@ public class Order {
     @ManyToOne
     @JoinColumn(name = "user_id")
     private User user;
-    @OneToMany(cascade = CascadeType.ALL)
-    @JoinTable(
-            name = "orders_tickets",
-            joinColumns = @JoinColumn(name = "order_id"),
-            inverseJoinColumns = @JoinColumn(name = "ticket_id"))
+    @OneToMany(mappedBy = "order")
     private List<Ticket> tickets = new ArrayList<Ticket>();
 
     public Long getId() {
