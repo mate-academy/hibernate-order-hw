@@ -12,9 +12,11 @@ public class Order {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
     @OneToMany(cascade = CascadeType.ALL)
+    @JoinColumn(name = "order_id")
     private List<Ticket> tickets;
     private LocalDateTime orderDate;
-    @ManyToOne(cascade = CascadeType.ALL)
+    @ManyToOne(cascade = CascadeType.ALL, fetch = FetchType.LAZY)
+    @JoinColumn(name = "user_id")
     private User user;
 
     public Long getId() {
@@ -53,9 +55,7 @@ public class Order {
     public String toString() {
         return "Order{" +
                 "id=" + id +
-                ", tickets=" + tickets +
                 ", orderDate=" + orderDate +
-                ", user=" + user +
                 '}';
     }
 }
