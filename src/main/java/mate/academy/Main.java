@@ -80,6 +80,5 @@ public class Main {
         OrderService orderService = (OrderService) INJECTOR.getInstance(OrderService.class);
         orderService.completeOrder(cartByUser);
         System.out.println(orderService.getOrdersHistory(igorFromDb));
-        shoppingCartService.clearShoppingCart(cartByUser);
     }
 }
