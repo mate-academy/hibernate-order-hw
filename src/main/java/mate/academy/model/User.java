@@ -6,6 +6,8 @@ import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
 import jakarta.persistence.Table;
+import org.hibernate.annotations.JdbcTypeCode;
+import org.hibernate.type.SqlTypes;
 
 @Entity
 @Table(name = "users")
@@ -13,10 +15,19 @@ public class User {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
-    @Column(unique = true)
+
+    @Column(unique = true, nullable = false)
     private String email;
+
+    @Column(nullable = false)
     private String password;
+
+    @JdbcTypeCode(SqlTypes.VARBINARY)
+    @Column(name = "salt", nullable = false)
     private byte[] salt;
+
+    public User() {
+    }
 
     public Long getId() {
         return id;
@@ -53,8 +64,8 @@ public class User {
     @Override
     public String toString() {
         return "User{"
-            + "id=" + id
-            + ", email='" + email + '\''
-            + '}';
+               + "id=" + id
+               + ", email='" + email + '\''
+               + ", password='" + password + '\'';
     }
 }
