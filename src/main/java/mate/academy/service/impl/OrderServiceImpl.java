@@ -5,12 +5,14 @@ import java.util.ArrayList;
 import java.util.List;
 import mate.academy.dao.OrderDao;
 import mate.academy.lib.Inject;
+import mate.academy.lib.Injector;
 import mate.academy.lib.Service;
 import mate.academy.model.Order;
 import mate.academy.model.ShoppingCart;
 import mate.academy.model.Ticket;
 import mate.academy.model.User;
 import mate.academy.service.OrderService;
+import mate.academy.service.ShoppingCartService;
 
 @Service
 public class OrderServiceImpl implements OrderService {
@@ -29,6 +31,11 @@ public class OrderServiceImpl implements OrderService {
             ticketsCopy.add(ticket);
         }
         order.setTickets(ticketsCopy);
+
+        Injector injector = Injector.getInstance("mate.academy");
+        ShoppingCartService shoppingCartService = (ShoppingCartService)
+                injector.getInstance(ShoppingCartServiceImpl.class);
+        shoppingCartService.clearShoppingCart(shoppingCart);
 
         return orderDao.add(order);
     }
