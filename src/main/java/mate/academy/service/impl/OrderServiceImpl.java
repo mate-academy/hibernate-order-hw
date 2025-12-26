@@ -5,7 +5,6 @@ import java.util.ArrayList;
 import java.util.List;
 import mate.academy.dao.OrderDao;
 import mate.academy.lib.Inject;
-import mate.academy.lib.Injector;
 import mate.academy.lib.Service;
 import mate.academy.model.Order;
 import mate.academy.model.ShoppingCart;
@@ -20,23 +19,18 @@ public class OrderServiceImpl implements OrderService {
     @Inject
     private OrderDao orderDao;
 
+    @Inject
+    private ShoppingCartService shoppingCartService;
+
     @Override
     public Order completeOrder(ShoppingCart shoppingCart) {
         Order order = new Order();
         order.setOrderDate(LocalDateTime.now());
         order.setUser(shoppingCart.getUser());
 
-        List<Ticket> ticketsCopy = new ArrayList<>();
-        for (Ticket ticket : shoppingCart.getTickets()) {
-            ticketsCopy.add(ticket);
-        }
+        List<Ticket> ticketsCopy = new ArrayList<>(shoppingCart.getTickets());
         order.setTickets(ticketsCopy);
-
-        Injector injector = Injector.getInstance("mate.academy");
-        ShoppingCartService shoppingCartService = (ShoppingCartService)
-                injector.getInstance(ShoppingCartServiceImpl.class);
         shoppingCartService.clearShoppingCart(shoppingCart);
-
         return orderDao.add(order);
     }
 
