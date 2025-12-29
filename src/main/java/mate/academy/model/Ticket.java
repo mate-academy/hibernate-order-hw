@@ -21,6 +21,9 @@ public class Ticket {
     @ManyToOne(fetch = FetchType.LAZY)
     private User user;
 
+    @ManyToOne(fetch = FetchType.LAZY)
+    private Order order;
+
     public Long getId() {
         return id;
     }
@@ -43,6 +46,14 @@ public class Ticket {
 
     public void setMovieSession(MovieSession movieSession) {
         this.movieSession = movieSession;
+    }
+
+    public Order getOrder() {
+        return order;
+    }
+
+    public void setOrder(Order order) {
+        this.order = order;
     }
 
     @Override
