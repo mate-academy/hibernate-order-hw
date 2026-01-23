@@ -19,14 +19,15 @@ public class OrderDaoImpl implements OrderDao {
         try {
             session = HibernateUtil.getSessionFactory().openSession();
             transaction = session.beginTransaction();
-            session.persist(order);
+            session.save(order);
             transaction.commit();
             return order;
         } catch (Exception e) {
             if (transaction != null) {
                 transaction.rollback();
             }
-            throw new DataProcessingException("Can't insert a movie: " + order, e);
+
+            throw new DataProcessingException("Can't insert an order: " + order, e);
         } finally {
             if (session != null) {
                 session.close();
