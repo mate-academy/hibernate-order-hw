@@ -82,11 +82,6 @@ public class Main {
         shoppingCartService.addSession(tomorrowMovieSession, user);
 
         ShoppingCart shoppingCart = shoppingCartService.getByUser(user);
-        System.out.println("size of tickets in shopping cart: " + shoppingCart.getTickets().size());
-
-        shoppingCartService.clearShoppingCart(shoppingCart);
-        System.out.println("clearing shopping cart with id " + shoppingCart.getId() + "..");
-        System.out.println("size of tickets in shopping cart: " + shoppingCart.getTickets().size());
 
         OrderService orderService = (OrderService) injector.getInstance(OrderService.class);
 

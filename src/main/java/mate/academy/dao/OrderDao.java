@@ -5,7 +5,7 @@ import mate.academy.model.Order;
 import mate.academy.model.User;
 
 public interface OrderDao {
-    Order addOrder(Order order);
+    Order add(Order order);
 
     List<Order> getByUser(User user);
 }
