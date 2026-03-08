@@ -13,7 +13,7 @@ import mate.academy.model.User;
 import mate.academy.service.CinemaHallService;
 import mate.academy.service.MovieService;
 import mate.academy.service.MovieSessionService;
-import mate.academy.service.OrderSevice;
+import mate.academy.service.OrderService;
 import mate.academy.service.ShoppingCartService;
 
 public class Main {
@@ -62,7 +62,7 @@ public class Main {
         System.out.println(movieSessionService.findAvailableSessions(
                         fastAndFurious.getId(), LocalDate.now()));
 
-        final OrderSevice orderSevice = (OrderSevice) injector.getInstance(OrderSevice.class);
+        final OrderService orderService = (OrderService) injector.getInstance(OrderService.class);
         UserDao userDao = (UserDao) injector.getInstance(UserDao.class);
         ShoppingCartService shoppingCartService =
                 (ShoppingCartService) injector.getInstance(ShoppingCartService.class);
@@ -76,7 +76,7 @@ public class Main {
             shoppingCartService.addSession(movieSession, user);
         }
 
-        System.out.println(orderSevice.completeOrder(shoppingCartService.getByUser(user)));
-        System.out.println(orderSevice.getOrderHistory(user));
+        System.out.println(orderService.completeOrder(shoppingCartService.getByUser(user)));
+        System.out.println(orderService.getOrdersHistory(user));
     }
 }
