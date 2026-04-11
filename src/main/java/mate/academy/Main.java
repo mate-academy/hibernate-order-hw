@@ -23,32 +23,28 @@ public class Main {
 
     public static void main(String[] args) {
         MovieService movieService = (MovieService) injector.getInstance(MovieService.class);
-        CinemaHallService cinemaHallService =
-                (CinemaHallService) injector.getInstance(CinemaHallService.class);
-        MovieSessionService movieSessionService =
-                (MovieSessionService) injector.getInstance(MovieSessionService.class);
-        AuthenticationService authService =
-                (AuthenticationService) injector.getInstance(AuthenticationService.class);
-        ShoppingCartService shoppingCartService =
-                (ShoppingCartService) injector.getInstance(ShoppingCartService.class);
-        OrderService orderService = (OrderService) injector.getInstance(OrderService.class);
-
         Movie fastAndFurious = new Movie("Fast and Furious");
         fastAndFurious.setDescription("An action film about street racing.");
         movieService.add(fastAndFurious);
 
+        CinemaHallService cinemaHallService =
+                (CinemaHallService) injector.getInstance(CinemaHallService.class);
         CinemaHall cinemaHall = new CinemaHall();
         cinemaHall.setCapacity(100);
         cinemaHall.setDescription("IMAX");
         cinemaHallService.add(cinemaHall);
 
+        MovieSessionService movieSessionService =
+                (MovieSessionService) injector.getInstance(MovieSessionService.class);
         MovieSession movieSession = new MovieSession();
         movieSession.setCinemaHall(cinemaHall);
         movieSession.setMovie(fastAndFurious);
         movieSession.setShowTime(LocalDateTime.now().plusDays(1));
         movieSessionService.add(movieSession);
 
-        User user = null;
+        AuthenticationService authService =
+                (AuthenticationService) injector.getInstance(AuthenticationService.class);
+        User user;
         try {
             user = authService.register("szymon@example.com", "1234");
         } catch (RegistrationException e) {
@@ -59,11 +55,12 @@ public class Main {
             }
         }
 
+        ShoppingCartService shoppingCartService =
+                (ShoppingCartService) injector.getInstance(ShoppingCartService.class);
         shoppingCartService.addSession(movieSession, user);
 
-        System.out.println("--- Processing Order ---");
         ShoppingCart cart = shoppingCartService.getByUser(user);
-
+        OrderService orderService = (OrderService) injector.getInstance(OrderService.class);
         Order order = orderService.completeOrder(cart);
         System.out.println("Completed Order ID: " + order.getId());
 
