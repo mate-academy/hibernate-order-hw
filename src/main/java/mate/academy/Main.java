@@ -27,19 +27,19 @@ public class Main {
         fastAndFurious.setDescription("An action film about street racing.");
         movieService.add(fastAndFurious);
 
-        CinemaHallService cinemaHallService =
-                (CinemaHallService) injector.getInstance(CinemaHallService.class);
         CinemaHall cinemaHall = new CinemaHall();
         cinemaHall.setCapacity(100);
         cinemaHall.setDescription("IMAX");
+        CinemaHallService cinemaHallService =
+                (CinemaHallService) injector.getInstance(CinemaHallService.class);
         cinemaHallService.add(cinemaHall);
 
-        MovieSessionService movieSessionService =
-                (MovieSessionService) injector.getInstance(MovieSessionService.class);
         MovieSession movieSession = new MovieSession();
         movieSession.setCinemaHall(cinemaHall);
         movieSession.setMovie(fastAndFurious);
         movieSession.setShowTime(LocalDateTime.now().plusDays(1));
+        MovieSessionService movieSessionService =
+                (MovieSessionService) injector.getInstance(MovieSessionService.class);
         movieSessionService.add(movieSession);
 
         AuthenticationService authService =
