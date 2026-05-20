@@ -12,21 +12,24 @@ import jakarta.persistence.Table;
 @Entity
 @Table(name = "tickets")
 public class Ticket {
+
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
+
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "movie_session_id")
     private MovieSession movieSession;
+
     @ManyToOne(fetch = FetchType.LAZY)
     private User user;
 
+    @ManyToOne
+    @JoinColumn(name = "order_id")
+    private Order order;
+
     public Long getId() {
         return id;
-    }
-
-    public void setId(Long id) {
-        this.id = id;
     }
 
     public User getUser() {
@@ -45,13 +48,20 @@ public class Ticket {
         this.movieSession = movieSession;
     }
 
+    public Order getOrder() {
+        return order;
+    }
+
+    public void setOrder(Order order) {
+        this.order = order;
+    }
+
     @Override
     public String toString() {
         return "Ticket{"
-            + "id=" + id
-            + ", movieSession=" + movieSession
-            + ", user=" + user
-            + '}';
+                + "id=" + id
+                + ", movieSession=" + movieSession
+                + ", user=" + user
+                + '}';
     }
-
 }
