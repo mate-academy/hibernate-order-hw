@@ -29,7 +29,7 @@ public class OrderDaoImpl implements OrderDao {
         try {
             session = HibernateUtil.getSessionFactory().openSession();
             transaction = session.beginTransaction();
-            session.persist(order);
+            session.merge(order);
             transaction.commit();
             return order;
         } catch (Exception e) {
