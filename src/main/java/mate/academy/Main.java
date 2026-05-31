@@ -28,7 +28,7 @@ public class Main {
         System.out.println(movieService.get(fastAndFurious.getId()));
         movieService.getAll().forEach(System.out::println);
 
-        final CinemaHall firstCinemaHall = new CinemaHall();
+        CinemaHall firstCinemaHall = new CinemaHall();
         firstCinemaHall.setCapacity(100);
         firstCinemaHall.setDescription("first hall with capacity 100");
 
@@ -82,8 +82,5 @@ public class Main {
         OrderService orderService = (OrderService) injector.getInstance(OrderService.class);
         orderService.completeOrder(shoppingCart);
         orderService.getOrdersHistory(user);
-        ShoppingCartService shoppingCartService = (ShoppingCartService) injector
-                .getInstance(ShoppingCartService.class);
-        shoppingCartService.clearShoppingCart(shoppingCart);
     }
 }
