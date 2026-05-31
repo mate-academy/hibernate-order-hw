@@ -14,10 +14,11 @@ public class OrderDaoImpl implements OrderDao {
 
     @Override
     public List<Order> getByUser(User user) {
-        try(Session session = HibernateUtil.getSessionFactory().openSession()) {
-           return session.createQuery(
-                   "FROM Order o LEFT JOIN FETCH o.tickets WHERE o.user.id = :id", Order.class)
-                   .setParameter("id", user.getId()).list();
+        try (Session session = HibernateUtil.getSessionFactory().openSession()) {
+            return session.createQuery(
+                            "FROM Order o LEFT JOIN FETCH o.tickets "
+                                    + "WHERE o.user.id = :id", Order.class)
+                    .setParameter("id", user.getId()).list();
         }
     }
 
