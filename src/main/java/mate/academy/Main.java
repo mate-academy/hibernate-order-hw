@@ -2,12 +2,21 @@ package mate.academy;
 
 import java.time.LocalDate;
 import java.time.LocalDateTime;
+import java.util.List;
+import mate.academy.lib.Injector;
 import mate.academy.model.CinemaHall;
 import mate.academy.model.Movie;
 import mate.academy.model.MovieSession;
+import mate.academy.model.Order;
+import mate.academy.model.ShoppingCart;
+import mate.academy.model.Ticket;
+import mate.academy.model.User;
 import mate.academy.service.CinemaHallService;
 import mate.academy.service.MovieService;
 import mate.academy.service.MovieSessionService;
+import mate.academy.service.OrderService;
+import mate.academy.service.ShoppingCartService;
+import mate.academy.service.UserService;
 
 public class Main {
     public static void main(String[] args) {
@@ -51,5 +60,36 @@ public class Main {
         System.out.println(movieSessionService.get(yesterdayMovieSession.getId()));
         System.out.println(movieSessionService.findAvailableSessions(
                         fastAndFurious.getId(), LocalDate.now()));
+
+        // Stwóz injector
+        Injector injector = Injector.getInstance("mate.academy");
+
+        // Pobierz serwisy
+
+        UserService userService = (UserService) injector.getInstance(UserService.class);
+
+        // Pobierz usera (zakładając że masz już jakiegoś w bazie)
+        User user = new User();
+        user.setEmail("fc@gmail.com");
+        user.setPassword("root");
+
+        ShoppingCart userShoppingCart = new ShoppingCart();
+        userShoppingCart.setUser(user);
+        userShoppingCart.setTickets(List.of(new Ticket()));
+
+        // Pobierz koszyk usera
+        ShoppingCartService shoppingCartService = (ShoppingCartService)
+                injector.getInstance(ShoppingCartService.class);
+        ShoppingCart shoppingCart = shoppingCartService.getByUser(user);
+
+        // Test 1: completeOrder
+        OrderService orderService = (OrderService) injector.getInstance(OrderService.class);
+        Order order = orderService.completeOrder(shoppingCart);
+        System.out.println("Order created: " + order);
+
+        // Test 2: getOrdersHistory
+        List<Order> orders = orderService.getOrdersHistory(user);
+        System.out.println("User orders: " + orders);
+
     }
 }
