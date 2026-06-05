@@ -1,5 +1,7 @@
 # Implement order
 
+`mvn -DskipTests=false clean package`
+
 - Create models
     - Order
 - Create DAO
