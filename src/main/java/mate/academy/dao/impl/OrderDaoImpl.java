@@ -39,7 +39,7 @@ public class OrderDaoImpl implements OrderDao {
     }
 
     @Override
-    public Order create(Order order) {
+    public Order add(Order order) {
         Transaction transaction = null;
 
         try (Session session = HibernateUtil
