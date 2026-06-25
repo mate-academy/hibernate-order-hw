@@ -49,12 +49,16 @@ public class ShoppingCart {
         this.user = user;
     }
 
+    public void clear() {
+        tickets.clear();
+    }
+
     @Override
     public String toString() {
         return "ShoppingCart{"
-            + "id=" + id
-            + ", tickets=" + tickets
-            + ", user=" + user
-            + '}';
+                + "id=" + id
+                + ", tickets=" + tickets
+                + ", user=" + user
+                + '}';
     }
 }

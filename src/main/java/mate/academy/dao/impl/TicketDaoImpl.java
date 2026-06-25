@@ -31,4 +31,25 @@ public class TicketDaoImpl implements TicketDao {
             }
         }
     }
+
+    @Override
+    public void update(Ticket ticket) {
+        Session session = null;
+        Transaction transaction = null;
+        try {
+            session = HibernateUtil.getSessionFactory().openSession();
+            transaction = session.beginTransaction();
+            session.merge(ticket);
+            transaction.commit();
+        } catch (Exception e) {
+            if (transaction != null) {
+                transaction.rollback();
+            }
+            throw new DataProcessingException("Can't update ticket: " + ticket, e);
+        } finally {
+            if (session != null) {
+                session.close();
+            }
+        }
+    }
 }
