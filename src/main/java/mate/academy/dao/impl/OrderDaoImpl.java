@@ -21,8 +21,12 @@ public class OrderDaoImpl implements OrderDao {
             transaction.commit();
             return order;
         } catch (Exception e) {
-            if (transaction != null) {
-                transaction.rollback();
+            try {
+                if (transaction != null && transaction.isActive()) {
+                    transaction.rollback();
+                }
+            } catch (Exception rollbackException) {
+                e.addSuppressed(rollbackException);
             }
             throw new DataProcessingException("Can't insert order: " + order, e);
         }
