@@ -28,7 +28,7 @@ public class OrderServiceImpl implements OrderService {
         order.setUser(shoppingCart.getUser());
 
         Order savedOrder = orderDao.add(order);
-        shoppingCartService.clearShoppingCart(shoppingCart);
+        shoppingCartService.clear(shoppingCart);
         return savedOrder;
     }
 
