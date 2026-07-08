@@ -2,14 +2,20 @@ package mate.academy;
 
 import java.time.LocalDate;
 import java.time.LocalDateTime;
+import mate.academy.exception.RegistrationException;
 import mate.academy.lib.Injector;
 import mate.academy.model.CinemaHall;
 import mate.academy.model.Movie;
 import mate.academy.model.MovieSession;
+import mate.academy.model.Order;
+import mate.academy.model.ShoppingCart;
+import mate.academy.model.User;
+import mate.academy.security.AuthenticationService;
 import mate.academy.service.CinemaHallService;
 import mate.academy.service.MovieService;
 import mate.academy.service.MovieSessionService;
 import mate.academy.service.OrderService;
+import mate.academy.service.ShoppingCartService;
 
 public class Main {
     public static void main(String[] args) {
@@ -67,6 +73,34 @@ public class Main {
                 )
         );
 
-        System.out.println(orderService);
+        AuthenticationService authenticationService =
+                (AuthenticationService) injector.getInstance(AuthenticationService.class);
+
+        ShoppingCartService shoppingCartService =
+                (ShoppingCartService) injector.getInstance(ShoppingCartService.class);
+
+        try {
+            User user = authenticationService.register(
+                    "bob@example.com",
+                    "1234"
+            );
+
+            shoppingCartService.addSession(tomorrowMovieSession, user);
+
+            ShoppingCart shoppingCart = shoppingCartService.getByUser(user);
+
+            System.out.println("Shopping cart:");
+            System.out.println(shoppingCart);
+
+            Order order = orderService.completeOrder(shoppingCart);
+
+            System.out.println("Completed order:");
+            System.out.println(order);
+
+            System.out.println("Orders history:");
+            orderService.getOrdersHistory(user).forEach(System.out::println);
+        } catch (RegistrationException e) {
+            throw new RuntimeException("Can't register test user", e);
+        }
     }
 }
