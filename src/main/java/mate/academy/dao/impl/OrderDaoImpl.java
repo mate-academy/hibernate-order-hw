@@ -12,12 +12,26 @@ import mate.academy.util.HibernateUtil;
 import org.hibernate.Hibernate;
 import org.hibernate.Session;
 import org.hibernate.Transaction;
+import org.hibernate.query.Query;
 
 @Dao
 public class OrderDaoImpl implements OrderDao {
     @Override
     public List<Order> getByUser(User user) {
-        return List.of();
+
+        try(Session session = HibernateUtil.getSessionFactory().openSession()) {
+
+            // SELECT * from Orders as o
+            // where user_id = user.getId()
+            Query<Order> query = session.createQuery(
+                    "from Order as o left join fetch o.tickets where o.user.id = :user_id"
+                    ,Order.class);
+            query.setParameter("user_id", user.getId());
+            return query.getResultList();
+        } catch (Exception e) {
+            throw new DataProcessingException("Can not get the orders from user", e);
+        }
+
     }
 
     @Override
