@@ -1,14 +1,10 @@
 package mate.academy.dao.impl;
 
-import java.time.LocalDateTime;
-import java.util.ArrayList;
 import java.util.List;
 import mate.academy.dao.OrderDao;
 import mate.academy.exception.DataProcessingException;
 import mate.academy.lib.Dao;
 import mate.academy.model.Order;
-import mate.academy.model.ShoppingCart;
-import mate.academy.model.Ticket;
 import mate.academy.model.User;
 import mate.academy.util.HibernateUtil;
 import org.hibernate.Session;
@@ -31,21 +27,13 @@ public class OrderDaoImpl implements OrderDao {
     }
 
     @Override
-    public Order addOrder(ShoppingCart shoppingCart) {
+    public Order add(Order order) {
         Session session = null;
         Transaction transaction = null;
         try {
             session = HibernateUtil.getSessionFactory().openSession();
             transaction = session.getTransaction();
             transaction.begin();
-            Order order = new Order();
-            order.setUser(shoppingCart.getUser());
-            order.setOrderDate(LocalDateTime.now());
-            if (shoppingCart.getTickets() != null) {
-                List<Ticket> ticketsFromShoppingCart = new ArrayList();
-                ticketsFromShoppingCart.addAll(shoppingCart.getTickets());
-                order.setTickets(ticketsFromShoppingCart);
-            }
             session.save(order);
             transaction.commit();
             return order;
