@@ -57,4 +57,12 @@ public class ShoppingCart {
             + ", user=" + user
             + '}';
     }
+
+    public void clear() {
+        tickets.clear();
+    }
+
+    public void addTicket(Ticket ticket) {
+        tickets.add(ticket);
+    }
 }
