@@ -2,21 +2,41 @@ package mate.academy;
 
 import java.time.LocalDate;
 import java.time.LocalDateTime;
+import java.util.List;
 import mate.academy.lib.Injector;
 import mate.academy.model.CinemaHall;
 import mate.academy.model.Movie;
 import mate.academy.model.MovieSession;
+import mate.academy.model.Order;
+import mate.academy.model.ShoppingCart;
+import mate.academy.model.User;
 import mate.academy.service.CinemaHallService;
 import mate.academy.service.MovieService;
 import mate.academy.service.MovieSessionService;
 import mate.academy.service.OrderService;
+import mate.academy.service.ShoppingCartService;
 
 public class Main {
     public static void main(String[] args) {
 
         Injector injector = Injector.getInstance("mate.academy");
-        OrderService authService = (OrderService)
-                injector.getInstance(OrderService.class);
+
+        MovieSession movieSession = (MovieSession)injector.getInstance(MovieSession.class);
+
+        User user = new User();
+        user.setEmail("test@test.com");
+        user.setPassword("12345");
+        ShoppingCartService shoppingCartService = (ShoppingCartService)
+                injector.getInstance(ShoppingCartService.class);
+        ShoppingCart shoppingCart = shoppingCartService.getByUser(user);
+
+        shoppingCartService.addSession(movieSession, user);
+
+        OrderService orderService = (OrderService)injector.getInstance(OrderService.class);
+
+        Order order = orderService.completeOrder(shoppingCart);
+
+        List<Order> orders = orderService.getOrdersHistory(user);
 
         MovieService movieService = null;
 
