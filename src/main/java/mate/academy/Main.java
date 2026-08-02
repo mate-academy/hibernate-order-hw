@@ -81,9 +81,6 @@ public class Main {
 
             orderService.completeOrder(bobsCart);
 
-            System.out.println("Clearing shopping cart");
-            shoppingCartService.clearShoppingCart(bobsCart);
-
             ShoppingCart clearedCart = shoppingCartService.getByUser(bob);
             System.out.println("shopping cart after clearing: " + clearedCart);
             System.out.println("Tickets quantity: " + clearedCart.getTickets().size());
