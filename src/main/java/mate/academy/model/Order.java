@@ -20,7 +20,7 @@ public class Order {
     private Long id;
 
     @OneToMany
-    @JoinTable(name = "order_id")
+    @JoinColumn(name = "order_id")
     private List<Ticket> tickets;
 
     private LocalDateTime orderDate;
