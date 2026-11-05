@@ -64,23 +64,21 @@ public class Main {
         System.out.println(movieSessionService.get(yesterdayMovieSession.getId()));
         System.out.println(movieSessionService.findAvailableSessions(
                         fastAndFurious.getId(), LocalDate.now()));
-        OrderService orderService = (OrderService) injector.getInstance(
-                OrderService.class);
-        ShoppingCartService shoppingCartService = (ShoppingCartService) injector.getInstance(
-                ShoppingCartService.class);
         UserService userService = (UserService) injector.getInstance(
                 UserService.class);
         User user = new User();
         user.setEmail("test@gmail.com");
         user.setPassword("pass234");
         userService.add(user);
+        ShoppingCartService shoppingCartService = (ShoppingCartService) injector.getInstance(
+                ShoppingCartService.class);
         shoppingCartService.registerNewShoppingCart(user);
         ShoppingCart cart = shoppingCartService.getByUser(user);
         System.out.println("Completing order...");
+        OrderService orderService = (OrderService) injector.getInstance(
+                OrderService.class);
         orderService.completeOrder(cart);
         System.out.println("Getting orders history for user:");
         orderService.getOrdersHistory(user).forEach(System.out::println);
-
-
     }
 }
