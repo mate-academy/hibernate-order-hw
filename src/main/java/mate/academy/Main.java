@@ -6,11 +6,14 @@ import mate.academy.lib.Injector;
 import mate.academy.model.CinemaHall;
 import mate.academy.model.Movie;
 import mate.academy.model.MovieSession;
+import mate.academy.model.ShoppingCart;
+import mate.academy.model.User;
 import mate.academy.service.CinemaHallService;
 import mate.academy.service.MovieService;
 import mate.academy.service.MovieSessionService;
 import mate.academy.service.OrderService;
 import mate.academy.service.ShoppingCartService;
+import mate.academy.service.UserService;
 
 public class Main {
     private static final Injector injector = Injector.getInstance("mate.academy");
@@ -65,7 +68,19 @@ public class Main {
                 OrderService.class);
         ShoppingCartService shoppingCartService = (ShoppingCartService) injector.getInstance(
                 ShoppingCartService.class);
-        System.out.println(("Order service initialized successfully!"));
+        UserService userService = (UserService) injector.getInstance(
+                UserService.class);
+        User user = new User();
+        user.setEmail("test@gmail.com");
+        user.setPassword("pass234");
+        userService.add(user);
+        shoppingCartService.registerNewShoppingCart(user);
+        ShoppingCart cart = shoppingCartService.getByUser(user);
+        System.out.println("Completing order...");
+        orderService.completeOrder(cart);
+        System.out.println("Getting orders history for user:");
+        orderService.getOrdersHistory(user).forEach(System.out::println);
+
 
     }
 }
