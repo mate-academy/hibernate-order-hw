@@ -41,9 +41,9 @@ public class OrderDaoImpl implements OrderDao {
             return session.createQuery("from Order o"
                             + " join fetch o.tickets t"
                             + " where o.user = :user"
-                            + " order by o.orderDate desc "
-                            + " limit 1", Order.class)
+                            + " order by o.orderDate desc ", Order.class)
                     .setParameter("user", user)
+                    .setMaxResults(1)
                     .getSingleResult();
         } catch (HibernateException e) {
             throw new DataProcessingException("Can't retrieve order by user" + user, e);

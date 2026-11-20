@@ -6,7 +6,6 @@ import mate.academy.model.ShoppingCart;
 import mate.academy.model.User;
 
 public interface OrderService {
-    Order addOrder(Order order);
 
     Order completeOrder(ShoppingCart shoppingCart);
 
